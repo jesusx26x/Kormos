@@ -91,7 +91,11 @@ export default buildConfig({
   db: usePostgres
     ? postgresAdapter({
         pool: { connectionString: databaseUri },
-        // En producción el esquema cambia solo con migraciones (npm run migrate)
+        // PostgreSQL es siempre la base publicada: su esquema cambia solo con
+        // migraciones (npm run migrate). Sin esto, un script lanzado fuera de
+        // producción (seed, contenido:importar) la ajustaría en modo desarrollo
+        // y el siguiente despliegue se detendría a pedir confirmación.
+        push: false,
         migrationDir: path.resolve(dirname, "migrations"),
       })
     : sqliteAdapter({ client: { url: databaseUri } }),
