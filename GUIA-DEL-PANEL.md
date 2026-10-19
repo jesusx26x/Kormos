@@ -28,7 +28,7 @@ El menú completo está en el botón de las tres rayas, arriba a la izquierda.
    - **Fotos y acabados:** sube las fotos arrastrándolas al recuadro. La primera es la principal. Si la pieza se ofrece en varias maderas o telas, agrégalas en "Acabados disponibles" y, si tienes, sube las fotos de cada acabado.
    - **Medidas y materiales:** alto, ancho y fondo en centímetros, y los materiales.
    - **Precio y estado:** el precio, la moneda (RD$ o US$) y si se muestra o no. Si no lo muestras, el sitio dice "Precio a consultar". El estado puede ser Disponible, Bajo pedido, Próximamente o Agotado. Nunca se muestran cantidades.
-   - **Archivos:** el modelo de SketchUp, el plano de AutoCAD y la ficha en PDF, si los tienes.
+   - **Archivos:** el modelo de SketchUp, el plano de AutoCAD y la ficha en PDF, si los tienes. Pulsa **Elegir archivo**, escoge el archivo en tu computadora o celular y espera a que diga "Archivo listo". Un archivo grande puede tardar unos minutos.
 3. Mira la tarjeta **Antes de publicar**, a la derecha: se va marcando sola. Cuando todo lo obligatorio está listo, se pone verde y dice "Lista para publicar".
 4. Pulsa **Guardar**. La pieza aparece en el sitio en la siguiente visita.
 5. Pulsa **Ver en el sitio** (en la tarjeta) para revisarla.

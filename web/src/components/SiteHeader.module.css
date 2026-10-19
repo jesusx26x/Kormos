@@ -32,6 +32,15 @@
   box-shadow: 0 1px 0 var(--line);
 }
 
+/* Con el menú abierto, sin desenfoque: en Safari un backdrop-filter encierra
+   el menú (position: fixed) dentro de la altura del header y lo corta.
+   :global(html) para ganarle en especificidad a la regla de arriba. */
+:global(html) .header[data-menu][data-solid] {
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  background: var(--bg);
+}
+
 .header[data-solid]::before,
 :global(body:has([data-solid-header]:not([style*="display"]))) .header::before {
   opacity: 0;

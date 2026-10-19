@@ -19,6 +19,9 @@ export const Files: CollectionConfig = {
   access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
   upload: {
     staticDir: path.resolve(process.cwd(), "uploads/archivos"),
+    // Los navegadores no reconocen el tipo de un .skp ni de un .dwg y la subida
+    // directa a Blob rechaza un archivo sin tipo. La extensión se valida abajo.
+    allowRestrictedFileTypes: true,
   },
   hooks: {
     beforeValidate: [

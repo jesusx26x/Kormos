@@ -1,3 +1,4 @@
+import { BackFloat } from "@/components/BackFloat";
 import { JsonLd } from "@/components/JsonLd";
 import { breadcrumbJsonLd, pageMeta, SITE_URL } from "@/lib/seo";
 import type { Metadata } from "next";
@@ -163,6 +164,8 @@ async function Producto({ params }: { params: Promise<{ slug: string }> }) {
         label="Personalizar esta pieza"
         message={`Quiero personalizar la pieza ${p.name} (${p.code}).`}
       />
+
+      <BackFloat href="/kormos/catalogo" label="Catálogo" />
     </>
   );
 }
