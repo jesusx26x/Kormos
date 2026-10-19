@@ -51,7 +51,7 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | 4. Kormós: catálogo, ficha, selección y Atelier | ✅ |
 | 5. Pulido: móvil, rendimiento, SEO y accesibilidad | ✅ |
 | 6. Panel de administración (Payload) | ✅ |
-| 7. Completar el panel (servicios, proceso, equipo, testimonios y datos de marca) | En curso |
+| 7. Completar el panel (servicios, proceso, equipo, testimonios y datos de marca) | ✅ |
 | 8. Panel renovado: diseño y experiencia | Pendiente |
 | 9. Suscripción y avisos por correo | Pendiente |
 | 10. Material real del cliente | En paralelo |

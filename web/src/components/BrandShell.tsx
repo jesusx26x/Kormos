@@ -1,4 +1,5 @@
-import { BRANDS, otherBrands, type BrandSlug } from "@/lib/brands";
+import { getBrand } from "@/data/studio";
+import { otherBrands, type BrandSlug } from "@/lib/brands";
 import { cartIndex } from "./kormos/catalogData";
 import { CartDrawer } from "./kormos/CartDrawer";
 import { ScrollToTop } from "./ScrollToTop";
@@ -7,8 +8,8 @@ import { SiteHeader } from "./SiteHeader";
 import { WhatsAppFloat } from "./WhatsAppFloat";
 
 /** Estructura común de las tres marcas: el tema lo da data-brand. */
-export function BrandShell({ slug, children }: { slug: BrandSlug; children: React.ReactNode }) {
-  const brand = BRANDS[slug];
+export async function BrandShell({ slug, children }: { slug: BrandSlug; children: React.ReactNode }) {
+  const brand = await getBrand(slug);
   const others = otherBrands(slug);
   return (
     <div data-brand={slug} className="brand-shell">

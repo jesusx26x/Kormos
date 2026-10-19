@@ -89,6 +89,8 @@ Todo se edita sin tocar código:
 | Kormós → Productos | Nombre, código, categoría, resumen, descripción, fotos, acabados (con fotos propias o no), medidas, materiales, precio (RD$ o US$, visible u oculto), estado y archivos .skp/.dwg/.pdf |
 | Kormós → Categorías · Acabados | Filtros del catálogo; maderas, telas y colores reutilizables con su muestra |
 | Arpad y Aracena → Proyectos · Paquetes · Preguntas | Portafolio (con antes/después y créditos), paquetes de render y preguntas frecuentes |
+| Arpad y Aracena → Servicios · Equipo · Testimonios · Proceso | Servicios (resumen para el inicio y detalle con "Incluye" e "Ideal para"), personas del equipo, testimonios de clientes y pasos del proceso de Arpad |
+| Ajustes → Datos de las marcas | Frase, presentación, Instagram y correo de cada marca |
 | Biblioteca → Fotos · Archivos 3D y fichas | Todas las fotos (al subir una se detecta si es un recorte) y los archivos de descarga |
 
 - **Orden:** arrastra las filas en la lista. **Ocultar sin borrar:** desmarca "Visible en el sitio".

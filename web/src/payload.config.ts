@@ -11,8 +11,13 @@ import { Media } from "./payload/collections/Media";
 import { Packages } from "./payload/collections/Packages";
 import { Products } from "./payload/collections/Products";
 import { Projects } from "./payload/collections/Projects";
+import { Services } from "./payload/collections/Services";
+import { Team } from "./payload/collections/Team";
+import { Testimonials } from "./payload/collections/Testimonials";
 import { Users } from "./payload/collections/Users";
 import { AracenaFaq } from "./payload/globals/AracenaFaq";
+import { ArpadProcess } from "./payload/globals/ArpadProcess";
+import { BrandInfo } from "./payload/globals/BrandInfo";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,8 +38,8 @@ export default buildConfig({
     meta: { titleSuffix: " · Panel del sitio" },
     dateFormat: "d 'de' MMMM yyyy, HH:mm",
   },
-  collections: [Products, Categories, Finishes, Projects, Packages, Media, Files, Users],
-  globals: [AracenaFaq],
+  collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Media, Files, Users],
+  globals: [AracenaFaq, ArpadProcess, BrandInfo],
   i18n: { supportedLanguages: { es }, fallbackLanguage: "es" },
   // Textos traducibles desde ya: para el sitio en inglés basta con añadir
   // { label: "English", code: "en" } y traducir en el panel.

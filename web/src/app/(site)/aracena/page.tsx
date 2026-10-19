@@ -9,7 +9,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { NumberedList, Section, Statement } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
 import { getPackages } from "@/data/packages";
-import { BRANDS } from "@/lib/brands";
+import { getBrand } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
   title: "Aracena Studio · Rendering Projects",
@@ -18,10 +18,8 @@ export const metadata: Metadata = pageMeta({
   brand: "aracena",
 });
 
-const brand = BRANDS.aracena;
-
 export default async function AracenaInicio() {
-  const packages = await getPackages();
+  const [brand, packages] = await Promise.all([getBrand("aracena"), getPackages()]);
   return (
     <>
       <BrandIntro slug="aracena" />

@@ -5,6 +5,7 @@ import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { NumberedList, Section } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
+import { getArpadProcess } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
   title: "Proceso · Arpad Studio",
@@ -14,17 +15,8 @@ export const metadata: Metadata = pageMeta({
   image: "/og/p-arpad-moodboard.jpg",
 });
 
-// Proceso propuesto a partir de los servicios publicados: validar con el estudio.
-const STEPS = [
-  { title: "Conversación inicial", text: "Escuchamos lo que necesitas, cómo vives o trabajas el espacio y lo que quieres transmitir. Puede ser presencial o virtual." },
-  { title: "Levantamiento y concepto", text: "Visitamos el espacio o recibimos tus planos y medidas, y definimos el concepto, la materialidad y la atmósfera." },
-  { title: "Diseño y visualización", text: "Desarrollamos la propuesta y la vemos en 3D con renders de Aracena Studio antes de tomar decisiones definitivas." },
-  { title: "Desarrollo técnico", text: "Planos, especificaciones y presupuesto para construir sin sorpresas." },
-  { title: "Ejecución", text: "Dirigimos la obra y coordinamos oficios, materiales y mobiliario a medida con Kormós." },
-  { title: "Entrega", text: "Revisamos cada detalle contigo y te entregamos un espacio listo para habitar." },
-];
-
-export default function ArpadProceso() {
+export default async function ArpadProceso() {
+  const steps = await getArpadProcess();
   return (
     <>
       <PageHeader
@@ -33,9 +25,11 @@ export default function ArpadProceso() {
         title="Diseñar con intención, ejecutar con cuidado"
         lead="Cada proyecto es una oportunidad para diseñar experiencias que se sientan como hogar. Así lo llevamos de la idea a la entrega."
       />
-      <Section eyebrow="Paso a paso" title="De la primera conversación a la entrega">
-        <NumberedList items={STEPS} />
-      </Section>
+      {steps.length > 0 ? (
+        <Section eyebrow="Paso a paso" title="De la primera conversación a la entrega">
+          <NumberedList items={steps} />
+        </Section>
+      ) : null}
       <Section tone="surface">
         <Split media="arpad-hall" reverse>
           <p className="eyebrow">Un mismo equipo</p>

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BRANDS, WHATSAPP_NUMBER, type BrandSlug } from "./brands";
+import { BRANDS, WHATSAPP_NUMBER, type Brand, type BrandSlug } from "./brands";
 
 /**
  * URL pública del sitio. Mientras no haya dominio se usa localhost; al
@@ -47,8 +47,8 @@ export function pageMeta({ title, description, path, image, brand, type = "websi
 }
 
 /** Datos estructurados de cada marca (schema.org) */
-export function brandJsonLd(slug: BrandSlug) {
-  const b = BRANDS[slug];
+export function brandJsonLd(b: Brand) {
+  const slug = b.slug;
   const type = slug === "kormos" ? "FurnitureStore" : "ProfessionalService";
   return {
     "@context": "https://schema.org",

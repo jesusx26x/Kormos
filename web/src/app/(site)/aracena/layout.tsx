@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BrandShell } from "@/components/BrandShell";
 import { JsonLd } from "@/components/JsonLd";
+import { getBrand } from "@/data/studio";
 import { brandJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -8,10 +9,10 @@ export const metadata: Metadata = {
   description: "Estudio de visualización arquitectónica: renders hiperrealistas de interiores y exteriores, recorridos virtuales y material para ventas.",
 };
 
-export default function AracenaLayout({ children }: LayoutProps<"/aracena">) {
+export default async function AracenaLayout({ children }: LayoutProps<"/aracena">) {
   return (
     <BrandShell slug="aracena">
-      <JsonLd data={brandJsonLd("aracena")} />
+      <JsonLd data={brandJsonLd(await getBrand("aracena"))} />
       {children}
     </BrandShell>
   );

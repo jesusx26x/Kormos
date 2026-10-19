@@ -62,3 +62,19 @@ export const priceFields: Field[] = [
     admin: { description: 'Si está desmarcado (o no hay precio), el sitio dice "Precio a consultar".' },
   },
 ];
+
+/** Marca a la que pertenece una ficha (servicios, equipo, testimonios). */
+export const brandField = (defaultValue: "arpad" | "kormos" | "aracena" = "arpad"): Field => ({
+  name: "brand",
+  label: "Marca",
+  type: "select",
+  required: true,
+  defaultValue,
+  index: true,
+  options: [
+    { label: "Arpad Studio", value: "arpad" },
+    { label: "Kormós", value: "kormos" },
+    { label: "Aracena Studio", value: "aracena" },
+  ],
+  admin: { position: "sidebar" },
+});
