@@ -12,6 +12,7 @@ const fileField = (name: string, label: string, format: "skp" | "dwg" | "pdf") =
   type: "upload" as const,
   relationTo: "archivos" as const,
   filterOptions: { format: { equals: format } },
+  admin: { components: { Field: { path: "/payload/admin/FileUploadField#FileUploadField", clientProps: { format } } } },
 });
 
 /** Piezas del catálogo de Kormós. */

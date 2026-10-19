@@ -74,16 +74,19 @@ export function CartDrawer({ products }: { products: CartProductInfo[] }) {
     const data = form ? new FormData(form) : null;
     const nombre = String(data?.get("nombre") ?? "").trim();
     const nota = String(data?.get("nota") ?? "").trim();
-    const list = lines.map((l, n) =>
-      [
-        `${n + 1}. ${l.p.name}`,
-        l.variant ? `${l.p.variantLabel}: ${l.variant.name}` : null,
-        l.p.dims,
-        `x${l.qty}`,
-        l.p.code,
-      ]
-        .filter(Boolean)
-        .join(" — "),
+    // El enlace de cada pieza: WhatsApp muestra la foto del primero y el
+    // estudio identifica cada pieza sin buscarla en el sitio
+    const list = lines.map(
+      (l, n) =>
+        [
+          `${n + 1}. ${l.p.name}`,
+          l.variant ? `${l.p.variantLabel}: ${l.variant.name}` : null,
+          l.p.dims,
+          `x${l.qty}`,
+          l.p.code,
+        ]
+          .filter(Boolean)
+          .join(" — ") + `\n${window.location.origin}/kormos/catalogo/${l.p.slug}`,
     );
     return whatsappUrl(
       "kormos",

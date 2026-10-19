@@ -1,0 +1,48 @@
+.back {
+  position: fixed;
+  left: max(16px, env(safe-area-inset-left));
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: calc(var(--z-header) - 1);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bg) 94%, transparent);
+  color: var(--text);
+  font-size: 0.9375rem;
+  box-shadow: 0 12px 32px -12px rgba(15, 12, 10, 0.35);
+  /* Aparece con el botón de WhatsApp, desde 0.9 de escala */
+  opacity: 0;
+  transform: scale(0.9) translateY(8px);
+  animation: aparece var(--dur-reveal) var(--ease-out) 0.6s forwards;
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+.back:active {
+  transform: scale(0.96);
+}
+
+@keyframes aparece {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* En computadora el enlace de arriba y el botón atrás del navegador bastan */
+@media (min-width: 1024px) {
+  .back {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .back {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

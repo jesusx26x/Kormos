@@ -1,4 +1,5 @@
 import { StatusCell as StatusCell_0aadab158ad40d9f738a3753fa24ab8b } from '../../../payload/admin/cells'
+import { FileUploadField as FileUploadField_1d92820e502eb9a77dd3a03298963a9e } from '../../../payload/admin/FileUploadField'
 import { ReadyChecklist as ReadyChecklist_f7a0edd5e038ce014855d280ff17163a } from '../../../payload/admin/ReadyChecklist'
 import { NotifyButton as NotifyButton_dd27792e958a16839684c7286a7b9a5d } from '../../../payload/admin/NotifyButton'
 import { PreviewCell as PreviewCell_d145a5ecb037bdc3706282be3efdf9ec } from '../../../payload/admin/PreviewCell'
@@ -15,6 +16,7 @@ import { VercelBlobClientUploadHandler as VercelBlobClientUploadHandler_16c82c5e
 /** @type import('payload').ImportMap */
 export const importMap = {
   "/payload/admin/cells#StatusCell": StatusCell_0aadab158ad40d9f738a3753fa24ab8b,
+  "/payload/admin/FileUploadField#FileUploadField": FileUploadField_1d92820e502eb9a77dd3a03298963a9e,
   "/payload/admin/ReadyChecklist#ReadyChecklist": ReadyChecklist_f7a0edd5e038ce014855d280ff17163a,
   "/payload/admin/NotifyButton#NotifyButton": NotifyButton_dd27792e958a16839684c7286a7b9a5d,
   "/payload/admin/PreviewCell#PreviewCell": PreviewCell_d145a5ecb037bdc3706282be3efdf9ec,

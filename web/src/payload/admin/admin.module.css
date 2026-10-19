@@ -700,3 +700,42 @@
   cursor: not-allowed;
   opacity: 0.5;
 }
+
+/* ==================== Archivos de descarga de la pieza ==================== */
+.fileField {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.fileLabel {
+  margin: 0;
+  font-weight: 500;
+}
+
+.fileName {
+  margin: 0;
+  color: var(--theme-elevation-700);
+  overflow-wrap: anywhere;
+}
+
+.fileName span {
+  color: var(--theme-elevation-500);
+}
+
+.fileActions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.fileRemove {
+  padding: 9px 4px;
+  border: 0;
+  background: none;
+  color: var(--theme-elevation-500);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}

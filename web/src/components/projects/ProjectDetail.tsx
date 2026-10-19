@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { Project } from "@/data/projects";
 import { BRANDS } from "@/lib/brands";
+import { BackFloat } from "../BackFloat";
 import { IconArrow } from "../Icons";
 import { JsonLd } from "../JsonLd";
 import { Reveal } from "../Reveal";
@@ -132,6 +133,8 @@ export function ProjectDetail({ project, next }: { project: Project; next?: Proj
         label={`Escribir a ${brand.name}`}
         message={`Vi el proyecto "${project.title}" en su web y me interesa algo similar.`}
       />
+
+      <BackFloat href={base} label="Proyectos" />
     </>
   );
 }
