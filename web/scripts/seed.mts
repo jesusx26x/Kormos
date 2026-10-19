@@ -31,7 +31,9 @@ const config = (configModule as unknown as { default?: typeof configModule }).de
 // SQLite no crea la carpeta de la base: en un clon nuevo no existe
 fs.mkdirSync(path.join(WEB, "data"), { recursive: true });
 const payload = await getPayload({ config });
-const ctx = { disableRevalidate: true };
+// Un objeto nuevo en cada llamada: el plugin de Blob guarda ahí el archivo que
+// está subiendo, y uno compartido hacía que solo se subiera la primera foto
+const ctx = () => ({ disableRevalidate: true });
 
 // ---------------------------------------------------------------- qué cargar
 // Cada parte se carga solo si está vacía, para poder añadir contenido nuevo
@@ -44,26 +46,29 @@ if (catalogLoaded && studioLoaded && !reset) {
 }
 if (reset) {
   for (const collection of ["servicios", "equipo", "testimonios", "productos", "proyectos", "paquetes", "acabados", "categorias", "fotos", "archivos"] as const) {
-    await payload.delete({ collection, where: { id: { exists: true } }, context: ctx });
+    await payload.delete({ collection, where: { id: { exists: true } }, context: ctx() });
   }
   payload.logger.info("Contenido anterior borrado.");
 }
 
 // ---------------------------------------------------------------- fotos
-const photoIds = new Map<MediaKey, number>();
-async function photo(key: MediaKey, fallbackAlt: string) {
+// Se guarda la promesa, no el id: dos piezas que comparten foto la piden a la vez
+const photoIds = new Map<MediaKey, Promise<number>>();
+function photo(key: MediaKey, fallbackAlt: string) {
   const known = photoIds.get(key);
   if (known) return known;
   const m = MEDIA[key];
   if (!m) throw new Error(`Foto no encontrada: ${key}`);
-  const doc = await payload.create({
-    collection: "fotos",
-    data: { alt: m.alt || fallbackAlt },
-    filePath: path.join(WEB, "public", m.src),
-    context: ctx,
-  });
-  photoIds.set(key, doc.id);
-  return doc.id;
+  const id = payload
+    .create({
+      collection: "fotos",
+      data: { alt: m.alt || fallbackAlt },
+      filePath: path.join(WEB, "public", m.src),
+      context: ctx(),
+    })
+    .then((doc) => doc.id);
+  photoIds.set(key, id);
+  return id;
 }
 const photos = (keys: MediaKey[] | undefined, alt: string) => Promise.all((keys ?? []).map((k) => photo(k, alt)));
 
@@ -71,7 +76,7 @@ if (!catalogLoaded || reset) {
   // ---------------------------------------------------------------- categorías
   const categoryIds = new Map<string, number>();
   for (const c of CATEGORIES) {
-    const doc = await payload.create({ collection: "categorias", data: { name: c.name, singular: c.singular, slug: c.slug }, context: ctx });
+    const doc = await payload.create({ collection: "categorias", data: { name: c.name, singular: c.singular, slug: c.slug }, context: ctx() });
     categoryIds.set(c.slug, doc.id);
   }
 
@@ -96,7 +101,7 @@ if (!catalogLoaded || reset) {
         hex: v.swatch.hex,
         swatch: v.swatch.media ? await photo(v.swatch.media, `Muestra de ${v.name.toLowerCase()}`) : undefined,
       },
-      context: ctx,
+      context: ctx(),
     });
     finishIds.set(v.id, doc.id);
     return doc.id;
@@ -135,7 +140,7 @@ if (!catalogLoaded || reset) {
         status: p.status,
         published: true,
       },
-      context: ctx,
+      context: ctx(),
     });
   }
   payload.logger.info(`${PRODUCTS.length} productos, ${finishIds.size} acabados, ${CATEGORIES.length} categorías.`);
@@ -168,19 +173,19 @@ if (!catalogLoaded || reset) {
         source: p.source,
         published: true,
       },
-      context: ctx,
+      context: ctx(),
     });
   }
   payload.logger.info(`${PROJECTS.length} proyectos.`);
 
   // ---------------------------------------------------------------- paquetes y preguntas
   for (const p of RENDER_PACKAGES) {
-    await payload.create({ collection: "paquetes", data: { name: p.name, includes: p.includes, scale: p.scale, published: true }, context: ctx });
+    await payload.create({ collection: "paquetes", data: { name: p.name, includes: p.includes, scale: p.scale, published: true }, context: ctx() });
   }
   await payload.updateGlobal({
     slug: "preguntas-aracena",
     data: { items: RENDER_FAQ.map((f) => ({ question: f.q, answer: f.a })) },
-    context: ctx,
+    context: ctx(),
   });
   payload.logger.info(`${RENDER_PACKAGES.length} paquetes, ${RENDER_FAQ.length} preguntas, ${photoIds.size} fotos.`);
 }
@@ -200,12 +205,12 @@ if (!studioLoaded || reset) {
         brand: "arpad",
         published: true,
       },
-      context: ctx,
+      context: ctx(),
     });
   }
-  await payload.updateGlobal({ slug: "proceso-arpad", data: { steps: ARPAD_PROCESS }, context: ctx });
+  await payload.updateGlobal({ slug: "proceso-arpad", data: { steps: ARPAD_PROCESS }, context: ctx() });
   for (const m of ARPAD_TEAM) {
-    await payload.create({ collection: "equipo", data: { ...m, brand: "arpad", published: true }, context: ctx });
+    await payload.create({ collection: "equipo", data: { ...m, brand: "arpad", published: true }, context: ctx() });
   }
   const brandInfo = (slug: BrandSlug) => {
     const b = BRANDS[slug];
@@ -214,7 +219,7 @@ if (!studioLoaded || reset) {
   await payload.updateGlobal({
     slug: "marcas",
     data: { arpad: brandInfo("arpad"), kormos: brandInfo("kormos"), aracena: brandInfo("aracena") },
-    context: ctx,
+    context: ctx(),
   });
   payload.logger.info(`${ARPAD_SERVICES.length} servicios, ${ARPAD_PROCESS.length} pasos del proceso, ${ARPAD_TEAM.length} personas del equipo y datos de las marcas.`);
 }

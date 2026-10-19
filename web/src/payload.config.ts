@@ -99,18 +99,23 @@ export default buildConfig({
         migrationDir: path.resolve(dirname, "migrations"),
       })
     : sqliteAdapter({ client: { url: databaseUri } }),
-  plugins: blobToken
-    ? [
-        vercelBlobStorage({
-          token: blobToken,
-          // Las fotos y los .skp/.dwg/.pdf son públicos: se sirven directo desde Blob,
-          // sin pasar por el servidor (un .skp puede pesar 150 MB)
-          collections: { fotos: { disablePayloadAccessControl: true }, archivos: { disablePayloadAccessControl: true } },
-          // Vercel limita a 4.5 MB lo que entra al servidor: el navegador sube directo a Blob
-          clientUploads: true,
-        }),
-      ]
-    : [],
+  plugins: [
+    // Siempre registrado, aunque falte la clave: así la lista de componentes del
+    // panel (importMap) es la misma en local y publicado. Si se genera sin el
+    // componente de subida a Blob, el panel publicado se queda en blanco.
+    vercelBlobStorage({
+      enabled: Boolean(blobToken),
+      token: blobToken,
+      // Las mismas columnas en la base con o sin Blob: así las migraciones no
+      // dependen de dónde se generen
+      alwaysInsertFields: true,
+      // Las fotos y los .skp/.dwg/.pdf son públicos: se sirven directo desde Blob,
+      // sin pasar por el servidor (un .skp puede pesar 150 MB)
+      collections: { fotos: { disablePayloadAccessControl: true }, archivos: { disablePayloadAccessControl: true } },
+      // Vercel limita a 4.5 MB lo que entra al servidor: el navegador sube directo a Blob
+      clientUploads: true,
+    }),
+  ],
   upload: {
     // Los modelos de SketchUp pueden pesar bastante
     limits: { fileSize: 150 * 1024 * 1024 },
