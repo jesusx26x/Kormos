@@ -1,5 +1,6 @@
 import type { LogoKey } from "./logos.meta.generated";
 import type { MediaKey } from "./media.generated";
+import { mediaPic, type Pic } from "./pic";
 
 export type BrandSlug = "arpad" | "kormos" | "aracena";
 
@@ -26,8 +27,10 @@ export type Brand = {
   whatsappIntro: string;
   ctaLabel: string;
   nav: NavItem[];
-  /** Fotos del slideshow de la portada y del hero */
+  /** Fotos de partida del slideshow de la portada y del hero */
   heroMedia: MediaKey[];
+  /** Fotos de portada elegidas en el panel; vacías, se usan las de partida */
+  hero?: Pic[];
 };
 
 /** Único WhatsApp para las tres marcas (decisión del 16-oct-2026) */
@@ -44,7 +47,7 @@ export const BRANDS: Record<BrandSlug, Brand> = {
     slug: "arpad",
     name: "Arpad Studio",
     displayName: "ARPAD STUDIO",
-    descriptor: "Arquitectura · Diseño · Construcción",
+    descriptor: "Arquitectura\u00a0· Diseño\u00a0· Construcción",
     verb: "Se ejecuta",
     founded: 2020,
     tagline: "Transformamos ideas en espacios con intención, estética y funcionalidad.",
@@ -67,7 +70,7 @@ export const BRANDS: Record<BrandSlug, Brand> = {
     slug: "kormos",
     name: "Kormós",
     displayName: "KORMÓS",
-    descriptor: "Furniture Design · Atelier",
+    descriptor: "Furniture Design\u00a0· Atelier",
     verb: "Se materializa",
     founded: 2025,
     tagline: "More than furniture.",
@@ -116,4 +119,9 @@ export const BRAND_ORDER: BrandSlug[] = ["aracena", "arpad", "kormos"];
 
 export function otherBrands(slug: BrandSlug): Brand[] {
   return BRAND_ORDER.filter((s) => s !== slug).map((s) => BRANDS[s]);
+}
+
+/** Fotos de la portada y del hero: las del panel o, si no hay, las de partida. */
+export function heroPics(brand: Brand): Pic[] {
+  return brand.hero?.length ? brand.hero : brand.heroMedia.map(mediaPic);
 }

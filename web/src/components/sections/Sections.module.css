@@ -522,7 +522,10 @@
 .groupShade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(12, 10, 8, 0.85), rgba(12, 10, 8, 0.15) 65%);
+  /* Arriba también: el sobretítulo se perdía sobre fotos claras */
+  background:
+    linear-gradient(to bottom, rgba(12, 10, 8, 0.55), rgba(12, 10, 8, 0) 40%),
+    linear-gradient(to top, rgba(12, 10, 8, 0.85), rgba(12, 10, 8, 0.15) 65%);
 }
 
 .groupBody {

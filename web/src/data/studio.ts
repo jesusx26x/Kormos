@@ -5,7 +5,7 @@ import type { NumberedItem } from "@/components/sections/Section";
 import type { Service } from "@/components/sections/ServicePanel";
 import { BRANDS, type Brand, type BrandSlug } from "@/lib/brands";
 import type { Pic } from "@/lib/pic";
-import { cms, doc, pic } from "./payload";
+import { cms, doc, pic, pics } from "./payload";
 
 // Servicios, proceso, equipo, testimonios y datos de marca, leídos del panel.
 
@@ -81,9 +81,11 @@ export async function getBrand(slug: BrandSlug): Promise<Brand> {
   "use cache";
   cacheLife("max");
   cacheTag("marcas");
+  // Cambiar el enfoque o reemplazar una foto también cambia la portada
+  cacheTag("fotos");
 
   const payload = await cms();
-  const global = await payload.findGlobal({ slug: "marcas" });
+  const global = await payload.findGlobal({ slug: "marcas", depth: 1 });
   const info = global[slug];
   const base = BRANDS[slug];
   return {
@@ -92,5 +94,6 @@ export async function getBrand(slug: BrandSlug): Promise<Brand> {
     intro: info?.intro?.trim() || base.intro,
     instagram: info?.instagram?.trim().replace(/^@/, "") || base.instagram,
     email: global.updatedAt ? info?.email?.trim() || undefined : base.email,
+    hero: pics(info?.heroPhotos),
   };
 }

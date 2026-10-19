@@ -2,13 +2,13 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { MEDIA, type MediaKey } from "@/lib/media.generated";
+import type { Pic } from "@/lib/pic";
 import { IconPause, IconPlay } from "./Icons";
 import { usePause } from "./PauseContext";
 import styles from "./Slideshow.module.css";
 
 type SlideshowProps = {
-  slides: MediaKey[];
+  slides: Pic[];
   /** Milisegundos por diapositiva */
   interval?: number;
   /** Desfase inicial para que varios slideshows no cambien a la vez */
@@ -95,12 +95,11 @@ export function Slideshow({
       style={{ "--interval": `${interval}ms` } as CSSProperties}
       data-paused={paused || undefined}
     >
-      {slides.map((key, i) => {
-        const m = MEDIA[key];
+      {slides.map((m, i) => {
         const active = i === index;
         return (
           <div
-            key={key}
+            key={`${i}-${m.src}`}
             className={styles.slide}
             data-active={active || undefined}
             aria-hidden={!active}
@@ -117,6 +116,7 @@ export function Slideshow({
               loading={eager && i === 0 ? "eager" : "lazy"}
               fetchPriority={eager && i === 0 ? "high" : undefined}
               className={styles.image}
+              style={m.position ? { objectPosition: m.position, transformOrigin: m.position } : undefined}
             />
             ) : null}
           </div>

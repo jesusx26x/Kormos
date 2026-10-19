@@ -1,5 +1,5 @@
 import { revalidateTag } from "next/cache";
-import type { CollectionConfig, FieldHook, GlobalConfig } from "payload";
+import { APIError, type CollectionBeforeDeleteHook, type CollectionConfig, type FieldHook, type GlobalConfig } from "payload";
 
 /** "Mesa de Noche Ébano" → "mesa-de-noche-ebano" */
 export function slugify(value: string) {
@@ -61,3 +61,28 @@ export function revalidateGlobal(tags: string[]): GlobalConfig["hooks"] {
     ],
   };
 }
+
+/**
+ * No deja borrar algo que todavía usan piezas del catálogo: el sitio no se
+ * rompe, pero la pieza se quedaría sin categoría o sin ese acabado sin que
+ * nadie lo note. El mensaje dice cuáles son para cambiarlas primero.
+ */
+export const blockDeleteIfUsedByProducts =
+  (what: string, field: "category" | "variants.finish"): CollectionBeforeDeleteHook =>
+  async ({ id, req }) => {
+    const { docs, totalDocs } = await req.payload.find({
+      collection: "productos",
+      where: { [field]: { equals: id } },
+      limit: 5,
+      depth: 0,
+      req,
+    });
+    if (!totalDocs) return;
+    const names = docs.map((d) => d.name).join(", ") + (totalDocs > docs.length ? "…" : "");
+    throw new APIError(
+      `No se puede borrar ${what}: está en ${totalDocs === 1 ? "1 pieza" : `${totalDocs} piezas`} (${names}). Cambia esas piezas primero y vuelve a intentarlo.`,
+      400,
+      null,
+      true,
+    );
+  };

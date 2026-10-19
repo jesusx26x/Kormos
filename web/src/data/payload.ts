@@ -23,13 +23,14 @@ export function pic(value: Rel<Foto>): Pic | null {
   if (!f?.url) return null;
   return {
     src: f.url,
-    alt: f.alt,
+    alt: f.alt ?? "",
     width: f.width ?? 1200,
     height: f.height ?? 800,
     blurDataURL: f.blurDataURL ?? null,
     cutout: !!f.cutout,
     // La versión en la URL hace que WhatsApp y las redes no reutilicen una foto reemplazada
     og: `/compartir/${f.id}?v=${Date.parse(f.updatedAt) || 0}`,
+    position: f.focalX != null && f.focalY != null ? `${f.focalX}% ${f.focalY}%` : null,
   };
 }
 

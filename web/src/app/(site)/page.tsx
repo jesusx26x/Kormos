@@ -21,7 +21,7 @@ export default async function Portada() {
           ...brands.map(brandJsonLd),
         ]}
       />
-      <Hub />
+      <Hub brands={brands} />
     </>
   );
 }

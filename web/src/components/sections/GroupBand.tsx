@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { otherBrands, type BrandSlug } from "@/lib/brands";
-import { MEDIA } from "@/lib/media.generated";
+import { getBrand } from "@/data/studio";
+import { heroPics, otherBrands, type BrandSlug } from "@/lib/brands";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { IconArrow, IconWhatsApp } from "../Icons";
 import { Logo } from "../Logo";
@@ -9,7 +9,8 @@ import { Reveal } from "../Reveal";
 import styles from "./Sections.module.css";
 
 /** Las otras dos marcas del grupo: redundancia de servicios sin recargar la página. */
-export function GroupBand({ slug }: { slug: BrandSlug }) {
+export async function GroupBand({ slug }: { slug: BrandSlug }) {
+  const others = await Promise.all(otherBrands(slug).map((b) => getBrand(b.slug)));
   return (
     <section className="section" aria-labelledby="grupo-titulo">
       <div className="container">
@@ -20,12 +21,12 @@ export function GroupBand({ slug }: { slug: BrandSlug }) {
           </h2>
         </Reveal>
         <ul className={styles.groupGrid}>
-          {otherBrands(slug).map((b, i) => {
-            const m = MEDIA[b.heroMedia[0]];
+          {others.map((b, i) => {
+            const m = heroPics(b)[0];
             return (
               <Reveal as="li" key={b.slug} delay={i * 80}>
                 <Link href={`/${b.slug}`} scroll={false} className={styles.groupCard}>
-                  <Image src={m.src} alt="" fill sizes="(max-width: 767px) 100vw, 50vw" className={styles.groupImage} placeholder="blur" blurDataURL={m.blurDataURL ?? undefined} />
+                  <Image src={m.src} alt="" fill sizes="(max-width: 767px) 100vw, 50vw" className={styles.groupImage} style={m.position ? { objectPosition: m.position } : undefined} placeholder={m.blurDataURL ? "blur" : "empty"} blurDataURL={m.blurDataURL ?? undefined} />
                   <span className={styles.groupShade} aria-hidden="true" />
                   <span className={styles.groupBody}>
                     <span className={styles.groupVerb}>{b.verb}</span>

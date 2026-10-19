@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ViewTransition, type CSSProperties } from "react";
-import { BRAND_ORDER, BRANDS, COPYRIGHT_YEAR, GROUP_TAGLINE } from "@/lib/brands";
+import { COPYRIGHT_YEAR, GROUP_TAGLINE, heroPics, type Brand } from "@/lib/brands";
 import { IconArrow } from "./Icons";
 import { Logo } from "./Logo";
 import { LogoAnimated } from "./LogoAnimated";
@@ -15,13 +15,13 @@ import styles from "./Hub.module.css";
  * en orden alfabético. Las une el flujo del grupo:
  * se visualiza (Aracena) → se ejecuta (Arpad) → se materializa (Kormós).
  */
-export function Hub() {
+export function Hub({ brands }: { brands: Brand[] }) {
   return (
     <PauseProvider>
       <ScrollToTop />
       <Preloader caption={GROUP_TAGLINE}>
-        {BRAND_ORDER.map((slug, i) => (
-          <LogoAnimated key={slug} name={BRANDS[slug].monogram} delay={i * 140} />
+        {brands.map((brand, i) => (
+          <LogoAnimated key={brand.slug} name={brand.monogram} delay={i * 140} />
         ))}
       </Preloader>
 
@@ -30,13 +30,13 @@ export function Hub() {
         <p className={styles.tagline}>{GROUP_TAGLINE}</p>
 
         <ul className={styles.panels}>
-          {BRAND_ORDER.map((slug, i) => {
-            const brand = BRANDS[slug];
+          {brands.map((brand, i) => {
+            const slug = brand.slug;
             return (
               <li key={slug} className={styles.panel} data-brand={slug} style={{ "--i": i } as CSSProperties}>
                 <Link href={`/${slug}`} scroll={false} className={styles.link}>
                   <Slideshow
-                    slides={brand.heroMedia}
+                    slides={heroPics(brand)}
                     interval={7000}
                     offset={i * 2300}
                     sizes="(max-width: 767px) 100vw, 34vw"
