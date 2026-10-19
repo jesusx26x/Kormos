@@ -1,10 +1,10 @@
 "use client";
 
 import { useActionState } from "react";
-import { unsubscribe, type UnsubscribeState } from "@/data/subscriptions";
+import { unsubscribe, type TokenState } from "@/data/subscriptions";
 import styles from "../not-found.module.css";
 
-const INITIAL: UnsubscribeState = { status: "idle" };
+const INITIAL: TokenState = { status: "idle" };
 
 export function UnsubscribeForm({ token }: { token: string }) {
   const [state, action, pending] = useActionState(unsubscribe, INITIAL);

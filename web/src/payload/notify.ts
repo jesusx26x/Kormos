@@ -1,36 +1,10 @@
 import type { Field, PayloadHandler } from "payload";
 import type { Foto, Producto, Proyecto } from "@/payload-types";
+import { emailConfigured, noticeEmail, SITE, type Notice } from "./emails";
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 const BRAND_NAMES = { arpad: "Arpad Studio", kormos: "Kormós", aracena: "Aracena Studio" } as const;
 // Resend admite unos 2 envíos por segundo en su plan inicial
 const PAUSE_MS = 600;
-
-/** El correo funciona solo con la clave del proveedor y un remitente del dominio. */
-export const emailConfigured = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
-
-const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
-
-type Notice = { brand: string; kicker: string; title: string; summary: string; url: string; image: string | null };
-
-function noticeHtml(n: Notice, unsubscribeUrl: string) {
-  const img = n.image ? `<img src="${escape(n.image)}" alt="" width="560" style="display:block;width:100%;max-width:560px;height:auto;border:0;margin:0 0 24px">` : "";
-  return `<!doctype html><html lang="es"><body style="margin:0;background:#f6f3ee;font-family:Helvetica,Arial,sans-serif;color:#1e1b18">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:32px 16px">
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background:#ffffff">
-<tr><td style="padding:32px 32px 8px;font-size:12px;letter-spacing:3px;text-transform:uppercase;color:#6e675e">${escape(n.brand)} · ${escape(n.kicker)}</td></tr>
-<tr><td style="padding:0 32px 16px;font-size:28px;line-height:1.2">${escape(n.title)}</td></tr>
-<tr><td style="padding:0 32px">${img}</td></tr>
-<tr><td style="padding:0 32px 24px;font-size:16px;line-height:1.6;color:#4a443d">${escape(n.summary)}</td></tr>
-<tr><td style="padding:0 32px 32px"><a href="${escape(n.url)}" style="display:inline-block;padding:14px 24px;background:#1e1b18;color:#f6f3ee;text-decoration:none;font-size:14px;letter-spacing:1px">Verlo en el sitio</a></td></tr>
-</table>
-<p style="max-width:560px;margin:16px auto 0;font-size:12px;line-height:1.6;color:#6e675e">Recibes este correo porque te suscribiste a las novedades de Aracena Studio, Arpad Studio y Kormós. <a href="${escape(unsubscribeUrl)}" style="color:#6e675e">Darme de baja</a>.</p>
-</td></tr></table></body></html>`;
-}
-
-function noticeText(n: Notice, unsubscribeUrl: string) {
-  return `${n.brand} · ${n.kicker}\n\n${n.title}\n\n${n.summary}\n\nVerlo en el sitio: ${n.url}\n\n—\nPara dejar de recibir estos correos: ${unsubscribeUrl}`;
-}
 
 const photoUrl = (value: unknown): string | null => {
   const f = Array.isArray(value) ? value[0] : value;
@@ -98,14 +72,8 @@ export const notifyHandler =
     let sent = 0;
     let failed = 0;
     for (const s of subscribers) {
-      const unsubscribeUrl = `${SITE}/baja?t=${encodeURIComponent(s.token ?? "")}`;
       try {
-        await req.payload.sendEmail({
-          to: s.email,
-          subject: `${notice.kicker} en ${notice.brand}: ${notice.title}`,
-          html: noticeHtml(notice, unsubscribeUrl),
-          text: noticeText(notice, unsubscribeUrl),
-        });
+        await req.payload.sendEmail({ to: s.email, ...noticeEmail(notice, s.token ?? "") });
         sent++;
       } catch (err) {
         failed++;

@@ -13,7 +13,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum_equipo_brand" AS ENUM('arpad', 'kormos', 'aracena');
   CREATE TYPE "public"."enum_testimonios_brand" AS ENUM('arpad', 'kormos', 'aracena');
   CREATE TYPE "public"."enum_suscriptores_brand" AS ENUM('arpad', 'kormos', 'aracena');
-  CREATE TYPE "public"."enum_suscriptores_status" AS ENUM('activo', 'baja');
+  CREATE TYPE "public"."enum_suscriptores_status" AS ENUM('pendiente', 'activo', 'baja');
   CREATE TYPE "public"."enum_archivos_format" AS ENUM('skp', 'dwg', 'pdf');
   CREATE TABLE "productos_variants" (
   	"_order" integer NOT NULL,
@@ -289,6 +289,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	"brand" "enum_suscriptores_brand",
   	"status" "enum_suscriptores_status" DEFAULT 'activo' NOT NULL,
   	"unsubscribed_at" timestamp(3) with time zone,
+  	"confirmation_sent_at" timestamp(3) with time zone,
   	"token" varchar,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL

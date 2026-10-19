@@ -215,11 +215,11 @@ Si el dominio final es distinto del que puso en `NEXT_PUBLIC_SITE_URL`, cámbiel
 7. **Deployments → ⋯ → Redeploy**.
 
 **Cómo comprobarlo:**
-1. Suscríbase usted mismo desde el pie del sitio publicado.
+1. Suscríbase usted mismo desde el pie del sitio publicado. Le debe llegar el correo **Confirma tu suscripción**: pulse el botón.
 2. En el panel, abra una pieza y pulse **Avisar ahora**. Le debe llegar el correo con la foto y el enlace.
 3. Pruebe el enlace **Darme de baja** del correo.
 
-> **Ojo con el límite gratis:** 100 correos por día. Si hay más de unos 90 suscriptores, suba Resend al plan de pago antes de avisar.
+> **Ojo con el límite gratis:** 100 correos por día, incluidos los de confirmación. Si hay más de unos 90 suscriptores, suba Resend al plan de pago antes de avisar.
 
 ---
 

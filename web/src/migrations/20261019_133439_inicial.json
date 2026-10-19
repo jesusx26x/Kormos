@@ -3612,6 +3612,12 @@
           "primaryKey": false,
           "notNull": false
         },
+        "confirmation_sent_at": {
+          "name": "confirmation_sent_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
         "token": {
           "name": "token",
           "type": "varchar",
@@ -5944,6 +5950,7 @@
       "name": "enum_suscriptores_status",
       "schema": "public",
       "values": [
+        "pendiente",
         "activo",
         "baja"
       ]
@@ -5968,6 +5975,6 @@
     "tables": {},
     "columns": {}
   },
-  "id": "f92e173c-6752-485b-9e6e-f485361d864b",
+  "id": "e631642c-83f6-4997-b537-99768bcef108",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

@@ -547,7 +547,7 @@ export interface Testimonio {
   createdAt: string;
 }
 /**
- * Correos que dejaron en el pie del sitio para recibir novedades. Quien se da de baja queda marcado y no recibe más avisos.
+ * Correos que dejaron en el pie del sitio. Solo reciben avisos los activos: quien se suscribe confirma desde un correo, y quien se da de baja no recibe más.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "suscriptores".
@@ -559,8 +559,12 @@ export interface Suscriptore {
    * En qué parte del sitio se suscribió.
    */
   brand?: ('arpad' | 'kormos' | 'aracena') | null;
-  status: 'activo' | 'baja';
+  /**
+   * Por confirmar: todavía no pulsó el botón del correo de confirmación.
+   */
+  status: 'pendiente' | 'activo' | 'baja';
   unsubscribedAt?: string | null;
+  confirmationSentAt?: string | null;
   token?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -886,6 +890,7 @@ export interface SuscriptoresSelect<T extends boolean = true> {
   brand?: T;
   status?: T;
   unsubscribedAt?: T;
+  confirmationSentAt?: T;
   token?: T;
   updatedAt?: T;
   createdAt?: T;

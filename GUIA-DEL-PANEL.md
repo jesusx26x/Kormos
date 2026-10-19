@@ -65,7 +65,8 @@ En **Ajustes → Datos de las marcas** están la frase, la presentación, el Ins
 
 ## Suscriptores y avisos por correo
 
-- En el pie de cada página del sitio, la gente deja su correo para recibir novedades. Esos correos aparecen en **Contactos → Suscriptores**. En el inicio del panel ves cuántos hay.
+- En el pie de cada página del sitio, la gente deja su correo para recibir novedades. Esos correos aparecen en **Contactos → Suscriptores**. En el inicio del panel ves cuántos están activos.
+- **Doble confirmación:** al suscribirse, la persona recibe un correo con el botón "Confirmar mi suscripción". Mientras no lo pulse aparece **Por confirmar** y no recibe avisos. Así nadie recibe correos porque otra persona escribió su dirección.
 - **Descargar la lista (Excel):** botón encima de la tabla.
 - **Avisar de una pieza o un proyecto nuevo:** en la ficha, columna derecha, pulsa **Avisar ahora**. Se manda un correo con la foto y el enlace a cada suscriptor activo. Se envía una sola vez por ficha, y la ficha tiene que estar visible y guardada.
 - Cada correo trae un enlace para darse de baja. Quien se da de baja queda marcado "De baja" y no recibe más avisos.
