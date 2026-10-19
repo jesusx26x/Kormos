@@ -146,7 +146,7 @@ export interface UsuarioAuthOperations {
   };
 }
 /**
- * Piezas del catálogo. Arrastra las filas para cambiar el orden en el que aparecen.
+ * Piezas del catálogo de Kormós.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "productos".
@@ -161,7 +161,7 @@ export interface Producto {
   code: string;
   category: number | Categoria;
   /**
-   * "Colección Origen" o "A medida", por ejemplo.
+   * Elige una de las que ya existen para que el catálogo las agrupe bien.
    */
   collection: string;
   /**
@@ -222,9 +222,9 @@ export interface Producto {
   filePdf?: (number | null) | Archivo;
   notifiedAt?: string | null;
   /**
-   * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
+   * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug: string;
+  slug?: string | null;
   /**
    * Desmárcalo para ocultarla sin borrarla.
    */
@@ -233,7 +233,7 @@ export interface Producto {
   createdAt: string;
 }
 /**
- * Grupos del catálogo. Arrastra las filas para cambiar el orden de los filtros.
+ * Grupos del catálogo. Sirven de filtros en el catálogo del sitio.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "categorias".
@@ -250,9 +250,9 @@ export interface Categoria {
    */
   singular: string;
   /**
-   * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
+   * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug: string;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -306,13 +306,13 @@ export interface Acabado {
    */
   swatch?: (number | null) | Foto;
   /**
-   * Código de color, p. ej. #8a6a4f. Solo si no hay foto de muestra.
+   * Elígelo en la paleta o escribe su código, p. ej. #8a6a4f. Solo si no hay foto de muestra.
    */
   hex?: string | null;
   /**
-   * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
+   * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug: string;
+  slug?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -343,7 +343,7 @@ export interface Archivo {
   focalY?: number | null;
 }
 /**
- * Portafolio de Arpad Studio y Aracena Studio. Arrastra las filas para cambiar el orden.
+ * Portafolio de Arpad Studio y Aracena Studio.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "proyectos".
@@ -409,9 +409,9 @@ export interface Proyecto {
   source?: string | null;
   notifiedAt?: string | null;
   /**
-   * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
+   * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug: string;
+  slug?: string | null;
   /**
    * Desmárcalo para ocultarla sin borrarla.
    */
@@ -420,7 +420,7 @@ export interface Proyecto {
   createdAt: string;
 }
 /**
- * Paquetes de Aracena Studio. Arrastra las filas para cambiar el orden.
+ * Paquetes de render de Aracena Studio.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "paquetes".
@@ -451,7 +451,7 @@ export interface Paquete {
   createdAt: string;
 }
 /**
- * Servicios que aparecen en el inicio y en la página de servicios. Arrastra las filas para cambiar el orden.
+ * Servicios que aparecen en el inicio y en la página de servicios.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "servicios".
@@ -579,6 +579,9 @@ export interface Suscriptore {
  */
 export interface Usuario {
   id: number;
+  /**
+   * El nombre con el que te saluda el inicio del panel.
+   */
   name?: string | null;
   updatedAt: string;
   createdAt: string;

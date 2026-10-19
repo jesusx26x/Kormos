@@ -55,7 +55,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     count("proyectos", { brand: { equals: "aracena" } }),
     count("paquetes"),
     count("suscriptores", { status: { equals: "activo" } }),
-    payload.find({ collection: "productos", limit: 500, depth: 1, sort: "_order", overrideAccess: true }),
+    payload.find({ collection: "productos", limit: 500, depth: 0, sort: "_order", overrideAccess: true }),
   ]);
 
   const brands: { brand: AdminBrand; tagline: string; stats: Stat[]; links: { label: string; href: string }[] }[] = [

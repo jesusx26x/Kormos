@@ -103,3 +103,43 @@
 .btn--style-secondary {
   border-radius: 999px;
 }
+
+/* "Agregar" y "Subir varios a la vez": la acción principal de cada lista, a la vista
+   y fácil de tocar (Payload la pinta como una pastilla gris pequeña) */
+.list-header__title-actions .btn {
+  --bg-color: var(--theme-elevation-900);
+  --color: var(--theme-elevation-0);
+  --hover-bg: var(--theme-elevation-700);
+  --hover-color: var(--theme-elevation-0);
+  --btn-padding-inline-start: 20px;
+  --btn-padding-inline-end: 22px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  border-radius: 999px;
+  font-weight: 500;
+}
+
+.list-header__title-actions {
+  align-self: center;
+  margin-bottom: 0;
+}
+
+.list-create-new-doc__create-new-button .btn__label::before {
+  content: "+ ";
+}
+
+/* Casillas y asas de arrastre de las filas: la zona que se toca llega a ~44 px
+   sin cambiar cómo se ven */
+.select-row__checkbox .checkbox-input__input input[type="checkbox"],
+.select-all__checkbox .checkbox-input__input input[type="checkbox"] {
+  width: 44px;
+  height: 44px;
+  margin-left: -12px;
+  margin-top: -12px;
+}
+
+.sort-row {
+  padding: 11px;
+  margin: -11px;
+}
