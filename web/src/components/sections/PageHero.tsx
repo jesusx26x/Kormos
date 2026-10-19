@@ -15,7 +15,7 @@ type PageHeroProps = {
 /** Hero a pantalla completa con fotos protagonistas (patrón Minotti / Entre Dos). */
 export function PageHero({ brand, eyebrow, title, lead, primary }: PageHeroProps) {
   return (
-    <section className={styles.hero} aria-labelledby="hero-title">
+    <section className={styles.hero} aria-labelledby="hero-title" data-wa-hide>
       <Slideshow slides={heroPics(brand)} sizes="100vw" eager controls label={`Fotos de ${brand.name}`} />
       <div className={styles.heroShade} aria-hidden="true" />
       <div className={`container ${styles.heroContent}`}>

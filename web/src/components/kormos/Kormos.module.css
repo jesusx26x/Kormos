@@ -655,7 +655,7 @@
 
 .infoSummary {
   font-size: var(--fs-lead);
-  font-weight: 300;
+  font-weight: 400;
   color: var(--muted);
   max-width: 44ch;
 }

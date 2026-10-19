@@ -86,3 +86,54 @@ export const blockDeleteIfUsedByProducts =
       true,
     );
   };
+
+/** "a, b y c" */
+const listJoin = (items: string[]) => (items.length > 1 ? `${items.slice(0, -1).join(", ")} y ${items.at(-1)}` : (items[0] ?? ""));
+
+// Todos los sitios donde se elige una foto. Si se añade un campo de foto nuevo, va aquí.
+const PHOTO_USES = [
+  { collection: "productos", fields: ["images", "variants.images"], title: "name", one: "pieza", many: "piezas" },
+  { collection: "proyectos", fields: ["cover", "gallery", "beforeAfter.before", "beforeAfter.after"], title: "title", one: "proyecto", many: "proyectos" },
+  { collection: "servicios", fields: ["image"], title: "title", one: "servicio", many: "servicios" },
+  { collection: "equipo", fields: ["photo"], title: "name", one: "persona del equipo", many: "personas del equipo" },
+  { collection: "acabados", fields: ["swatch"], title: "name", one: "acabado", many: "acabados" },
+] as const;
+const HERO_BRANDS = { arpad: "Arpad Studio", kormos: "Kormós", aracena: "Aracena Studio" } as const;
+
+/**
+ * No deja borrar una foto que todavía se ve en el sitio: la ficha se quedaría
+ * con un hueco (o sin la portada obligatoria) sin que nadie lo note.
+ */
+export const blockDeleteIfPhotoUsed: CollectionBeforeDeleteHook = async ({ id, req }) => {
+  const uses: string[] = [];
+  for (const use of PHOTO_USES) {
+    const { docs, totalDocs } = await req.payload.find({
+      collection: use.collection,
+      where: { or: use.fields.map((field) => ({ [field]: { equals: id } })) },
+      limit: 3,
+      depth: 0,
+      req,
+    });
+    for (const doc of docs) uses.push(`${use.one} ${String((doc as unknown as Record<string, unknown>)[use.title] ?? "")}`.trim());
+    const rest = totalDocs - docs.length;
+    if (rest > 0) uses.push(`${rest} ${rest === 1 ? use.one : use.many} más`);
+  }
+  const brands = await req.payload.findGlobal({ slug: "marcas", depth: 0, req });
+  for (const [brand, name] of Object.entries(HERO_BRANDS)) {
+    const photos = brands[brand as keyof typeof HERO_BRANDS]?.heroPhotos ?? [];
+    if (photos.some((p) => String(typeof p === "object" ? p.id : p) === String(id))) uses.push(`portada de ${name}`);
+  }
+  if (!uses.length) return;
+  throw new APIError(`No se puede borrar esta foto: la usan ${listJoin(uses)}. Quítala de ahí primero y vuelve a intentarlo.`, 400, null, true);
+};
+
+/** Siempre tiene que quedar alguien que pueda entrar al panel. */
+export const blockDeleteOwnOrLastUser: CollectionBeforeDeleteHook = async ({ id, req }) => {
+  if (req.user && String(req.user.id) === String(id)) {
+    throw new APIError("No puedes borrar tu propio usuario. Si hace falta, pide a otra persona con acceso al panel que lo haga.", 400, null, true);
+  }
+  const { totalDocs } = await req.payload.count({ collection: "usuarios", req });
+  if (totalDocs <= 1) {
+    throw new APIError("No se puede borrar el único usuario del panel: nadie más podría entrar. Crea otro usuario primero.", 400, null, true);
+  }
+};

@@ -101,6 +101,20 @@
   font-size: 0.9375rem;
 }
 
+/* Invitación a mitad de lista: misma voz que las tarjetas, solo en móvil */
+.invite {
+  display: grid;
+  justify-items: start;
+  gap: 12px;
+  padding: clamp(24px, 6vw, 32px);
+  background: var(--surface);
+  border: 1px solid var(--line);
+}
+
+.invite .btn {
+  margin-top: 8px;
+}
+
 @media (hover: hover) {
   .cardLink:hover .cardImage {
     transform: scale(1.04);
@@ -118,6 +132,21 @@
   .card[data-wide] .cardMedia {
     aspect-ratio: 16 / 9;
   }
+  .invite {
+    display: none;
+  }
+}
+
+/* Dos columnas: una última pieza suelta ocupa la fila completa */
+@media (min-width: 768px) and (max-width: 1099px) {
+  .card[data-end="1"],
+  .card[data-end="3"] {
+    grid-column: 1 / -1;
+  }
+  .card[data-end="1"] .cardMedia,
+  .card[data-end="3"] .cardMedia {
+    aspect-ratio: 16 / 9;
+  }
 }
 
 @media (min-width: 1100px) {
@@ -129,6 +158,21 @@
   }
   /* 2 columnas a 16/10 ≈ misma altura que una columna a 4/5 */
   .card[data-wide] .cardMedia {
+    aspect-ratio: 16 / 10;
+  }
+  /* Tres columnas: sola en la fila → ancho completo; con una vecina → dos columnas */
+  .card[data-end="0"],
+  .card[data-end="2"] {
+    grid-column: 1 / -1;
+  }
+  .card[data-end="0"] .cardMedia,
+  .card[data-end="2"] .cardMedia {
+    aspect-ratio: 21 / 9;
+  }
+  .card[data-end="3"] {
+    grid-column: span 2;
+  }
+  .card[data-end="3"] .cardMedia {
     aspect-ratio: 16 / 10;
   }
 }
@@ -191,7 +235,7 @@
 [data-brand="aracena"] .body p:first-child,
 [data-brand="kormos"] .body p:first-child {
   font-family: var(--font-sans);
-  font-weight: 300;
+  font-weight: 400;
 }
 
 .body p + p {
@@ -324,7 +368,7 @@
   position: absolute;
   top: 16px;
   padding: 6px 12px;
-  background: rgba(12, 10, 8, 0.55);
+  background: rgba(12, 10, 8, 0.72);
   color: var(--on-image);
   font-size: var(--fs-micro);
   letter-spacing: 0.22em;

@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { paragraphsField, previewField, priceFields, publishedField, quickFilters, readyField, slugField } from "../fields";
+import { DRAG_HINT, paragraphsField, previewField, priceFields, publishedField, quickFilters, readyField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
 import { notifiedAtField, notifyHandler } from "../notify";
 
@@ -28,7 +28,7 @@ export const Products: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["preview", "code", "category", "status", "published"],
     listSearchableFields: ["name", "code"],
-    description: "Piezas del catálogo. Arrastra las filas para cambiar el orden en el que aparecen.",
+    description: "Piezas del catálogo de Kormós.",
     hideAPIURL: true,
     components: {
       beforeListTable: quickFilters([
@@ -36,7 +36,7 @@ export const Products: CollectionConfig = {
         { label: "Bajo pedido", where: { status: "bajo_pedido" } },
         { label: "Próximamente", where: { status: "proximamente" } },
         { label: "Agotadas", where: { status: "agotado" } },
-      ]),
+      ], DRAG_HINT),
     },
     preview: (doc) => (doc?.slug ? `${SITE}/kormos/catalogo/${doc.slug}` : null),
   },
@@ -68,7 +68,11 @@ export const Products: CollectionConfig = {
                   required: true,
                   localized: true,
                   defaultValue: "Colección Origen",
-                  admin: { width: "50%", description: '"Colección Origen" o "A medida", por ejemplo.' },
+                  admin: {
+                    width: "50%",
+                    description: "Elige una de las que ya existen para que el catálogo las agrupe bien.",
+                    components: { Field: "/payload/admin/CollectionField#CollectionField" },
+                  },
                 },
               ],
             },

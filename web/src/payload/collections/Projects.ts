@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { paragraphsField, previewField, publishedField, quickFilters, readyField, slugField } from "../fields";
+import { DRAG_HINT, paragraphsField, previewField, publishedField, quickFilters, readyField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
 import { notifiedAtField, notifyHandler } from "../notify";
 
@@ -20,13 +20,13 @@ export const Projects: CollectionConfig = {
     group: "Arpad y Aracena",
     useAsTitle: "title",
     defaultColumns: ["preview", "brand", "categories", "published"],
-    description: "Portafolio de Arpad Studio y Aracena Studio. Arrastra las filas para cambiar el orden.",
+    description: "Portafolio de Arpad Studio y Aracena Studio.",
     hideAPIURL: true,
     components: {
       beforeListTable: quickFilters([
         { label: "Arpad Studio", where: { brand: "arpad" } },
         { label: "Aracena Studio", where: { brand: "aracena" } },
-      ]),
+      ], DRAG_HINT),
     },
     preview: (doc) => (doc?.slug && doc?.brand ? `${SITE}/${doc.brand}/proyectos/${doc.slug}` : null),
   },

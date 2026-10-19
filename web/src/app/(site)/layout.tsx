@@ -37,7 +37,7 @@ const BOOT_SCRIPT = `(function(){var d=document.documentElement;d.classList.add(
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="es"
+      lang="es-DO"
       className={FONT_VARIABLES}
       suppressHydrationWarning
     >

@@ -26,7 +26,7 @@
   display: grid;
   justify-items: start;
   gap: 16px;
-  padding-block: calc(var(--header-h) + 32px) clamp(48px, 8vh, 88px);
+  padding-block: calc(var(--header-h) + 56px) clamp(48px, 8vh, 88px);
 }
 
 .content > * {

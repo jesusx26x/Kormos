@@ -23,6 +23,8 @@ export type Project = {
   beforeAfter: BeforeAfter[];
   credits: Credit[];
   source?: string;
+  /** Última edición en el panel (ISO), para el mapa del sitio */
+  updatedAt: string;
 };
 
 export async function getProjects(brand: BrandSlug): Promise<Project[]> {
@@ -63,6 +65,7 @@ export async function getProjects(brand: BrandSlug): Promise<Project[]> {
         }),
         credits: (p.credits ?? []).map((c) => ({ role: c.role, name: c.name, href: c.href || undefined })),
         source: p.source || undefined,
+        updatedAt: p.updatedAt,
       };
     })
     .filter((p): p is Project => p !== null);

@@ -1,5 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { signedIn } from "../access";
+import { blockDeleteOwnOrLastUser } from "../hooks";
 
 export const Users: CollectionConfig = {
   slug: "usuarios",
@@ -12,5 +13,6 @@ export const Users: CollectionConfig = {
     defaultColumns: ["name", "email"],
   },
   access: { read: signedIn, create: signedIn, update: signedIn, delete: signedIn },
-  fields: [{ name: "name", label: "Nombre", type: "text" }],
+  hooks: { beforeDelete: [blockDeleteOwnOrLastUser] },
+  fields: [{ name: "name", label: "Nombre", type: "text", admin: { description: "El nombre con el que te saluda el inicio del panel." } }],
 };

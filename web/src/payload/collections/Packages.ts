@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { priceFields, publishedField, quickFilters, readyField } from "../fields";
+import { DRAG_HINT, priceFields, publishedField, quickFilters, readyField } from "../fields";
 import { revalidateCollection } from "../hooks";
 
 /** Paquetes de render de Aracena Studio. */
@@ -13,9 +13,9 @@ export const Packages: CollectionConfig = {
     group: "Arpad y Aracena",
     useAsTitle: "name",
     defaultColumns: ["name", "scale", "published"],
-    description: "Paquetes de Aracena Studio. Arrastra las filas para cambiar el orden.",
+    description: "Paquetes de render de Aracena Studio.",
     hideAPIURL: true,
-    components: { beforeListTable: quickFilters([]) },
+    components: { beforeListTable: quickFilters([], DRAG_HINT) },
   },
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
   hooks: revalidateCollection(["paquetes"]),

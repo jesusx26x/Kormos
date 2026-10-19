@@ -45,7 +45,8 @@ export default buildConfig({
     user: Users.slug,
     importMap: { baseDir: dirname },
     meta: { titleSuffix: " · Panel del sitio", icons: [{ rel: "icon", type: "image/png", url: "/icon.png" }] },
-    dateFormat: "d 'de' MMMM yyyy, HH:mm",
+    // El mismo formato que las fechas de los componentes propios (admin/dates.ts)
+    dateFormat: "d 'de' MMMM 'de' yyyy, HH:mm",
     // Sin Gravatar: la foto de usuario se pedía a un servicio externo y salía rota
     avatar: "default",
     components: {
@@ -67,7 +68,13 @@ export default buildConfig({
           successfullyCreated: "Listo, se guardó. Si está marcado como visible, ya aparece en el sitio.",
           updatedSuccessfully: "Guardado. El sitio ya muestra el cambio.",
           successfullyDeleted: "Se borró «{{label}}». Ya no aparece en el sitio.",
-          untitled: "Nueva ficha",
+          // Payload lo muestra entre corchetes en fichas nuevas y en las que no tienen nombre
+          untitled: "Sin nombre",
+          // Un solo verbo para añadir en todo el panel; la lista le pone un "+" (custom.css)
+          createNew: "Agregar",
+        },
+        upload: {
+          bulkUpload: "Subir varios a la vez",
         },
       },
     },

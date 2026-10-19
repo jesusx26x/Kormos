@@ -68,3 +68,14 @@
     display: none;
   }
 }
+
+/* El subtítulo de los logotipos de Kormós y Aracena va dentro del SVG y en
+   móvil mide ~5 px: se recorta la zona que ocupa en lugar de dejarlo ilegible. */
+@media (max-width: 520px) {
+  .h_kormos .wordmark {
+    clip-path: inset(0 0 15% 0);
+  }
+  .h_aracena .wordmark {
+    clip-path: polygon(0 0, 100% 0, 100% 53%, 30% 53%, 30% 100%, 0 100%);
+  }
+}

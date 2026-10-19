@@ -13,8 +13,8 @@
 .header::before {
   content: "";
   position: absolute;
-  inset: 0 0 -40px;
-  background: linear-gradient(to bottom, rgba(15, 12, 10, 0.45), rgba(15, 12, 10, 0));
+  inset: 0 0 -56px;
+  background: linear-gradient(to bottom, rgba(15, 12, 10, 0.72) 0%, rgba(15, 12, 10, 0.5) 45%, rgba(15, 12, 10, 0) 100%);
   pointer-events: none;
   transition: opacity var(--dur-ui) var(--ease-out);
 }

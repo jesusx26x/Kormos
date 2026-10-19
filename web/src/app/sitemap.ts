@@ -6,9 +6,9 @@ import { CONTENT_UPDATED, SITE_URL } from "@/lib/seo";
 /** Mapa del sitio: páginas fijas, proyectos y piezas del catálogo. */
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [{ products }, arpad, aracena] = await Promise.all([getCatalog(), getProjects("arpad"), getProjects("aracena")]);
-  const at = (path: string, priority: number, changeFrequency: "weekly" | "monthly" = "monthly") => ({
+  const at = (path: string, priority: number, changeFrequency: "weekly" | "monthly" = "monthly", lastModified: string = CONTENT_UPDATED) => ({
     url: `${SITE_URL}${path}`,
-    lastModified: CONTENT_UPDATED,
+    lastModified,
     changeFrequency,
     priority,
   });
@@ -26,7 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     at("/aracena", 0.9),
     at("/aracena/proyectos", 0.8, "weekly"),
     at("/aracena/paquetes", 0.8),
-    ...[...arpad, ...aracena].map((p) => at(`/${p.brand}/proyectos/${p.slug}`, 0.6)),
-    ...products.map((p) => at(`/kormos/catalogo/${p.slug}`, 0.7)),
+    ...[...arpad, ...aracena].map((p) => at(`/${p.brand}/proyectos/${p.slug}`, 0.6, "monthly", p.updatedAt)),
+    ...products.map((p) => at(`/kormos/catalogo/${p.slug}`, 0.7, "monthly", p.updatedAt)),
   ];
 }

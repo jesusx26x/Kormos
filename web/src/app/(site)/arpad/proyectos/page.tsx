@@ -25,7 +25,7 @@ export default async function ArpadProyectos() {
       />
       <section className="section" aria-label="Portafolio">
         <div className="container">
-          <ProjectGrid projects={projects} categories={categories} />
+          <ProjectGrid brand="arpad" projects={projects} categories={categories} />
         </div>
       </section>
       <GroupBand slug="arpad" />

@@ -8,6 +8,22 @@ import styles from "./Kormos.module.css";
 
 type Category = { slug: string; name: string };
 
+const STORAGE_KEY = "catalogo-filtro";
+
+// sessionStorage puede estar bloqueado (modo privado, políticas del navegador): el filtro es un extra, no un requisito
+const recall = () => {
+  try {
+    return sessionStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+};
+const remember = (slug: string) => {
+  try {
+    sessionStorage.setItem(STORAGE_KEY, slug);
+  } catch {}
+};
+
 /**
  * Catálogo con filtro por categoría. La categoría se refleja en el hash
  * (#ottomanes) para poder compartir el enlace sin depender de searchParams.
@@ -21,13 +37,24 @@ export function CatalogGrid({ products, categories, filters = true }: { products
       const hash = decodeURIComponent(window.location.hash.slice(1));
       setFilter(categories.some((c) => c.slug === hash) ? hash : "todos");
     };
-    read();
+    // Al volver desde una pieza el enlace "Catálogo" llega sin hash: se recupera la última categoría elegida
+    const restore = () => {
+      const saved = recall();
+      if (!window.location.hash && saved && saved !== "todos" && categories.some((c) => c.slug === saved)) {
+        setFilter(saved);
+        window.history.replaceState(window.history.state, "", `${window.location.pathname}#${saved}`);
+      } else {
+        read();
+      }
+    };
+    restore();
     window.addEventListener("hashchange", read);
     return () => window.removeEventListener("hashchange", read);
   }, [categories, filters]);
 
   function choose(slug: string) {
     startTransition(() => setFilter(slug));
+    remember(slug);
     const url = slug === "todos" ? window.location.pathname : `${window.location.pathname}#${slug}`;
     window.history.replaceState(window.history.state, "", url);
   }

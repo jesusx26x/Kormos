@@ -13,7 +13,15 @@ export const Categories: CollectionConfig = {
     hideAPIURL: true,
     useAsTitle: "name",
     defaultColumns: ["name", "singular"],
-    description: "Grupos del catálogo. Arrastra las filas para cambiar el orden de los filtros.",
+    description: "Grupos del catálogo. Sirven de filtros en el catálogo del sitio.",
+    components: {
+      beforeListTable: [
+        {
+          path: "/payload/admin/QuickFilters#QuickFilters",
+          clientProps: { hint: "Para cambiar el orden de los filtros del catálogo, arrastra cada fila desde los puntitos de la izquierda." },
+        },
+      ],
+    },
   },
   access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
   hooks: { ...revalidateCollection(["catalogo"]), beforeDelete: [blockDeleteIfUsedByProducts("esta categoría", "category")] },
