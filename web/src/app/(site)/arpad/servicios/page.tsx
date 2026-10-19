@@ -1,6 +1,6 @@
 import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
-import { ContactBand, GroupBand } from "@/components/sections/GroupBand";
+import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { ServicePanel } from "@/components/sections/ServicePanel";
 import { Tabs } from "@/components/Tabs";
@@ -31,7 +31,6 @@ export default async function ArpadServicios() {
           </div>
         </section>
       ) : null}
-      <GroupBand slug="arpad" />
       <ContactBand
         slug="arpad"
         title="¿No sabes qué servicio necesitas?"

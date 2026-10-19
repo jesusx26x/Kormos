@@ -6,7 +6,7 @@ import { IconArrow } from "../Icons";
 import { JsonLd } from "../JsonLd";
 import { Reveal } from "../Reveal";
 import { breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
-import { ContactBand, GroupBand } from "../sections/GroupBand";
+import { ContactBand } from "../sections/GroupBand";
 import { PageHeader } from "../sections/PageHeader";
 import { BeforeAfter } from "./BeforeAfter";
 import { Gallery } from "./Gallery";
@@ -124,7 +124,6 @@ export function ProjectDetail({ project, next }: { project: Project; next?: Proj
         </div>
       </section>
 
-      <GroupBand slug={brand.slug} />
 
       <ContactBand
         slug={brand.slug}

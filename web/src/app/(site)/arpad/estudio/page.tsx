@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Reveal } from "@/components/Reveal";
-import { ContactBand, GroupBand } from "@/components/sections/GroupBand";
+import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section, Statement } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
@@ -122,7 +122,6 @@ export default async function ArpadEstudio() {
         </ul>
       </Section>
 
-      <GroupBand slug="arpad" />
       <ContactBand
         slug="arpad"
         title="Conversemos sobre tu espacio"

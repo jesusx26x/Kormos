@@ -46,6 +46,8 @@ const brandFields: Field[] = [
 /** Textos y contacto de cada marca. Un campo vacío usa el texto de partida del sitio. */
 export const BrandInfo: GlobalConfig = {
   slug: "marcas",
+  // Historial de cambios: cada guardado queda en "Versiones" y se puede restaurar
+  versions: { max: 20 },
   label: "Datos de las marcas",
   admin: { group: "Ajustes", hideAPIURL: true, description: "El WhatsApp es el mismo para las tres marcas (849-472-2473)." },
   access: { read: anyone, update: signedIn },

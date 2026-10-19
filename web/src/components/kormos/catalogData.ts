@@ -18,7 +18,9 @@ export type ProductCardInfo = {
   statusLabel: string;
   price: string;
   image: MediaInfo;
-  swatches: { name: string; src?: string; hex?: string }[];
+  swatches: { id: string; name: string; src?: string; hex?: string }[];
+  /** "Tela", "Madera"…: título de la lista de acabados al agregar desde la tarjeta */
+  variantLabel: string;
 };
 
 export function productCard(p: Product): ProductCardInfo {
@@ -33,7 +35,8 @@ export function productCard(p: Product): ProductCardInfo {
     statusLabel: STATUS_LABEL[p.status],
     price: priceLabel(p),
     image: p.images[0],
-    swatches: p.variants.map((v) => ({ name: v.name, ...v.swatch })),
+    swatches: p.variants.map((v) => ({ id: v.id, name: v.name, ...v.swatch })),
+    variantLabel: p.variantLabel,
   };
 }
 

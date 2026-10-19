@@ -2,7 +2,7 @@ import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import { projectCards } from "@/components/projects/cards";
 import { ProjectGrid } from "@/components/projects/ProjectGrid";
-import { ContactBand, GroupBand } from "@/components/sections/GroupBand";
+import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 
 export const metadata: Metadata = pageMeta({
@@ -28,7 +28,6 @@ export default async function ArpadProyectos() {
           <ProjectGrid brand="arpad" projects={projects} categories={categories} />
         </div>
       </section>
-      <GroupBand slug="arpad" />
       <ContactBand
         slug="arpad"
         title="¿Tienes un proyecto en mente?"
