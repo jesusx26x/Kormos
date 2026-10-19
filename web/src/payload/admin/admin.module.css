@@ -896,3 +896,7 @@
   background: var(--theme-input-bg, var(--theme-elevation-0));
   cursor: pointer;
 }
+
+.colorPicker[data-empty] {
+  opacity: 0.3;
+}

@@ -1,4 +1,5 @@
 import { APIError, type Field } from "payload";
+import { text, type TextFieldValidation } from "payload/shared";
 import { slugFrom } from "./hooks";
 
 /** Enlace de la página (/kormos/catalogo/<enlace>); se rellena solo a partir del nombre. */
@@ -12,14 +13,16 @@ export const slugField = (from: string): Field => ({
   admin: {
     position: "sidebar",
     description: "Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.",
-    // Al crear todavía no existe: lo genera el gancho al guardar. Con valor (el
-    // servidor ya lo rellenó) la condición se cumple y sí se valida al guardar.
-    condition: (data, _sibling, { operation }) => operation !== "create" || Boolean(data?.slug),
+    // Al crear no se muestra (SlugField): lo genera el gancho al guardar
     components: { Field: "/payload/admin/SlugField#SlugField" },
   },
+  // Vacío mientras se llena una ficha nueva: el formulario no debe exigirlo. Al
+  // guardar de verdad, el gancho ya lo rellenó y se valida como cualquier texto.
+  // (Con admin.condition los tipos lo marcarían opcional y el sitio no compila.)
+  validate: ((value, args) => (args.operation === "create" && !value ? true : text(value, args))) satisfies TextFieldValidation,
   hooks: {
     beforeValidate: [slugFrom(from)],
-    // Sin la condición de arriba nada valida un enlace vacío (nombre sin letras ni números)
+    // Un nombre sin letras ni números deja el enlace vacío
     beforeChange: [
       ({ value, operation }) => {
         if ((operation === "create" && !value) || value === "" || value === null) {

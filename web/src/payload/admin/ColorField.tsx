@@ -2,6 +2,7 @@
 
 import { TextInput, useField } from "@payloadcms/ui";
 import type { TextFieldClientProps } from "payload";
+import type React from "react";
 import styles from "./admin.module.css";
 
 const HEX = /^#([0-9a-f]{3}|[0-9a-f]{6})$/i;
@@ -30,7 +31,7 @@ export function ColorField({ field, path: pathFromProps, readOnly }: TextFieldCl
       readOnly={locked}
       showError={showError}
       value={text}
-      onChange={(e) => setValue(e.target.value)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setValue(e.target.value)}
       Label={customComponents?.Label}
       Description={customComponents?.Description}
       Error={customComponents?.Error}
@@ -39,6 +40,8 @@ export function ColorField({ field, path: pathFromProps, readOnly }: TextFieldCl
           type="color"
           className={styles.colorPicker}
           value={toPicker(text)}
+          // Sin color guardado, la muestra se atenúa: si no, parece que ya hay uno
+          data-empty={!HEX.test(text) || undefined}
           disabled={locked}
           aria-label="Elegir el color en la paleta"
           onChange={(e) => setValue(e.target.value)}

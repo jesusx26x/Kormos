@@ -224,7 +224,7 @@ export interface Producto {
   /**
    * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug?: string | null;
+  slug: string;
   /**
    * Desmárcalo para ocultarla sin borrarla.
    */
@@ -252,7 +252,7 @@ export interface Categoria {
   /**
    * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug?: string | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -312,7 +312,7 @@ export interface Acabado {
   /**
    * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug?: string | null;
+  slug: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -411,7 +411,7 @@ export interface Proyecto {
   /**
    * Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
-  slug?: string | null;
+  slug: string;
   /**
    * Desmárcalo para ocultarla sin borrarla.
    */
