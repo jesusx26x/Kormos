@@ -81,7 +81,7 @@ export const quickFilters = (filters: { label: string; where: Record<string, str
 ];
 
 /** Nota para reordenar arrastrando, en las listas que lo permiten. */
-export const DRAG_HINT = "Para cambiar el orden en el que aparecen en el sitio, arrastra cada fila desde los puntitos de la izquierda.";
+export const DRAG_HINT = "Para cambiar el orden en el que aparecen en el sitio, mantén pulsados los puntitos de la izquierda y arrastra la fila.";
 
 /** Párrafos: un bloque de texto donde una línea en blanco separa párrafos. */
 export const paragraphsField = (name: string, label: string, description?: string): Field => ({

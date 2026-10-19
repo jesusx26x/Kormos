@@ -42,7 +42,7 @@ Ocultar no borra nada: puedes volver a mostrarla cuando quieras.
 
 ## Cambiar el orden
 
-En las listas, arrastra la fila desde los seis puntitos de la izquierda. El sitio muestra las piezas, los proyectos y los servicios en ese orden.
+En las listas, mantén pulsados los seis puntitos de la izquierda y arrastra la fila. En el celular funciona igual: deja el dedo un momento sobre los puntitos y luego mueve la tarjeta. El sitio muestra las piezas, los proyectos y los servicios en ese orden.
 
 ## Encontrar algo rápido
 

@@ -143,3 +143,306 @@
   padding: 11px;
   margin: -11px;
 }
+
+/* ---------------------------------------------------------------- listas en el teléfono */
+
+/* La tabla de Payload no cabe a 390 px y se desbordaba a la derecha sin aviso: el
+   interruptor y el estado quedaban fuera de la pantalla. Se reacomoda la misma tabla
+   como tarjetas (no se reemplaza), así las celdas propias, las casillas y el arrastre
+   para reordenar siguen funcionando igual. 768 px es el corte "small" de Payload. */
+@media (max-width: 768px) {
+  .collection-list .table {
+    --card-handle: 40px;
+    --card-select: 44px;
+    overflow: visible;
+    /* Payload estira la tabla hasta el borde derecho para insinuar que se desliza;
+       las tarjetas no se deslizan, así que llevan el mismo margen a ambos lados */
+    padding-inline-end: var(--gutter-h);
+  }
+
+  .collection-list .table.table--drag-preview {
+    left: 0;
+    width: 100%;
+    padding: 0;
+  }
+
+  .collection-list .table table,
+  .collection-list .table tbody {
+    display: block;
+    width: 100%;
+    min-width: 0;
+  }
+
+  /* De la cabecera solo quedan "ordenar por el orden del sitio" y "seleccionar todo":
+     los demás títulos no tienen columna debajo a la que apuntar */
+  .collection-list .table thead tr {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding-inline-start: 1px;
+  }
+
+  .collection-list .table thead th {
+    display: none;
+  }
+
+  .collection-list .table thead th#heading-_dragHandle,
+  .collection-list .table thead th#heading-_select {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .collection-list .table thead th#heading-_dragHandle {
+    width: var(--card-handle);
+  }
+
+  .collection-list .table thead th#heading-_select {
+    width: var(--card-select);
+  }
+
+  .collection-list .table tbody tr {
+    --card-lead: 0px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px 12px;
+    position: relative;
+    min-height: 76px;
+    margin-bottom: 10px;
+    padding: 14px 14px 14px calc(14px + var(--card-lead));
+    border: 1px solid var(--theme-elevation-150);
+    border-radius: var(--style-radius-l);
+    background: var(--theme-elevation-0);
+  }
+
+  .collection-list .table tbody tr:has(> .cell-_select) {
+    --card-lead: var(--card-select);
+  }
+
+  .collection-list .table tbody tr:has(> .cell-_dragHandle) {
+    --card-lead: calc(var(--card-handle) + var(--card-select));
+  }
+
+  .collection-list .table tbody td {
+    display: block;
+    min-width: 0;
+    max-width: none;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  /* Asa y casilla en una franja a la izquierda, a toda la altura de la tarjeta:
+     se tocan sin apuntar y no empujan el contenido */
+  .collection-list .table tbody td.cell-_dragHandle,
+  .collection-list .table tbody td.cell-_select {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+  }
+
+  .collection-list .table tbody td.cell-_dragHandle {
+    left: 0;
+    width: var(--card-handle);
+  }
+
+  .collection-list .table tbody td.cell-_dragHandle > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+
+  .collection-list .table tbody td.cell-_select {
+    left: 0;
+    width: var(--card-select);
+  }
+
+  .collection-list .table tbody td.cell-_dragHandle + td.cell-_select {
+    left: var(--card-handle);
+  }
+
+  /* La primera columna de datos es el nombre (con foto si la hay): ocupa su línea */
+  .collection-list .table tbody td.cell-_select + td {
+    flex: 1 0 100%;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+
+  .collection-list .table tbody td.cell-_select + td a {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-height: 44px;
+  }
+
+  .collection-list .table tbody td.cell-_select + td .file {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  /* Misma miniatura cuadrada que en las demás listas */
+  .collection-list .table tbody td.cell-_select + td .file__thumbnail {
+    flex: none;
+    width: 48px;
+    max-width: none;
+    height: 48px;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .collection-list .table tbody td.cell-_select + td .file__thumbnail :is(img, svg) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .collection-list .table tbody td.cell-_select + td .file__filename {
+    margin: 0;
+  }
+
+  /* Los datos de apoyo, en pequeño y a lo sumo en dos líneas */
+  .collection-list .table tbody td:not(.cell-_select, .cell-_dragHandle, .cell-published, .cell-_select + td) {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    flex: 0 1 auto;
+    color: var(--theme-elevation-650);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  /* El interruptor de "Visible en el sitio" en su propia línea, siempre en el mismo
+     sitio (abajo a la derecha, al alcance del pulgar) y con 44 px para el dedo */
+  .collection-list .table tbody td.cell-published {
+    order: 10;
+    display: flex;
+    flex: 1 0 100%;
+    justify-content: flex-end;
+    /* El interruptor se ve de 22 px dentro de 44 tocables: se recoge el aire de sobra */
+    margin-block: -6px -8px;
+  }
+
+  .collection-list .table tbody td.cell-published button[role="switch"] {
+    min-height: 44px;
+  }
+
+  /* Columnas que en una tarjeta estorban más de lo que ayudan (siguen en el ordenador) */
+  .collection-list--productos .table tbody tr > td.cell-code,
+  .collection-list--fotos .table tbody tr > td.cell-updatedAt,
+  .collection-list--archivos .table tbody tr > td.cell-filesize,
+  .collection-list--suscriptores .table tbody tr > td.cell-createdAt {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- ficha en el teléfono */
+@media (max-width: 768px) {
+  /* Las pestañas no caben: se desliza la fila y un desvanecido al borde avisa de
+     que hay más (sin él, "Precio y estado" parecía cortado) */
+  .tabs-field__tabs-wrap {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 var(--tabs-fade-start), #000 calc(100% - var(--tabs-fade-end)), transparent);
+    mask-image: linear-gradient(to right, transparent, #000 var(--tabs-fade-start), #000 calc(100% - var(--tabs-fade-end)), transparent);
+    scrollbar-width: none;
+  }
+
+  .tabs-field__tabs-wrap::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tabs-field__tab-button {
+    font-size: 1.0625rem;
+  }
+
+  /* Donde el navegador lo permite, el desvanecido sigue al deslizamiento */
+  @supports (animation-timeline: scroll()) {
+    .tabs-field__tabs-wrap {
+      animation: tabs-edge linear both;
+      animation-timeline: scroll(self inline);
+    }
+  }
+
+  /* Fechas de la cabecera una debajo de otra en vez de cortadas a la derecha */
+  .doc-controls__content {
+    overflow: visible;
+    padding-inline: var(--gutter-h);
+  }
+
+  .doc-controls__meta {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .doc-controls__meta::after {
+    display: none;
+  }
+
+  .doc-controls__list-item,
+  .doc-controls__label,
+  .doc-controls__value {
+    line-height: 22px;
+  }
+
+  .doc-controls__value-wrap,
+  .doc-controls__value {
+    overflow: visible;
+    white-space: normal;
+  }
+
+  .doc-controls__list-item {
+    flex-wrap: wrap;
+  }
+
+  /* Payload esconde las fechas al bajar subiendo la barra exactamente su altura
+     (16 px arriba y abajo más una línea); con más líneas hay que subirla lo que
+     miden de verdad, o asoma el texto de la ficha por encima de "Guardar" */
+  .doc-controls.gutter:has(.doc-controls__meta > li:nth-child(2)) {
+    top: calc(-32px - 2 * 22px);
+  }
+
+  .doc-controls.gutter:has(.doc-controls__meta > li:nth-child(3)) {
+    top: calc(-32px - 3 * 22px);
+  }
+}
+
+/* Medidas del desvanecido de las pestañas: registradas para poder animarlas */
+@property --tabs-fade-start {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
+
+@property --tabs-fade-end {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 48px;
+}
+
+/* Al deslizar aparece el borde izquierdo (hay pestañas atrás) y al llegar al final se
+   apaga el derecho */
+@keyframes tabs-edge {
+  0% {
+    --tabs-fade-start: 0px;
+    --tabs-fade-end: 48px;
+  }
+  15% {
+    --tabs-fade-start: 32px;
+  }
+  85% {
+    --tabs-fade-end: 48px;
+  }
+  100% {
+    --tabs-fade-start: 32px;
+    --tabs-fade-end: 0px;
+  }
+}
