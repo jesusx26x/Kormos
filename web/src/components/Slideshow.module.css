@@ -1,0 +1,116 @@
+.slideshow {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: #17130f;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* Fundido lento y elegante. Sin blur: en fotos a pantalla completa
+     el filtro cuesta más de lo que aporta (prioridad: 60 fps). */
+  transition: opacity var(--dur-cinematic) var(--ease-elegant);
+}
+
+.slide[data-active] {
+  opacity: 1;
+}
+
+.image {
+  object-fit: cover;
+  transform-origin: 60% 50%;
+  will-change: transform;
+}
+
+.slide[data-active] .image {
+  animation: ken-burns calc(var(--interval) + var(--dur-cinematic)) linear both;
+}
+
+.slideshow[data-paused] .slide[data-active] .image {
+  animation-play-state: paused;
+}
+
+.controls {
+  position: absolute;
+  /* deja libre la esquina del botón flotante de WhatsApp (56px + margen) */
+  right: calc(var(--gutter) + 72px);
+  bottom: clamp(20px, 4vh, 40px);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--on-image);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.24em;
+}
+
+.counter {
+  font-variant-numeric: tabular-nums;
+}
+
+.progress {
+  position: relative;
+  width: 72px;
+  height: 1px;
+  background: rgba(247, 244, 239, 0.3);
+  overflow: hidden;
+}
+
+.bar {
+  position: absolute;
+  inset: 0;
+  background: var(--on-image);
+  transform-origin: left center;
+  transform: scaleX(0);
+  animation: progreso var(--interval) linear forwards;
+}
+
+.slideshow[data-paused] .bar {
+  animation-play-state: paused;
+}
+
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -10px -12px -10px 0;
+  border-radius: 50%;
+  color: var(--on-image);
+  transition:
+    background-color var(--dur-ui) var(--ease-out),
+    transform var(--dur-press) var(--ease-out);
+}
+
+.toggle:active {
+  transform: scale(0.94);
+}
+
+@media (hover: hover) {
+  .toggle:hover {
+    background: rgba(247, 244, 239, 0.14);
+  }
+}
+
+@keyframes ken-burns {
+  from {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  to {
+    transform: scale(1.12) translate3d(-1.5%, -1%, 0);
+  }
+}
+
+@keyframes progreso {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide[data-active] .image {
+    animation: none;
+  }
+}

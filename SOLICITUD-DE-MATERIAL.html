@@ -1,0 +1,420 @@
+<title>Material para el sitio web</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500&family=Marcellus&display=swap">
+<style>
+  /* Layout: una sola columna de lectura (ficha de taller), con listas de control por marca y una tabla de piezas desplazable. */
+  :root {
+    --bg: #f5f3ef;          /* blanco hueso de Kormós */
+    --surface: #ebe5db;     /* fondo lino */
+    --fg: #2b2620;
+    --muted: #6b6258;
+    --line: #d8cfc3;
+    --wood: #64402a;        /* nogal */
+    --navy: #062045;        /* Arpad */
+    --forest: #3a4a3d;      /* Aracena */
+    --high: #8a3b1e;
+    --high-bg: #f3e1d6;
+    --ok: #3a5a3d;
+    --font-display: "Marcellus", "Cormorant Garamond", Georgia, serif;
+    --font-body: "Jost", "Segoe UI", system-ui, sans-serif;
+    --fs-xs: 0.78rem;
+    --fs-s: 0.9rem;
+    --fs-m: 1rem;
+    --fs-l: 1.35rem;
+    --fs-xl: clamp(1.9rem, 4vw + 0.6rem, 2.9rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17130f; --surface: #221d18; --fg: #efe9e1; --muted: #b3a89b; --line: #3a322a;
+      --wood: #d2a47f; --navy: #9db4dd; --forest: #a9c2a8; --high: #f0a585; --high-bg: #3b2418; --ok: #a9c9a5;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17130f; --surface: #221d18; --fg: #efe9e1; --muted: #b3a89b; --line: #3a322a;
+    --wood: #d2a47f; --navy: #9db4dd; --forest: #a9c2a8; --high: #f0a585; --high-bg: #3b2418; --ok: #a9c9a5;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--fs-m);
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding-block: 48px 96px;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    display: grid;
+    gap: 56px;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 400; line-height: 1.15; text-wrap: balance; margin: 0; }
+  h1 { font-size: var(--fs-xl); }
+  h2 { font-size: var(--fs-l); }
+  h3 { font-size: 1.08rem; font-family: var(--font-body); font-weight: 500; }
+  p { margin: 0; max-width: 65ch; }
+  a { color: inherit; }
+  .eyebrow {
+    font-size: var(--fs-xs); letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); font-weight: 500;
+  }
+
+  /* ---- Cabecera ---- */
+  header.top { display: grid; gap: 18px; }
+  .lead { font-size: 1.08rem; color: var(--muted); font-weight: 300; }
+  .brands { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: var(--fs-s); letter-spacing: 0.16em; text-transform: uppercase; }
+  .brands span:nth-child(1) { color: var(--forest); }
+  .brands span:nth-child(2) { color: var(--navy); }
+  .brands span:nth-child(3) { color: var(--wood); }
+
+  /* ---- Progreso ---- */
+  .progress { display: grid; gap: 8px; padding: 18px 20px; background: var(--surface); border-radius: 4px; }
+  .progress-row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: var(--fs-s); }
+  .bar { height: 4px; background: var(--line); border-radius: 2px; overflow: hidden; }
+  .bar span { display: block; height: 100%; width: 0; background: var(--wood); transition: width 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* ---- Secciones ---- */
+  section { display: grid; gap: 20px; }
+  .section-head { display: grid; gap: 8px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .section-head[data-brand="arpad"] .eyebrow { color: var(--navy); }
+  .section-head[data-brand="kormos"] .eyebrow { color: var(--wood); }
+  .section-head[data-brand="aracena"] .eyebrow { color: var(--forest); }
+
+  /* ---- Listas de control ---- */
+  ul.checks { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+  .check { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .check input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--wood); cursor: pointer; }
+  .check input:focus-visible { outline: 2px solid var(--wood); outline-offset: 3px; }
+  .check label { display: grid; gap: 4px; cursor: pointer; min-width: 0; }
+  .check strong { font-weight: 500; }
+  .check .detail { color: var(--muted); font-size: var(--fs-s); }
+  .check input:checked + label strong { text-decoration: line-through; text-decoration-color: var(--muted); color: var(--muted); }
+  .pill {
+    display: inline-block; font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 500;
+    padding: 1px 8px; border-radius: 99px; margin-left: 8px; vertical-align: 2px; white-space: nowrap;
+  }
+  .pill.high { background: var(--high-bg); color: var(--high); }
+  .pill.opt { border: 1px solid var(--line); color: var(--muted); }
+
+  /* ---- Bloques de especificaciones ---- */
+  .specs { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 16px; }
+  .spec { padding: 16px 18px; background: var(--surface); border-radius: 4px; display: grid; gap: 6px; align-content: start; min-width: 0; }
+  .spec h3 { font-size: var(--fs-s); letter-spacing: 0.08em; text-transform: uppercase; }
+  .spec p { font-size: var(--fs-s); color: var(--muted); }
+
+  pre.tree, pre.template {
+    margin: 0; padding: 18px 20px; background: var(--surface); border-radius: 4px; overflow-x: auto;
+    font-family: ui-monospace, "Cascadia Mono", Consolas, monospace; font-size: 0.82rem; line-height: 1.55; color: var(--fg);
+  }
+
+  /* ---- Tabla de piezas ---- */
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+  table { width: 100%; border-collapse: collapse; font-size: var(--fs-s); min-width: 34rem; }
+  th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: var(--fs-xs); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-weight: 500; background: var(--surface); }
+  tr:last-child td { border-bottom: 0; }
+  td.code { font-variant-numeric: tabular-nums; white-space: nowrap; color: var(--muted); }
+  td .flag { color: var(--high); }
+
+  /* ---- Mensaje para copiar ---- */
+  .message { display: grid; gap: 12px; }
+  .message textarea {
+    width: 100%; min-height: 15rem; resize: vertical; padding: 16px; border: 1px solid var(--line); border-radius: 4px;
+    background: var(--surface); color: var(--fg); font: inherit; font-size: var(--fs-s); line-height: 1.55;
+  }
+  .message textarea:focus-visible { outline: 2px solid var(--wood); outline-offset: 2px; }
+  .actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  button {
+    font: inherit; font-size: var(--fs-s); letter-spacing: 0.1em; text-transform: uppercase; font-weight: 500;
+    padding: 10px 18px; border-radius: 2px; border: 1px solid var(--fg); background: var(--fg); color: var(--bg); cursor: pointer;
+  }
+  button:hover { opacity: 0.88; }
+  button:focus-visible { outline: 2px solid var(--wood); outline-offset: 3px; }
+  .status { font-size: var(--fs-s); color: var(--ok); min-height: 1.4em; }
+  .note { font-size: var(--fs-s); color: var(--muted); }
+
+  footer { font-size: var(--fs-s); color: var(--muted); border-top: 1px solid var(--line); padding-top: 20px; }
+
+  @media (prefers-reduced-motion: reduce) { .bar span { transition: none; } }
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <p class="brands"><span>Aracena Studio</span><span>Arpad Studio</span><span>Kormós</span></p>
+    <h1>Material que necesitamos para el sitio web</h1>
+    <p class="lead">El sitio ya funciona en local con fotos y textos de muestra tomados de Instagram y del catálogo de Canva. Para publicarlo necesitamos los originales y algunos datos que solo ustedes tienen. Marquen cada punto a medida que lo envíen.</p>
+    <div class="progress" aria-live="polite">
+      <div class="progress-row"><span>Avance de entrega</span><span class="num" id="count">0 de 0 puntos</span></div>
+      <div class="bar" aria-hidden="true"><span id="bar"></span></div>
+      <p class="note">Las marcas se guardan solo en este navegador.</p>
+    </div>
+  </header>
+
+  <!-- ================= Cómo enviarlo ================= -->
+  <section aria-labelledby="como">
+    <div class="section-head">
+      <p class="eyebrow">Antes de empezar</p>
+      <h2 id="como">Cómo enviarlo</h2>
+    </div>
+    <p>Lo más cómodo es una carpeta compartida en Google Drive o un envío por WeTransfer, con esta estructura. No hace falta llenarla toda de una vez: pueden ir subiendo por partes.</p>
+<pre class="tree">ARPAD/
+├── 01-marca/         logos en vector, colores y tipografías
+├── 02-textos/        presentación, trayectoria, validación de textos
+├── 03-equipo/        retratos y datos de cada persona
+├── 04-testimonios/
+└── 05-proyectos/
+    └── nombre-del-proyecto/   fotos, antes/después y ficha.txt
+KORMOS/
+├── 01-marca/
+├── 02-muestras/      foto de cada madera y tela
+├── 03-productos/
+│   └── KR-OT-01-ottoman-bruma/  fotos, ficha.txt, .skp, .dwg, .pdf
+└── 04-taller-y-proyectos/
+ARACENA/
+├── 01-marca/
+├── 02-paquetes/      datos de cada paquete
+└── 03-proyectos/
+    └── nombre-del-proyecto/   renders en alta y ficha.txt</pre>
+
+    <div class="specs">
+      <div class="spec">
+        <h3>Fotos y renders</h3>
+        <p>Archivos originales en JPG, de 2400 px o más en el lado largo. No sirven las descargadas de Instagram o WhatsApp porque llegan comprimidas. Sin marcas de agua ni textos encima.</p>
+      </div>
+      <div class="spec">
+        <h3>Piezas recortadas</h3>
+        <p>PNG con fondo transparente, de 2000 px o más. Se muestran enteras sobre fondo lino en el catálogo.</p>
+      </div>
+      <div class="spec">
+        <h3>Muestras de material</h3>
+        <p>Foto cuadrada de cada madera y tela, de cerca y con luz pareja, de 800 × 800 px o más.</p>
+      </div>
+      <div class="spec">
+        <h3>Archivos 3D</h3>
+        <p>.skp, .dwg y ficha técnica en .pdf, con el código de la pieza en el nombre del archivo: <span class="num">KR-OT-01-ottoman-bruma.skp</span>. Se descargan libremente desde la web.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= Las tres marcas ================= -->
+  <section aria-labelledby="general">
+    <div class="section-head">
+      <p class="eyebrow">Las tres marcas</p>
+      <h2 id="general">Identidad, contacto y permisos</h2>
+    </div>
+    <ul class="checks">
+      <li class="check"><input type="checkbox" id="g-logos"><label for="g-logos"><strong>Logos en vector de las tres marcas <span class="pill high">Prioridad</span></strong><span class="detail">SVG, AI o PDF vectorial, con fondo transparente, en versión clara y oscura. Los PNG que tenemos sirven de muestra pero pierden calidad al ampliarse, y el monograma animado de la portada necesita el vector.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-aracena-logo"><label for="g-aracena-logo"><strong>Logo limpio de Aracena Studio <span class="pill high">Prioridad</span></strong><span class="detail">Los archivos recibidos son mockups con textura de papel. Además, el "LOGOS AP.pdf" de la carpeta de Aracena es el mismo archivo de Arpad.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-kormos-logo"><label for="g-kormos-logo"><strong>Logotipo oficial de Kormós</strong><span class="detail">Conviven dos versiones: la sans geométrica de la tarjeta ("KORMÓS / FURNITURE DESIGN") y la serif del catálogo de Canva. Hoy la web usa la de la tarjeta. Confirmen cuál es la oficial.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-manual"><label for="g-manual"><strong>Manual de marca, o al menos colores y tipografías</strong><span class="detail">Los colores de la web se sacaron de los logos y de Instagram (Arpad azul marino, Kormós nogal y lino, Aracena verde bosque). Si tienen códigos oficiales o tipografías con licencia, los ajustamos.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-heros"><label for="g-heros"><strong>Fotos grandes para la portada y los inicios <span class="pill high">Prioridad</span></strong><span class="detail">Mínimo 3 por marca, horizontales, en alta y con luz y encuadre parecidos entre marcas para que ninguna destaque sobre las otras. Son las primeras imágenes que se ven.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-contacto"><label for="g-contacto"><strong>Correo de Arpad Studio y de Aracena Studio</strong><span class="detail">De Kormós tenemos kormosfurniture@gmail.com. El WhatsApp único para las tres marcas es 849-472-2473.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-redes"><label for="g-redes"><strong>Redes oficiales que deben aparecer en el pie de página</strong><span class="detail">Tenemos Instagram de las tres. Confirmen si van TikTok, Facebook y Behance, con sus enlaces, y si @aracenastudio2 debe aparecer o no.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-ubicacion"><label for="g-ubicacion"><strong>Ubicación y horario a mostrar</strong> <span class="pill opt">Opcional</span><span class="detail">Ciudad o dirección del estudio y del taller, y horario de atención, si quieren que aparezcan.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-derechos"><label for="g-derechos"><strong>Derechos de las imágenes <span class="pill high">Prioridad</span></strong><span class="detail">Confirmen que las fotos de producto y las texturas del catálogo de Canva son propias y no de stock. Para los renders hechos a terceros (Amanda Musa ID, Xenarch Studio), confirmen el permiso para publicarlos con su crédito.</span></label></li>
+      <li class="check"><input type="checkbox" id="g-panel"><label for="g-panel"><strong>Quién administrará el panel</strong><span class="detail">Nombre y correo de cada persona que subirá productos, proyectos y paquetes, para crearle su cuenta.</span></label></li>
+    </ul>
+  </section>
+
+  <!-- ================= Kormós ================= -->
+  <section aria-labelledby="kormos">
+    <div class="section-head" data-brand="kormos">
+      <p class="eyebrow">Kormós</p>
+      <h2 id="kormos">Catálogo, acabados y archivos 3D</h2>
+    </div>
+    <p>El catálogo tiene hoy 26 piezas cargadas con los textos de la Colección Origen. Para cada pieza necesitamos una carpeta con:</p>
+<pre class="template">ficha.txt
+  Nombre:
+  Código:                 (ej. KR-OT-01)
+  Medidas (cm):           alto × ancho × fondo
+  ¿Se fabrica a medida?:  sí / no
+  Materiales:             estructura, tapizado, herrajes…
+  Acabados que ofrece:    maderas y/o telas de la lista oficial
+  Precio:                 monto y moneda (RD$ o US$), o "a consultar"
+  Estado:                 disponible / bajo pedido / próximamente / agotado
+  Descripción:            (si quieren cambiar la actual)
+
+fotos/       foto principal + fotos en ambiente + una foto por cada acabado si la tienen
+archivos/    .skp  .dwg  .pdf</pre>
+    <p class="note">Si una pieza no tiene foto en cada acabado, la web muestra la foto general con la muestra del material elegido. Aracena puede renderizar las variantes que falten.</p>
+
+    <ul class="checks">
+      <li class="check"><input type="checkbox" id="k-fichas"><label for="k-fichas"><strong>Ficha completa de cada pieza <span class="pill high">Prioridad</span></strong><span class="detail">Medidas reales, materiales, acabados, precio y estado según la plantilla. Hoy ninguna pieza tiene medidas cargadas.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-fotos"><label for="k-fotos"><strong>Fotos en alta de cada pieza</strong><span class="detail">Recorte en PNG transparente para el catálogo y fotos en ambiente para la ficha.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-3d"><label for="k-3d"><strong>Archivos .skp, .dwg y .pdf</strong><span class="detail">Mientras falten, el botón de la ficha dice "Pedir por WhatsApp". Para empezar basta con 2 o 3 piezas. Ustedes deciden el nivel de detalle de cada modelo.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-precios"><label for="k-precios"><strong>Precios reales</strong><span class="detail">El catálogo de Canva muestra US$120 en todas las páginas y parece un valor de relleno. Hoy solo el Ottoman Nórdico muestra precio (US$120). Confirmen ese y los demás, o "a consultar".</span></label></li>
+      <li class="check"><input type="checkbox" id="k-maderas"><label for="k-maderas"><strong>Lista oficial de maderas y foto de cada muestra</strong><span class="detail">La web ofrece hoy Nogal, Roble, Teka, Caoba, Cedro y Pino tratado. El catálogo menciona también Congona, Roble brasileño, MDF Jequitibá, MDF laminado, Melamina y MDF hidrófugo. Indiquen cuáles se ofrecen al público y confirmen que las texturas del catálogo son las reales.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-telas"><label for="k-telas"><strong>Lista oficial de telas y foto de cada muestra</strong><span class="detail">Hoy: Lino blanco, Crema, Bouclé gris y Verde olivo para los ottomanes, más Moca en el bench.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-colores"><label for="k-colores"><strong>Colores de los cuadros de madera</strong><span class="detail">Los cuadros muestran Madera natural, Tierra, Salvia y Arena con colores aproximados. Envíen los colores reales con foto.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-taller"><label for="k-taller"><strong>Fotos del taller y de piezas instaladas</strong><span class="detail">Para la sección "El proceso también es parte de la pieza": fotos de fabricación (las de las notas a mano funcionan muy bien) y piezas ya entregadas en casa del cliente.</span></label></li>
+      <li class="check"><input type="checkbox" id="k-atelier"><label for="k-atelier"><strong>Datos prácticos para el cliente</strong> <span class="pill opt">Opcional</span><span class="detail">Tiempo habitual de fabricación, zonas de entrega, anticipo y formas de pago. Con eso armamos preguntas frecuentes en el Atelier.</span></label></li>
+    </ul>
+
+    <h3>Piezas cargadas y lo que falta confirmar en cada una</h3>
+    <div class="table-scroll" tabindex="0" role="region" aria-label="Piezas del catálogo">
+      <table>
+        <thead><tr><th scope="col">Código</th><th scope="col">Pieza en la web</th><th scope="col">Además de la ficha, fotos y archivos</th></tr></thead>
+        <tbody>
+          <tr><td class="code">KR-OT-01</td><td>Ottoman Bruma</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-OT-02</td><td>Ottoman Trama</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-OT-03</td><td>Ottoman Nórdico</td><td><span class="flag">Confirmar precio de US$120</span></td></tr>
+          <tr><td class="code">KR-OT-04</td><td>Ottoman Arlo</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-OT-05</td><td>Ottoman Nodo</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-AX-01</td><td>Mesa auxiliar Ela</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-AX-02</td><td>Mesa auxiliar 02</td><td><span class="flag">Falta el nombre</span></td></tr>
+          <tr><td class="code">KR-AX-03</td><td>Mesa auxiliar 03</td><td><span class="flag">Falta el nombre</span></td></tr>
+          <tr><td class="code">KR-AX-04</td><td>Mesa auxiliar 04</td><td><span class="flag">Falta el nombre</span></td></tr>
+          <tr><td class="code">KR-MN-01</td><td>Mesa de noche Aura</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-MN-02</td><td>Mesa de noche Alma</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-MN-03</td><td>Mesa de noche Noa</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-MN-04</td><td>Mesa de noche Lena</td><td>Nada más</td></tr>
+          <tr><td class="code">KR-MC-01</td><td>Mesa de centro a dos alturas</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-MC-02</td><td>Mesa de centro baja</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-MC-03</td><td>Mesa de centro orgánica</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-ES-01</td><td>Marco orgánico</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-ES-02</td><td>Marco en arco</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-ES-03</td><td>Marco curvo</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-ES-04</td><td>Marco cordón</td><td><span class="flag">Confirmar nombre (descriptivo provisional)</span></td></tr>
+          <tr><td class="code">KR-CU-01</td><td>Cuadro relieve geométrico</td><td><span class="flag">Confirmar nombre y colores</span></td></tr>
+          <tr><td class="code">KR-CU-02</td><td>Cuadro relieve tierra</td><td><span class="flag">Confirmar nombre y colores</span></td></tr>
+          <tr><td class="code">KR-CU-03</td><td>Cuadro relieve salvia</td><td><span class="flag">Confirmar nombre y colores</span></td></tr>
+          <tr><td class="code">KR-AM-01</td><td>Bench tapizado</td><td>Confirmar nombre. Ya tiene fotos en verde olivo y moca</td></tr>
+          <tr><td class="code">KR-AM-02</td><td>Mesa de comedor estriada</td><td>Confirmar nombre</td></tr>
+          <tr><td class="code">KR-AM-03</td><td>Mueble de baño estriado</td><td>Confirmar nombre</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">¿Hay piezas que no deben salir, o piezas nuevas para añadir (muebles de TV, sillas, cocinas modulares, coffee bar)? Indíquenlo con su ficha. Las piezas nuevas se pueden subir directamente desde el panel.</p>
+  </section>
+
+  <!-- ================= Arpad ================= -->
+  <section aria-labelledby="arpad">
+    <div class="section-head" data-brand="arpad">
+      <p class="eyebrow">Arpad Studio</p>
+      <h2 id="arpad">Proyectos, equipo y textos</h2>
+    </div>
+    <p>Arpad es la marca principal y su sección es la más completa. Hoy muestra 8 proyectos con nombres descriptivos que pusimos nosotros porque las publicaciones no los traen.</p>
+<pre class="template">ficha.txt de cada proyecto
+  Nombre del proyecto:
+  Ubicación:              (ciudad o zona; puede omitirse)
+  Año:
+  Tipo:                   residencial / comercial / remodelación / interiorismo
+  Servicios:              diseño, remodelación, construcción…
+  Descripción:            2 o 3 frases: punto de partida, propuesta, resultado
+  Créditos:               quién participó (render, mobiliario, cliente)
+  Antes y después:        indicar qué fotos van en pareja (mismo ángulo)</pre>
+    <ul class="checks">
+      <li class="check"><input type="checkbox" id="a-proyectos"><label for="a-proyectos"><strong>Ficha y fotos en alta de cada proyecto <span class="pill high">Prioridad</span></strong><span class="detail">Proyectos en la web hoy: Fachada reinterpretada · De tradicional a contemporáneo · Residencia luz y naturaleza · Villa elegancia contemporánea · Área social con piscina · Un hall donde el diseño habla · Tienda en E-Design · Jardín interior bajo mezzanine. Lo ideal son entre 6 y 10 proyectos.</span></label></li>
+      <li class="check"><input type="checkbox" id="a-antes"><label for="a-antes"><strong>Pares de antes y después</strong><span class="detail">Es su contenido estrella. La comparación funciona si ambas fotos se toman desde el mismo punto y con el mismo encuadre.</span></label></li>
+      <li class="check"><input type="checkbox" id="a-equipo"><label for="a-equipo"><strong>Equipo: nombres, cargos, retratos y permiso <span class="pill high">Prioridad</span></strong><span class="detail">La web muestra "Arq. Beamel P." y "Arq. Brayant A.", tomados de Instagram, con iniciales en lugar de foto. Necesitamos nombre completo o el que prefieran, cargo, una bio de 2 líneas y un retrato vertical con la misma luz para ambos. No publicaremos nombres sin su aprobación.</span></label></li>
+      <li class="check"><input type="checkbox" id="a-testimonios"><label for="a-testimonios"><strong>Testimonios reales</strong> <span class="pill opt">Opcional</span><span class="detail">De 2 a 4, con nombre del cliente (o iniciales), proyecto y permiso para publicarlos. No inventaremos testimonios: si no hay, la sección no aparece.</span></label></li>
+      <li class="check"><input type="checkbox" id="a-textos"><label for="a-textos"><strong>Revisión de textos</strong><span class="detail">Los textos de Inicio, Servicios (Diseño arquitectónico, Diseño de interiores, E-Design, Remodelación, Modelado 3D, Construcción y ejecución), Proceso y Estudio se redactaron a partir de Instagram. Revísenlos en la web y marquen qué cambiar.</span></label></li>
+      <li class="check"><input type="checkbox" id="a-trayectoria"><label for="a-trayectoria"><strong>Trayectoria en datos</strong> <span class="pill opt">Opcional</span><span class="detail">Año de fundación (tenemos 2020), número aproximado de proyectos, zonas donde trabajan. Solo publicamos cifras que ustedes confirmen.</span></label></li>
+      <li class="check"><input type="checkbox" id="a-materialidad"><label for="a-materialidad"><strong>Fotos de materiales para la sección Materialidad</strong> <span class="pill opt">Opcional</span><span class="detail">Combinaciones como "Nogal + verde profundo + piedra clara", con foto de cada material.</span></label></li>
+    </ul>
+  </section>
+
+  <!-- ================= Aracena ================= -->
+  <section aria-labelledby="aracena">
+    <div class="section-head" data-brand="aracena">
+      <p class="eyebrow">Aracena Studio</p>
+      <h2 id="aracena">Paquetes de render y portafolio</h2>
+    </div>
+    <ul class="checks">
+      <li class="check"><input type="checkbox" id="r-paquetes"><label for="r-paquetes"><strong>Datos de cada paquete <span class="pill high">Prioridad</span></strong><span class="detail">Paquetes en la web hoy: Render interior · Render exterior · Recorrido virtual · Material para ventas. Para cada uno confirmen qué incluye, el plazo habitual de entrega y si se muestra un precio "desde" (monto y moneda) o se mantiene "precio según escala".</span></label></li>
+      <li class="check"><input type="checkbox" id="r-proyectos"><label for="r-proyectos"><strong>Renders en alta y ficha de cada proyecto</strong><span class="detail">Portafolio hoy: Terraza frente al mar (Las Terrenas) · Living geométrico · Habitación principal · Baño en mármol y madera · Living en Punta Cana · Habitación caribeña · Villa contemporánea · Fachada residencial · Hall de entrada. Para cada uno: nombre real, ubicación, tipo (interior o exterior) y autor del diseño original para el crédito.</span></label></li>
+      <li class="check"><input type="checkbox" id="r-faq"><label for="r-faq"><strong>Revisión de las preguntas frecuentes</strong><span class="detail">Se tomaron del carrusel "Así se construyen nuestros renders": presupuestos, cotización por canales oficiales, agenda, anticipo y carta de compromiso, y trabajos con diseños de otros estudios.</span></label></li>
+      <li class="check"><input type="checkbox" id="r-textos"><label for="r-textos"><strong>Revisión de textos del inicio y del proceso</strong><span class="detail">También se redactaron a partir de Instagram.</span></label></li>
+    </ul>
+  </section>
+
+  <!-- ================= Más adelante ================= -->
+  <section aria-labelledby="despues">
+    <div class="section-head">
+      <p class="eyebrow">Para la publicación</p>
+      <h2 id="despues">Cuando decidamos subirla</h2>
+    </div>
+    <p>Esto no hace falta ahora, pero conviene ir pensándolo.</p>
+    <ul class="checks">
+      <li class="check"><input type="checkbox" id="p-dominio"><label for="p-dominio"><strong>Dominio</strong><span class="detail">El nombre de la dirección web, si ya lo tienen o cuál prefieren comprar.</span></label></li>
+      <li class="check"><input type="checkbox" id="p-correo"><label for="p-correo"><strong>Correo para avisos y suscripciones</strong><span class="detail">Desde qué correo se enviarán los avisos de piezas y proyectos nuevos a los suscriptores.</span></label></li>
+      <li class="check"><input type="checkbox" id="p-ingles"><label for="p-ingles"><strong>Versión en inglés</strong> <span class="pill opt">Opcional</span><span class="detail">El sitio está preparado para traducirse. Indiquen si la quieren desde el lanzamiento o más adelante.</span></label></li>
+    </ul>
+  </section>
+
+  <!-- ================= Mensaje para WhatsApp ================= -->
+  <section aria-labelledby="mensaje">
+    <div class="section-head">
+      <p class="eyebrow">Resumen</p>
+      <h2 id="mensaje">Mensaje corto para enviar</h2>
+    </div>
+    <div class="message">
+      <label for="msg" class="note">Pueden editarlo antes de copiarlo.</label>
+<textarea id="msg">Hola, el sitio web de Aracena Studio, Arpad Studio y Kormós ya está avanzado. Para publicarlo necesitamos el material original. Lo más urgente:
+
+1. Logos en vector (SVG, AI o PDF) de las tres marcas, y el logo limpio de Aracena.
+2. Fotos en alta (2400 px o más, sin pasar por Instagram ni WhatsApp) para la portada: mínimo 3 por marca.
+3. Kormós: ficha de cada pieza (medidas, materiales, acabados, precio o "a consultar", estado), fotos en alta, y los archivos .skp, .dwg y .pdf de 2 o 3 piezas para empezar.
+4. Arpad: nombre real, descripción y fotos en alta de cada proyecto, con los pares de antes y después; datos y retratos del equipo.
+5. Aracena: qué incluye, plazo y precio "desde" de cada paquete; renders en alta con el crédito del diseño original.
+6. Confirmar los derechos de las fotos del catálogo de Canva y el permiso para publicar los renders hechos para otros estudios.
+
+Les comparto la lista completa con el detalle. Pueden enviarlo por Google Drive o WeTransfer, por partes.</textarea>
+      <div class="actions">
+        <button type="button" id="copy">Copiar mensaje</button>
+        <span class="status" id="copy-status" role="status"></span>
+      </div>
+    </div>
+  </section>
+
+  <footer>Preparado por Trinitaria Digital · Octubre de 2026</footer>
+</div>
+
+<script>
+  (function () {
+    var KEY = "solicitud-material-v1";
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('.check input[type="checkbox"]'));
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { saved = {}; }
+    boxes.forEach(function (b) { if (saved[b.id]) b.checked = true; });
+
+    function update() {
+      var done = boxes.filter(function (b) { return b.checked; }).length;
+      document.getElementById("count").textContent = done + " de " + boxes.length + " puntos";
+      document.getElementById("bar").style.width = (boxes.length ? (done / boxes.length) * 100 : 0) + "%";
+    }
+    boxes.forEach(function (b) {
+      b.addEventListener("change", function () {
+        saved[b.id] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+        update();
+      });
+    });
+    update();
+
+    var msg = document.getElementById("msg");
+    var status = document.getElementById("copy-status");
+    document.getElementById("copy").addEventListener("click", function () {
+      function fallback() {
+        msg.focus();
+        msg.select();
+        status.textContent = "Texto seleccionado: cópialo con Ctrl+C.";
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(msg.value).then(function () {
+          status.textContent = "Mensaje copiado.";
+        }, fallback);
+      } else {
+        fallback();
+      }
+    });
+  })();
+</script>

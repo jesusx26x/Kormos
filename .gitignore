@@ -1,0 +1,22 @@
+# Dependencias y builds
+node_modules/
+.next/
+out/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Secretos y contenido local del panel (nunca al repositorio)
+.env
+.env.*
+!.env.example
+web/data/
+web/uploads/
+*.db
+*.db-journal
+
+# Sistema y editores
+.DS_Store
+Thumbs.db
+desktop.ini
+*.log

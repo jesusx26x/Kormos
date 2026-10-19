@@ -1,0 +1,89 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { startTransition, useEffect, useState, ViewTransition } from "react";
+import type { ProductCardInfo } from "./catalogData";
+import styles from "./Kormos.module.css";
+
+type Category = { slug: string; name: string };
+
+/**
+ * Catálogo con filtro por categoría. La categoría se refleja en el hash
+ * (#ottomanes) para poder compartir el enlace sin depender de searchParams.
+ */
+export function CatalogGrid({ products, categories, filters = true }: { products: ProductCardInfo[]; categories: Category[]; filters?: boolean }) {
+  const [filter, setFilter] = useState("todos");
+
+  useEffect(() => {
+    if (!filters) return;
+    const read = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      setFilter(categories.some((c) => c.slug === hash) ? hash : "todos");
+    };
+    read();
+    window.addEventListener("hashchange", read);
+    return () => window.removeEventListener("hashchange", read);
+  }, [categories, filters]);
+
+  function choose(slug: string) {
+    startTransition(() => setFilter(slug));
+    const url = slug === "todos" ? window.location.pathname : `${window.location.pathname}#${slug}`;
+    window.history.replaceState(window.history.state, "", url);
+  }
+
+  const visible = filter === "todos" ? products : products.filter((p) => p.categorySlug === filter);
+
+  return (
+    <div>
+      {filters ? (
+      <div className={styles.filters} role="group" aria-label="Filtrar por categoría">
+        {[{ slug: "todos", name: "Todo" }, ...categories].map((c) => (
+          <button key={c.slug} type="button" className={styles.filter} aria-pressed={filter === c.slug} onClick={() => choose(c.slug)}>
+            {c.name}
+          </button>
+        ))}
+        <p className={styles.count} role="status" aria-live="polite">
+          {visible.length} {visible.length === 1 ? "pieza" : "piezas"}
+        </p>
+      </div>
+      ) : null}
+
+      <ul className={styles.catalog}>
+        {visible.map((p) => (
+          <ViewTransition key={p.slug} name={`pieza-${p.slug}`}>
+            <li className={styles.card}>
+              <Link href={p.href} className={styles.cardLink}>
+                <span className={styles.cardMedia} data-cutout={p.image.cutout || undefined}>
+                  <Image
+                    src={p.image.src}
+                    alt={p.image.alt}
+                    fill
+                    sizes="(max-width: 767px) 50vw, (max-width: 1099px) 33vw, 25vw"
+                    placeholder={p.image.blurDataURL ? "blur" : "empty"}
+                    blurDataURL={p.image.blurDataURL ?? undefined}
+                    className={p.image.cutout ? styles.contain : styles.cover}
+                  />
+                  <span className={styles.badge} data-status={p.status}>
+                    {p.statusLabel}
+                  </span>
+                </span>
+                <span className={styles.cardCat}>{p.category}</span>
+                <span className={styles.cardName}>{p.name}</span>
+                <span className={styles.cardFoot}>
+                  <span className={styles.cardPrice}>{p.price}</span>
+                  <span className={styles.dots} aria-label={`${p.swatches.length} acabados`}>
+                    {p.swatches.slice(0, 4).map((s) => (
+                      <span key={s.name} className={styles.dot} style={s.src ? { backgroundImage: `url(${s.src})` } : { background: s.hex }} title={s.name} />
+                    ))}
+                    {p.swatches.length > 4 ? <span className={styles.more}>+{p.swatches.length - 4}</span> : null}
+                  </span>
+                </span>
+              </Link>
+            </li>
+          </ViewTransition>
+        ))}
+      </ul>
+    </div>
+  );
+}

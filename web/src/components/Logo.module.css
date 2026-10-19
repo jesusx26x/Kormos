@@ -1,0 +1,63 @@
+/* Logo por máscara: el color es el del texto */
+.mask {
+  display: block;
+  height: 100%;
+  width: auto;
+  background-color: currentColor;
+  -webkit-mask: var(--logo-url) center / contain no-repeat;
+  mask: var(--logo-url) center / contain no-repeat;
+}
+
+/* Logo en línea */
+.svg {
+  display: block;
+  width: auto;
+  height: 100%;
+  overflow: visible;
+}
+
+.svg path {
+  fill: currentColor;
+}
+
+/* Trazo que se dibuja y luego se rellena (≈2s, se ve una vez por sesión) */
+.draw path {
+  fill-opacity: 0;
+  stroke: currentColor;
+  stroke-width: var(--logo-stroke);
+  stroke-linejoin: round;
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation:
+    trazo 1s var(--ease-in-out) var(--logo-delay) forwards,
+    relleno 0.5s var(--ease-elegant) calc(var(--logo-delay) + 0.75s) forwards;
+}
+
+/* Los keyframes van en cada módulo: CSS Modules les da ámbito local */
+@keyframes trazo {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes relleno {
+  to {
+    fill-opacity: 1;
+    stroke-opacity: 0;
+  }
+}
+
+/* Si la intro ya se vio, el logo aparece completo sin repetir el trazo */
+:global(html[data-intro="visto"]) .draw path {
+  animation: none;
+  fill-opacity: 1;
+  stroke: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .draw path {
+    animation: none;
+    fill-opacity: 1;
+    stroke: none;
+  }
+}

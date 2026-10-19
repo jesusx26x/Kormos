@@ -1,0 +1,142 @@
+.tabs {
+  display: grid;
+  gap: 32px;
+}
+
+.list {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin-inline: calc(-1 * var(--gutter));
+  padding-inline: var(--gutter);
+  border-bottom: 1px solid var(--line);
+}
+
+.list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 10px;
+  flex: none;
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 0.9375rem;
+  color: var(--muted);
+  white-space: nowrap;
+  transition: color var(--dur-ui) var(--ease-out);
+}
+
+.tab::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  background: var(--brand);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+.tab[aria-selected="true"] {
+  color: var(--text);
+}
+
+.tab[aria-selected="true"]::after {
+  transform: scaleX(1);
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    color: var(--text);
+  }
+}
+
+.num {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.16em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.panel {
+  animation: panel-entra 0.32s var(--ease-out) both;
+}
+
+.panel:focus-visible {
+  outline-offset: 8px;
+}
+
+/* Con teclado el cambio es inmediato */
+.panel[data-instant] {
+  animation: none;
+}
+
+@keyframes panel-entra {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Escritorio: lista vertical a la izquierda, panel a la derecha */
+@media (min-width: 960px) {
+  .tabs {
+    grid-template-columns: minmax(240px, 0.8fr) 2fr;
+    gap: clamp(40px, 6vw, 96px);
+    align-items: start;
+  }
+  .list {
+    flex-direction: column;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    overflow: visible;
+    border-bottom: 0;
+    border-left: 1px solid var(--line);
+    position: sticky;
+    top: calc(var(--header-h) + 32px);
+  }
+  .tab {
+    padding: 16px 20px;
+    font-size: 1.0625rem;
+  }
+  .tab::after {
+    left: -1px;
+    right: auto;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    height: auto;
+    transform: scaleY(0);
+    transform-origin: top center;
+  }
+  .tab[aria-selected="true"]::after {
+    transform: scaleY(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel {
+    animation-name: panel-fundido;
+  }
+}
+
+@keyframes panel-fundido {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

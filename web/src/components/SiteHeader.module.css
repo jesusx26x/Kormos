@@ -1,0 +1,373 @@
+.header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: var(--z-header);
+  color: var(--on-image);
+  transition:
+    background-color var(--dur-ui) var(--ease-out),
+    color var(--dur-ui) var(--ease-out),
+    box-shadow var(--dur-ui) var(--ease-out);
+}
+
+/* Sobre el hero: degradado sutil para garantizar contraste del logo y el menú */
+.header::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 -40px;
+  background: linear-gradient(to bottom, rgba(15, 12, 10, 0.45), rgba(15, 12, 10, 0));
+  pointer-events: none;
+  transition: opacity var(--dur-ui) var(--ease-out);
+}
+
+/* Páginas sin foto de cabecera (ficha de producto): cabecera sólida desde el
+   primer pintado, sin JS. La página lo pide con [data-solid-header] en su
+   elemento raíz. Next conserva oculta la página anterior (React <Activity>
+   le pone display:none en línea), por eso se ignora si tiene "display". */
+.header[data-solid],
+:global(body:has([data-solid-header]:not([style*="display"]))) .header {
+  color: var(--text);
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: saturate(1.2) blur(14px);
+  -webkit-backdrop-filter: saturate(1.2) blur(14px);
+  box-shadow: 0 1px 0 var(--line);
+}
+
+.header[data-solid]::before,
+:global(body:has([data-solid-header]:not([style*="display"]))) .header::before {
+  opacity: 0;
+}
+
+.bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  height: var(--header-h);
+  width: min(100% - 2 * var(--gutter), var(--container));
+  margin-inline: auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin-right: auto;
+}
+
+/* ---- Navegación de escritorio ---- */
+.nav {
+  display: none;
+}
+
+.nav ul {
+  display: flex;
+  gap: clamp(20px, 2.4vw, 40px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.navLink {
+  position: relative;
+  display: inline-block;
+  padding-block: 12px;
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+/* Página actual: subrayado fijo */
+.navLink[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+.sheetLink[aria-current="page"] {
+  color: var(--accent);
+}
+
+@media (hover: hover) {
+  .navLink:hover::after {
+    transform: scaleX(1);
+    transform-origin: left center;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ---- Popover "Grupo" ---- */
+.group {
+  position: relative;
+  display: none;
+}
+
+.groupButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding-inline: 12px;
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.chevron {
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid currentColor;
+  border-bottom: 1px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+.groupButton[aria-expanded="true"] .chevron {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: var(--z-popover);
+  width: 320px;
+  padding: 22px;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--line);
+  box-shadow: 0 24px 60px -24px rgba(15, 12, 10, 0.35);
+  /* Nace del botón (origen consciente) y nunca desde scale(0) */
+  transform-origin: top right;
+  transform: scale(0.96) translateY(-4px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform var(--dur-ui-exit) var(--ease-out),
+    opacity var(--dur-ui-exit) var(--ease-out),
+    visibility 0s linear var(--dur-ui-exit);
+}
+
+.popover[data-open] {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform var(--dur-ui) var(--ease-out),
+    opacity var(--dur-ui) var(--ease-out),
+    visibility 0s;
+}
+
+.popover ul {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.popoverTitle {
+  margin-bottom: 14px;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.popoverLink,
+.sheetBrand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 10px;
+  margin-inline: -10px;
+  transition: background-color var(--dur-ui) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .popoverLink:hover {
+    background: color-mix(in srgb, var(--text) 6%, transparent);
+  }
+}
+
+.popoverMark {
+  height: 30px;
+  width: 30px;
+  flex: none;
+  object-fit: contain;
+}
+
+.popoverName {
+  display: block;
+  font-size: 0.95rem;
+  line-height: 1.2;
+}
+
+.popoverDesc {
+  display: block;
+  margin-top: 4px;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.popoverHome {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+/* ---- CTA ---- */
+.cta {
+  min-height: 44px;
+  padding: 0.7em 1.3em;
+}
+
+:global(body:not(:has([data-solid-header]:not([style*="display"])))) .header:not([data-solid]) .cta {
+  --btn-bg: var(--on-image);
+  --btn-fg: #1e1b18;
+}
+
+/* En móvil solo se ve el icono, pero el texto sigue siendo el nombre del enlace */
+.ctaText {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.menuButton {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+}
+
+/* ---- Menú móvil a pantalla completa ---- */
+.sheet {
+  position: fixed;
+  inset: var(--header-h) 0 0;
+  display: grid;
+  align-content: space-between;
+  gap: 40px;
+  padding: 32px var(--gutter) max(32px, env(safe-area-inset-bottom));
+  overflow-y: auto;
+  background: var(--bg);
+  color: var(--text);
+  /* Se revela de arriba abajo con clip-path (GPU, interrumpible) */
+  clip-path: inset(0 0 100% 0);
+  visibility: hidden;
+  transition:
+    clip-path 0.32s var(--ease-in-out),
+    visibility 0s linear 0.32s;
+}
+
+.sheet[data-open] {
+  clip-path: inset(0 0 0 0);
+  visibility: visible;
+  transition:
+    clip-path 0.5s var(--ease-in-out),
+    visibility 0s;
+}
+
+.sheetNav ul,
+.sheetGroup ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sheetLink {
+  display: block;
+  padding-block: 10px;
+  font-size: clamp(1.9rem, 7vw, 2.8rem);
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity var(--dur-ui-exit) var(--ease-out),
+    transform var(--dur-ui-exit) var(--ease-out);
+}
+
+.sheet[data-open] .sheetLink {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(0.12s + var(--i) * 0.05s);
+}
+
+.sheetGroup {
+  display: grid;
+  gap: 14px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 640px) {
+  .ctaText {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .nav,
+  .group {
+    display: block;
+  }
+  .nav {
+    margin-right: 8px;
+  }
+  .menuButton,
+  .sheet {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet,
+  .sheet[data-open] {
+    clip-path: none;
+    opacity: 0;
+    transition: opacity var(--dur-ui) linear, visibility 0s linear var(--dur-ui);
+  }
+  .sheet[data-open] {
+    opacity: 1;
+    transition: opacity var(--dur-ui) linear;
+  }
+  .sheetLink,
+  .popover {
+    transform: none;
+  }
+}

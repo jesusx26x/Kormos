@@ -1,0 +1,65 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-preloader);
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 2.25rem;
+  padding: var(--gutter);
+  background: #17130f;
+  color: #f3eee6;
+  cursor: pointer;
+  /* El velo sube cuando los monogramas terminan de rellenarse */
+  animation: velo-fuera 0.6s var(--ease-in-out) 1.35s forwards;
+}
+
+:global(html[data-intro="visto"]) .preloader {
+  display: none;
+}
+
+.marks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(28px, 7vw, 88px);
+}
+
+.marks > :global(svg) {
+  height: clamp(46px, 9vw, 92px);
+}
+
+.caption {
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  text-align: center;
+  color: rgba(243, 238, 230, 0.62);
+  opacity: 0;
+  animation: fundido-sube 0.7s var(--ease-out) 0.5s forwards;
+}
+
+@keyframes velo-fuera {
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+@keyframes fundido-sube {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .preloader {
+    display: none;
+  }
+}

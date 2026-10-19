@@ -1,0 +1,67 @@
+import path from "node:path";
+import sharp from "sharp";
+import type { CollectionConfig } from "payload";
+import { anyone, signedIn } from "../access";
+import { revalidateCollection } from "../hooks";
+
+/**
+ * Fotos de productos, acabados y proyectos. Al subir una foto se calcula su
+ * difuminado de carga y se detecta si es un recorte con fondo transparente
+ * (las piezas recortadas se muestran enteras sobre fondo claro).
+ */
+export const Media: CollectionConfig = {
+  slug: "fotos",
+  labels: { singular: "Foto", plural: "Fotos" },
+  admin: {
+    group: "Biblioteca",
+    useAsTitle: "alt",
+    defaultColumns: ["filename", "alt", "cutout", "updatedAt"],
+    description: "Fotos en JPG, PNG o WebP. Para piezas recortadas usa PNG o WebP con fondo transparente.",
+  },
+  access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
+  upload: {
+    // Relativo a web/ (el build mueve este archivo: no se usa import.meta.url)
+    staticDir: path.resolve(process.cwd(), "uploads/fotos"),
+    mimeTypes: ["image/jpeg", "image/png", "image/webp", "image/avif"],
+    // La imagen para compartir (1200×630) se genera bajo demanda: ver app/compartir
+    adminThumbnail: ({ doc }) => (typeof doc.url === "string" ? doc.url : null),
+  },
+  hooks: {
+    beforeChange: [
+      async ({ data, req }) => {
+        const file = req.file?.data;
+        if (!file) return data;
+        const image = sharp(file);
+        const meta = await image.metadata();
+        const blur = await sharp(file).resize(16, 16, { fit: "inside" }).webp({ quality: 40 }).toBuffer();
+        data.blurDataURL = `data:image/webp;base64,${blur.toString("base64")}`;
+        if (meta.hasAlpha) {
+          const stats = await sharp(file).stats();
+          data.cutout = (stats.channels[3]?.min ?? 255) < 250;
+        } else {
+          data.cutout = false;
+        }
+        return data;
+      },
+    ],
+    ...revalidateCollection(["catalogo", "proyectos", "paquetes", "fotos"]),
+  },
+  fields: [
+    {
+      name: "alt",
+      label: "Descripción de la foto",
+      type: "text",
+      required: true,
+      localized: true,
+      admin: { description: 'Qué se ve, en una frase. La leen los buscadores y los lectores de pantalla. Ej.: "Mesa de noche en nogal junto a una cama".' },
+    },
+    {
+      name: "cutout",
+      label: "Recorte con fondo transparente",
+      type: "checkbox",
+      defaultValue: false,
+      admin: { position: "sidebar", description: "Se detecta al subir la foto. Los recortes se muestran enteros sobre fondo claro." },
+    },
+    { name: "blurDataURL", type: "text", admin: { hidden: true } },
+  ],
+};

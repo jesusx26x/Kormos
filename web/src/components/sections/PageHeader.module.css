@@ -1,0 +1,125 @@
+.header {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: max(70svh, 480px);
+  overflow: hidden;
+  background: #17130f;
+  color: var(--on-image);
+}
+
+.image {
+  object-fit: cover;
+  animation: acerca 1.6s var(--ease-out) both;
+}
+
+.shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right, rgba(12, 10, 8, 0.6) 0%, rgba(12, 10, 8, 0.2) 60%, rgba(12, 10, 8, 0) 85%),
+    linear-gradient(to top, rgba(12, 10, 8, 0.8) 0%, rgba(12, 10, 8, 0.15) 60%, rgba(12, 10, 8, 0.4) 100%);
+}
+
+.content {
+  position: relative;
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  padding-block: calc(var(--header-h) + 32px) clamp(48px, 8vh, 88px);
+}
+
+.content > * {
+  animation: sube 0.9s var(--ease-out) both;
+}
+
+.content > :nth-child(2) {
+  animation-delay: 60ms;
+}
+.content > :nth-child(3) {
+  animation-delay: 120ms;
+}
+.content > :nth-child(4) {
+  animation-delay: 180ms;
+}
+
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.85);
+}
+
+.back span {
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+@media (hover: hover) {
+  .back:hover span {
+    transform: translateX(-4px);
+  }
+}
+
+.eyebrow {
+  font-family: var(--eyebrow-font);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: var(--eyebrow-tracking);
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.85);
+}
+
+.title {
+  max-width: 18ch;
+  font-size: clamp(2.2rem, 4.2vw + 1rem, 5rem);
+  text-wrap: balance;
+}
+
+.lead {
+  max-width: 54ch;
+  font-size: var(--fs-lead);
+  font-weight: 300;
+  color: rgba(247, 244, 239, 0.88);
+}
+
+@keyframes acerca {
+  from {
+    transform: scale(1.06);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes sube {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .image {
+    animation: none;
+  }
+  .content > * {
+    animation-name: aparece;
+  }
+}
+
+@keyframes aparece {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

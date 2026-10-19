@@ -1,0 +1,70 @@
+.lockup {
+  display: inline-flex;
+  align-items: center;
+  color: inherit;
+  line-height: 1;
+}
+
+.wordmark {
+  height: var(--lockup-h, 34px);
+}
+
+/* Ajustes ópticos por marca: cada logotipo tiene proporciones distintas */
+.h_kormos {
+  --lockup-h: 30px;
+}
+
+/* El logotipo de Aracena tiene un monograma alto y texto fino: necesita más altura */
+.h_aracena {
+  --lockup-h: 52px;
+}
+
+.h_arpad {
+  --lockup-h: 34px;
+}
+
+.inline {
+  gap: 0.7rem;
+}
+
+.inline .monogram {
+  height: var(--lockup-h);
+}
+
+.text {
+  display: grid;
+  gap: 0.4em;
+}
+
+.name {
+  font-family: var(--font-humanist);
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+}
+
+.sub {
+  white-space: nowrap;
+  font-family: var(--font-humanist);
+  font-size: 0.5rem;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.stacked {
+  flex-direction: column;
+  gap: 1.1rem;
+  text-align: center;
+}
+
+.stacked .monogram {
+  height: var(--lockup-h, 72px);
+}
+
+@media (max-width: 520px) {
+  .inline .sub {
+    display: none;
+  }
+}

@@ -1,0 +1,282 @@
+.hub {
+  --intro-delay: 0.1s;
+  position: relative;
+  height: 100dvh;
+  min-height: 560px;
+  overflow: hidden;
+  background: #17130f;
+  color: var(--on-image);
+}
+
+/* Primera visita: el contenido entra cuando el velo de la precarga se levanta */
+:global(html:not([data-intro="visto"])) .hub {
+  --intro-delay: 1.7s;
+}
+
+.tagline {
+  position: absolute;
+  inset: 0 0 auto;
+  z-index: 3;
+  padding: max(22px, env(safe-area-inset-top)) var(--gutter) 0;
+  font-size: var(--fs-micro);
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  line-height: 1.8;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.82);
+  pointer-events: none;
+  animation: fundido-sube 0.9s var(--ease-out) var(--intro-delay) both;
+}
+
+.panels {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.panel {
+  position: relative;
+  overflow: hidden;
+  /* Los tokens de marca dan la tipografía del nombre; el color lo fija la foto */
+  color: var(--on-image);
+}
+
+.panel + .panel {
+  border-top: 1px solid rgba(247, 244, 239, 0.14);
+}
+
+.link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  color: inherit;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--on-image);
+  outline-offset: -8px;
+}
+
+/* La foto se acerca un poco al pasar el cursor (solo transform) */
+.link > div:first-child {
+  transition: transform 1.4s var(--ease-out);
+}
+
+/* Degradado para contraste del texto + velo que atenúa los otros paneles */
+.shade {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(to top, rgba(12, 10, 8, 0.82) 0%, rgba(12, 10, 8, 0.3) 48%, rgba(12, 10, 8, 0.42) 100%);
+}
+
+.shade::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(12, 10, 8, 0.5);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+}
+
+.content {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 10px;
+  padding: 24px var(--gutter);
+  text-align: center;
+  animation: fundido-sube 0.9s var(--ease-out) calc(var(--intro-delay) + var(--i) * 120ms) both;
+}
+
+.verb {
+  font-size: var(--fs-micro);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.8);
+}
+
+.mark {
+  height: clamp(40px, 7vh, 96px);
+  margin-block: 6px 4px;
+}
+
+.name {
+  font-size: clamp(1.15rem, 1.1vw + 0.55rem, 1.85rem);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+/* Kormós y Aracena ya usan mayúsculas espaciadas; Arpad gana un punto de tamaño por su serif */
+[data-brand="arpad"] .name {
+  letter-spacing: 0.1em;
+}
+
+.descriptor {
+  max-width: 30ch;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.22em;
+  text-wrap: balance;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.8);
+}
+
+.enter {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid rgba(247, 244, 239, 0.6);
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+}
+
+.footer {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 var(--gutter) max(10px, env(safe-area-inset-bottom));
+  font-size: var(--fs-micro);
+  letter-spacing: 0.12em;
+  color: rgba(247, 244, 239, 0.66);
+  animation: fundido-sube 0.9s var(--ease-out) calc(var(--intro-delay) + 0.4s) both;
+}
+
+.footer a {
+  color: rgba(247, 244, 239, 0.86);
+  transition: color var(--dur-ui) var(--ease-out);
+}
+
+.pause {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding-inline: 4px;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: rgba(247, 244, 239, 0.86);
+  transition: transform var(--dur-press) var(--ease-out);
+}
+
+.pause:active {
+  transform: scale(0.96);
+}
+
+/* ---- Móvil: el lema y el pie tienen su propia franja, sin tapar los paneles ---- */
+@media (max-width: 767px) {
+  .panels {
+    padding-block: calc(max(22px, env(safe-area-inset-top)) + 44px) calc(max(10px, env(safe-area-inset-bottom)) + 44px);
+  }
+  .tagline {
+    padding-inline: 32px;
+  }
+  .content {
+    gap: 6px;
+  }
+  .descriptor {
+    max-width: none;
+  }
+  .enter {
+    margin-top: 6px;
+  }
+}
+
+/* ---- Escritorio: tres columnas iguales ---- */
+@media (min-width: 768px) {
+  .panels {
+    grid-template-rows: none;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .panel + .panel {
+    border-top: 0;
+    border-left: 1px solid rgba(247, 244, 239, 0.14);
+  }
+  /* Todo arranca desde la misma línea: los monogramas quedan alineados
+     aunque un nombre o descriptor ocupe dos líneas */
+  .content {
+    align-content: start;
+    padding-top: 50vh;
+    gap: 12px;
+  }
+  .mark {
+    height: clamp(64px, 7vw, 104px);
+    margin-block: 10px 8px;
+  }
+}
+
+/* Interacciones solo en dispositivos con cursor (en táctil "Entrar" queda visible) */
+@media (hover: hover) and (min-width: 768px) {
+  .enter {
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity var(--dur-ui-exit) var(--ease-out),
+      transform var(--dur-ui-exit) var(--ease-out);
+  }
+  .link:hover .enter,
+  .link:focus-visible .enter {
+    opacity: 1;
+    transform: none;
+    transition-duration: 0.3s;
+  }
+  .link:hover > div:first-child {
+    transform: scale(1.035);
+  }
+  .panels:has(.link:hover) .panel:not(:has(.link:hover)) .shade::after {
+    opacity: 1;
+  }
+  .footer a:hover {
+    color: var(--on-image);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .link > div:first-child,
+  .link:hover > div:first-child {
+    transform: none;
+  }
+  .tagline,
+  .content,
+  .footer {
+    animation-name: fundido;
+  }
+}
+
+@keyframes fundido-sube {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes fundido {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
