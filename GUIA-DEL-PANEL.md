@@ -61,7 +61,17 @@ Todo está en el menú, en "Arpad y Aracena":
 
 ## Datos de cada marca
 
-En **Ajustes → Datos de las marcas** están la frase, la presentación, el Instagram y el correo de cada marca. El WhatsApp es el mismo para las tres (849-472-2473).
+En **Ajustes → Datos de las marcas** están la frase, la presentación, el Instagram y el correo de cada marca.
+
+## Cambiar las fotos de la portada
+
+Las fotos que pasan en la portada del sitio, y arriba en el inicio de cada marca, se cambian en **Ajustes → Datos de las marcas**, en la pestaña de cada marca, campo **Fotos de portada**:
+
+1. Pulsa **Elegir de los existentes** para usar fotos que ya están en la biblioteca, o **Crear** para subir una nueva.
+2. Usa de 2 a 6 fotos horizontales y grandes (mínimo 2400 px de ancho). Arrástralas para cambiar el orden.
+3. Pulsa **Guardar**. La portada cambia en la siguiente visita.
+
+La animación (zoom lento y paso de una foto a otra) se aplica sola a cualquier foto. Para que no se corte lo importante, sobre todo en el celular, abre la foto en **Biblioteca → Fotos** y pulsa sobre la imagen en el punto que debe verse siempre (el punto de enfoque); guarda la foto. Si dejas el campo vacío, se usan las fotos de partida. El WhatsApp es el mismo para las tres (849-472-2473).
 
 ## Suscriptores y avisos por correo
 
@@ -82,6 +92,8 @@ En **Ajustes → Datos de las marcas** están la frase, la presentación, el Ins
 
 - **No puedo guardar:** baja por la ficha y busca el campo marcado en rojo; le falta algo obligatorio.
 - **No veo el cambio en el sitio:** recarga la página del sitio. Si la ficha está oculta, no aparece.
+- **Cambié algo por error en una pieza o un proyecto:** abre la ficha y pulsa **Versiones** (arriba). Ahí están los últimos 20 guardados; abre el que quieras y pulsa **Restaurar esta versión**.
+- **No me deja borrar una categoría o un acabado:** alguna pieza lo usa todavía. El mensaje dice cuáles; cámbialas primero.
 - **Borré algo sin querer:** avisa a quien desarrolló el sitio lo antes posible. Hay copias de seguridad, pero cuanto antes, mejor.
 
 ---

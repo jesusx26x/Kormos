@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { cart, cartDrawer, useCart, useCartDrawer } from "@/lib/cart";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { IconClose, IconMinus, IconPlus, IconWhatsApp } from "../Icons";
@@ -21,7 +21,7 @@ export function CartDrawer({ products }: { products: CartProductInfo[] }) {
   const opener = useRef<Element | null>(null);
   const [closing, setClosing] = useState(false);
   const id = useId();
-  const bySlug = new Map(products.map((p) => [p.slug, p]));
+  const bySlug = useMemo(() => new Map(products.map((p) => [p.slug, p])), [products]);
 
   const lines = items
     .map((i) => {
@@ -32,6 +32,12 @@ export function CartDrawer({ products }: { products: CartProductInfo[] }) {
     })
     .filter((l): l is NonNullable<typeof l> => l !== null);
   const count = lines.reduce((n, l) => n + l.qty, 0);
+
+  // Una pieza que se ocultó después de agregarla seguiría contando en el botón
+  // de la cabecera sin poder quitarse: se descarta
+  useEffect(() => {
+    for (const i of items) if (!bySlug.has(i.slug)) cart.remove(i.slug, i.variantId);
+  }, [items, bySlug]);
 
   useEffect(() => {
     const el = dialog.current;
@@ -74,24 +80,33 @@ export function CartDrawer({ products }: { products: CartProductInfo[] }) {
     const data = form ? new FormData(form) : null;
     const nombre = String(data?.get("nombre") ?? "").trim();
     const nota = String(data?.get("nota") ?? "").trim();
-    // El enlace de cada pieza: WhatsApp muestra la foto del primero y el
-    // estudio identifica cada pieza sin buscarla en el sitio
-    const list = lines.map(
-      (l, n) =>
-        [
-          `${n + 1}. ${l.p.name}`,
-          l.variant ? `${l.p.variantLabel}: ${l.variant.name}` : null,
-          l.p.dims,
-          `x${l.qty}`,
-          l.p.code,
-        ]
-          .filter(Boolean)
-          .join(" — ") + `\n${window.location.origin}/kormos/catalogo/${l.p.slug}`,
+    const items = lines.map((l, n) =>
+      [
+        `${n + 1}. ${l.p.name}`,
+        l.variant ? `${l.p.variantLabel}: ${l.variant.name}` : null,
+        l.p.dims,
+        `x${l.qty}`,
+        l.p.code,
+      ]
+        .filter(Boolean)
+        .join(" — "),
     );
-    return whatsappUrl(
-      "kormos",
-      ["Me gustaría cotizar estas piezas:", ...list, nombre ? `\nNombre: ${nombre}` : "", nota ? `Nota: ${nota}` : ""].filter(Boolean).join("\n"),
-    );
+    const links = lines.map((l) => `${window.location.origin}/kormos/catalogo/${l.p.slug}`);
+    const compose = (withLinks: number) =>
+      [
+        "Me gustaría cotizar estas piezas:",
+        ...items.map((item, i) => (i < withLinks ? `${item}\n${links[i]}` : item)),
+        nombre ? `\nNombre: ${nombre}` : "",
+        nota ? `Nota: ${nota}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n");
+    // El enlace de cada pieza deja ver su foto en WhatsApp e identificarla sin
+    // buscarla, pero wa.me corta el texto largo: si no cabe, las últimas piezas
+    // van solo con su código
+    let withLinks = links.length;
+    while (withLinks > 0 && compose(withLinks).length > 1300) withLinks--;
+    return whatsappUrl("kormos", compose(withLinks));
   }
 
   const formRef = useRef<HTMLFormElement>(null);

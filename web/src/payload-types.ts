@@ -265,14 +265,16 @@ export interface Categoria {
 export interface Foto {
   id: number;
   /**
-   * Qué se ve, en una frase. La leen los buscadores y los lectores de pantalla. Ej.: "Mesa de noche en nogal junto a una cama".
+   * Qué se ve, en una frase. La leen los buscadores y los lectores de pantalla. Ej.: "Mesa de noche en nogal junto a una cama". Si la dejas vacía, se usa el nombre del archivo.
    */
-  alt: string;
+  alt?: string | null;
   /**
    * Se detecta al subir la foto. Los recortes se muestran enteros sobre fondo claro.
    */
   cutout?: boolean | null;
   blurDataURL?: string | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -326,6 +328,8 @@ export interface Archivo {
    * Se detecta por la extensión del archivo.
    */
   format?: ('skp' | 'dwg' | 'pdf') | null;
+  prefix?: string | null;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -903,6 +907,8 @@ export interface FotosSelect<T extends boolean = true> {
   alt?: T;
   cutout?: T;
   blurDataURL?: T;
+  prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -921,6 +927,8 @@ export interface FotosSelect<T extends boolean = true> {
  */
 export interface ArchivosSelect<T extends boolean = true> {
   format?: T;
+  prefix?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1045,6 +1053,10 @@ export interface Marca {
   id: number;
   arpad?: {
     /**
+     * De 2 a 6 fotos horizontales y grandes (mínimo 2400 px de ancho). Pasan una tras otra con un zoom lento en la portada del sitio y arriba en el inicio de la marca. Arrástralas para cambiar el orden. Para que no se corte lo importante, abre la foto en Biblioteca → Fotos y marca su punto de enfoque. Si lo dejas vacío, se usan las fotos de siempre.
+     */
+    heroPhotos?: (number | Foto)[] | null;
+    /**
      * Aparece en el pie de página y en la página Estudio.
      */
     tagline?: string | null;
@@ -1063,6 +1075,10 @@ export interface Marca {
   };
   kormos?: {
     /**
+     * De 2 a 6 fotos horizontales y grandes (mínimo 2400 px de ancho). Pasan una tras otra con un zoom lento en la portada del sitio y arriba en el inicio de la marca. Arrástralas para cambiar el orden. Para que no se corte lo importante, abre la foto en Biblioteca → Fotos y marca su punto de enfoque. Si lo dejas vacío, se usan las fotos de siempre.
+     */
+    heroPhotos?: (number | Foto)[] | null;
+    /**
      * Aparece en el pie de página y en la página Estudio.
      */
     tagline?: string | null;
@@ -1080,6 +1096,10 @@ export interface Marca {
     email?: string | null;
   };
   aracena?: {
+    /**
+     * De 2 a 6 fotos horizontales y grandes (mínimo 2400 px de ancho). Pasan una tras otra con un zoom lento en la portada del sitio y arriba en el inicio de la marca. Arrástralas para cambiar el orden. Para que no se corte lo importante, abre la foto en Biblioteca → Fotos y marca su punto de enfoque. Si lo dejas vacío, se usan las fotos de siempre.
+     */
+    heroPhotos?: (number | Foto)[] | null;
     /**
      * Aparece en el pie de página y en la página Estudio.
      */
@@ -1140,6 +1160,7 @@ export interface MarcasSelect<T extends boolean = true> {
   arpad?:
     | T
     | {
+        heroPhotos?: T;
         tagline?: T;
         intro?: T;
         instagram?: T;
@@ -1148,6 +1169,7 @@ export interface MarcasSelect<T extends boolean = true> {
   kormos?:
     | T
     | {
+        heroPhotos?: T;
         tagline?: T;
         intro?: T;
         instagram?: T;
@@ -1156,6 +1178,7 @@ export interface MarcasSelect<T extends boolean = true> {
   aracena?:
     | T
     | {
+        heroPhotos?: T;
         tagline?: T;
         intro?: T;
         instagram?: T;

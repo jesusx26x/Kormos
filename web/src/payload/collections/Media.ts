@@ -16,7 +16,7 @@ export const Media: CollectionConfig = {
     group: "Biblioteca",
     hideAPIURL: true,
     useAsTitle: "alt",
-    defaultColumns: ["filename", "alt", "cutout", "updatedAt"],
+    defaultColumns: ["filename", "alt", "updatedAt"],
     description: "Fotos en JPG, PNG o WebP. Para piezas recortadas usa PNG o WebP con fondo transparente.",
   },
   access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
@@ -53,9 +53,22 @@ export const Media: CollectionConfig = {
       name: "alt",
       label: "Descripción de la foto",
       type: "text",
-      required: true,
       localized: true,
-      admin: { description: 'Qué se ve, en una frase. La leen los buscadores y los lectores de pantalla. Ej.: "Mesa de noche en nogal junto a una cama".' },
+      admin: {
+        description: 'Qué se ve, en una frase. La leen los buscadores y los lectores de pantalla. Ej.: "Mesa de noche en nogal junto a una cama". Si la dejas vacía, se usa el nombre del archivo.',
+      },
+      hooks: {
+        // Al subir muchas fotos a la vez no hace falta describir cada una para guardar
+        beforeValidate: [
+          ({ value, data, req }) => {
+            if (typeof value === "string" && value.trim()) return value;
+            const name = req.file?.name ?? data?.filename;
+            if (typeof name !== "string") return value;
+            const text = name.replace(/\.[a-z0-9]+$/i, "").replace(/[-_]+/g, " ").replace(/\s+\d+$/, "").trim();
+            return text ? text[0].toUpperCase() + text.slice(1) : value;
+          },
+        ],
+      },
     },
     {
       name: "cutout",

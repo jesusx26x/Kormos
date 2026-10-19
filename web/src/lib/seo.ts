@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { BRANDS, WHATSAPP_NUMBER, type Brand, type BrandSlug } from "./brands";
 
 /**
- * URL pública del sitio. Mientras no haya dominio se usa localhost; al
- * publicar basta con definir NEXT_PUBLIC_SITE_URL (p. ej. https://kormos.com.do).
+ * URL pública del sitio: NEXT_PUBLIC_SITE_URL (el dominio propio). Si faltara
+ * en Vercel, la dirección de producción del proyecto, para que los enlaces
+ * para compartir y el mapa del sitio nunca apunten a localhost.
  */
-export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
+const vercelUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined;
+export const SITE_URL = (process.env.NEXT_PUBLIC_SITE_URL || vercelUrl || "http://localhost:3000").replace(/\/$/, "");
 export const SITE_NAME = "Aracena Studio · Arpad Studio · Kormós";
 
 /** Fecha de la última actualización de contenido (constante: no depende del reloj al prerenderizar). */

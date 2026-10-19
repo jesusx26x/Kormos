@@ -1,4 +1,4 @@
-import type { Brand } from "@/lib/brands";
+import { heroPics, type Brand } from "@/lib/brands";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { IconWhatsApp } from "../Icons";
 import { Slideshow } from "../Slideshow";
@@ -16,7 +16,7 @@ type PageHeroProps = {
 export function PageHero({ brand, eyebrow, title, lead, primary }: PageHeroProps) {
   return (
     <section className={styles.hero} aria-labelledby="hero-title">
-      <Slideshow slides={brand.heroMedia} sizes="100vw" eager controls label={`Fotos de ${brand.name}`} />
+      <Slideshow slides={heroPics(brand)} sizes="100vw" eager controls label={`Fotos de ${brand.name}`} />
       <div className={styles.heroShade} aria-hidden="true" />
       <div className={`container ${styles.heroContent}`}>
         <p className={styles.heroEyebrow}>{eyebrow}</p>

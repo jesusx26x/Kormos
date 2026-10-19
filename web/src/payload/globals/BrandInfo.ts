@@ -4,6 +4,18 @@ import { revalidateGlobal } from "../hooks";
 
 const brandFields: Field[] = [
   {
+    name: "heroPhotos",
+    label: "Fotos de portada",
+    type: "upload",
+    relationTo: "fotos",
+    hasMany: true,
+    maxRows: 6,
+    admin: {
+      description:
+        "De 2 a 6 fotos horizontales y grandes (mínimo 2400 px de ancho). Pasan una tras otra con un zoom lento en la portada del sitio y arriba en el inicio de la marca. Arrástralas para cambiar el orden. Para que no se corte lo importante, abre la foto en Biblioteca → Fotos y marca su punto de enfoque. Si lo dejas vacío, se usan las fotos de siempre.",
+    },
+  },
+  {
     name: "tagline",
     label: "Frase de la marca",
     type: "text",

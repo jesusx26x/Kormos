@@ -37,12 +37,14 @@ export function CatalogGrid({ products, categories, filters = true }: { products
   return (
     <div>
       {filters ? (
-      <div className={styles.filters} role="group" aria-label="Filtrar por categoría">
-        {[{ slug: "todos", name: "Todo" }, ...categories].map((c) => (
-          <button key={c.slug} type="button" className={styles.filter} aria-pressed={filter === c.slug} onClick={() => choose(c.slug)}>
-            {c.name}
-          </button>
-        ))}
+      <div className={styles.filters}>
+        <div className={styles.filterRow} role="group" aria-label="Filtrar por categoría">
+          {[{ slug: "todos", name: "Todo" }, ...categories].map((c) => (
+            <button key={c.slug} type="button" className={styles.filter} aria-pressed={filter === c.slug} onClick={() => choose(c.slug)}>
+              {c.name}
+            </button>
+          ))}
+        </div>
         <p className={styles.count} role="status" aria-live="polite">
           {visible.length} {visible.length === 1 ? "pieza" : "piezas"}
         </p>

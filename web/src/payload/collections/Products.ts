@@ -18,9 +18,11 @@ const fileField = (name: string, label: string, format: "skp" | "dwg" | "pdf") =
 /** Piezas del catálogo de Kormós. */
 export const Products: CollectionConfig = {
   slug: "productos",
-  labels: { singular: "Producto", plural: "Productos" },
+  labels: { singular: "Pieza", plural: "Piezas" },
   orderable: true,
   defaultSort: "_order",
+  // Historial de cambios: cada guardado queda en "Versiones" y se puede restaurar
+  versions: { maxPerDoc: 20 },
   admin: {
     group: "Kormós",
     useAsTitle: "name",

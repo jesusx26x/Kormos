@@ -1,7 +1,7 @@
 import type { CollectionConfig } from "payload";
 import { anyone, signedIn } from "../access";
 import { previewField, slugField } from "../fields";
-import { revalidateCollection } from "../hooks";
+import { blockDeleteIfUsedByProducts, revalidateCollection } from "../hooks";
 
 /** Maderas, telas y colores que se reutilizan en varias piezas. */
 export const Finishes: CollectionConfig = {
@@ -17,7 +17,7 @@ export const Finishes: CollectionConfig = {
     description: "Maderas, telas y colores. Cada pieza elige cuáles ofrece; la muestra aparece en el selector de la ficha.",
   },
   access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
-  hooks: revalidateCollection(["catalogo"]),
+  hooks: { ...revalidateCollection(["catalogo"]), beforeDelete: [blockDeleteIfUsedByProducts("este acabado", "variants.finish")] },
   fields: [
     previewField("Acabado"),
     { name: "name", label: "Nombre", type: "text", required: true, localized: true, admin: { description: 'Ej.: "Nogal", "Bouclé gris"' } },
