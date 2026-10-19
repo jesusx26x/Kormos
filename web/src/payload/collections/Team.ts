@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { brandField, publishedField } from "../fields";
+import { brandField, previewField, publishedField } from "../fields";
 import { revalidateCollection } from "../hooks";
 
 /** Equipo de cada marca (hoy lo muestra la página Estudio de Arpad). */
@@ -12,7 +12,8 @@ export const Team: CollectionConfig = {
   admin: {
     group: "Arpad y Aracena",
     useAsTitle: "name",
-    defaultColumns: ["name", "role", "brand", "published"],
+    defaultColumns: ["preview", "role", "brand", "published"],
+    hideAPIURL: true,
     description: "Personas que aparecen en la página Estudio. Publica nombres y fotos solo con su permiso.",
   },
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
@@ -27,6 +28,7 @@ export const Team: CollectionConfig = {
       relationTo: "fotos",
       admin: { description: "Opcional. Sin foto se muestran las iniciales del nombre." },
     },
+    previewField("Persona"),
     brandField(),
     publishedField,
   ],

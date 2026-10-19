@@ -35,7 +35,7 @@ const brandFields: Field[] = [
 export const BrandInfo: GlobalConfig = {
   slug: "marcas",
   label: "Datos de las marcas",
-  admin: { group: "Ajustes", description: "El WhatsApp es el mismo para las tres marcas (849-472-2473)." },
+  admin: { group: "Ajustes", hideAPIURL: true, description: "El WhatsApp es el mismo para las tres marcas (849-472-2473)." },
   access: { read: anyone, update: signedIn },
   hooks: revalidateGlobal(["marcas"]),
   fields: [

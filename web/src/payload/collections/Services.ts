@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { brandField, publishedField } from "../fields";
+import { brandField, previewField, publishedField, quickFilters, readyField } from "../fields";
 import { revalidateCollection } from "../hooks";
 
 /** Servicios de cada marca (hoy los muestra Arpad: inicio y página de servicios). */
@@ -12,7 +12,9 @@ export const Services: CollectionConfig = {
   admin: {
     group: "Arpad y Aracena",
     useAsTitle: "title",
-    defaultColumns: ["title", "brand", "published"],
+    defaultColumns: ["preview", "brand", "published"],
+    hideAPIURL: true,
+    components: { beforeListTable: quickFilters([]) },
     description: "Servicios que aparecen en el inicio y en la página de servicios. Arrastra las filas para cambiar el orden.",
   },
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
@@ -52,6 +54,8 @@ export const Services: CollectionConfig = {
       admin: { description: 'Ej.: "salas, cocinas, habitaciones y baños."' },
     },
     { name: "image", label: "Foto", type: "upload", relationTo: "fotos", required: true },
+    readyField,
+    previewField("Servicio"),
     brandField(),
     publishedField,
   ],

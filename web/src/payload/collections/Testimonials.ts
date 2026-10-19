@@ -13,6 +13,7 @@ export const Testimonials: CollectionConfig = {
     group: "Arpad y Aracena",
     useAsTitle: "author",
     defaultColumns: ["author", "brand", "published"],
+    hideAPIURL: true,
     description: "Lo que dicen los clientes. Aparecen en la página Estudio; si no hay ninguno, la sección no se muestra.",
   },
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },

@@ -14,6 +14,7 @@ export const Media: CollectionConfig = {
   labels: { singular: "Foto", plural: "Fotos" },
   admin: {
     group: "Biblioteca",
+    hideAPIURL: true,
     useAsTitle: "alt",
     defaultColumns: ["filename", "alt", "cutout", "updatedAt"],
     description: "Fotos en JPG, PNG o WebP. Para piezas recortadas usa PNG o WebP con fondo transparente.",
@@ -44,7 +45,7 @@ export const Media: CollectionConfig = {
         return data;
       },
     ],
-    ...revalidateCollection(["catalogo", "proyectos", "paquetes", "fotos"]),
+    ...revalidateCollection(["catalogo", "proyectos", "paquetes", "fotos", "servicios", "equipo"]),
   },
   fields: [
     {

@@ -6,7 +6,7 @@ import { revalidateGlobal } from "../hooks";
 export const ArpadProcess: GlobalConfig = {
   slug: "proceso-arpad",
   label: "Proceso de trabajo (Arpad)",
-  admin: { group: "Arpad y Aracena" },
+  admin: { group: "Arpad y Aracena", hideAPIURL: true },
   access: { read: anyone, update: signedIn },
   hooks: revalidateGlobal(["proceso"]),
   fields: [

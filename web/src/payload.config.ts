@@ -35,12 +35,34 @@ export default buildConfig({
   admin: {
     user: Users.slug,
     importMap: { baseDir: dirname },
-    meta: { titleSuffix: " · Panel del sitio" },
+    meta: { titleSuffix: " · Panel del sitio", icons: [{ rel: "icon", type: "image/png", url: "/icon.png" }] },
     dateFormat: "d 'de' MMMM yyyy, HH:mm",
+    // Sin Gravatar: la foto de usuario se pedía a un servicio externo y salía rota
+    avatar: "default",
+    components: {
+      graphics: { Logo: "/payload/admin/Brand#Logo", Icon: "/payload/admin/Brand#Icon" },
+      beforeLogin: ["/payload/admin/Brand#LoginHelp"],
+      views: { dashboard: { Component: "/payload/admin/Dashboard#Dashboard" } },
+    },
   },
   collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Media, Files, Users],
   globals: [AracenaFaq, ArpadProcess, BrandInfo],
-  i18n: { supportedLanguages: { es }, fallbackLanguage: "es" },
+  i18n: {
+    supportedLanguages: { es },
+    fallbackLanguage: "es",
+    // Confirmaciones que dicen qué pasa en el sitio
+    translations: {
+      es: {
+        general: {
+          // Sin {{label}}: "Categoría guardado" no concuerda en género
+          successfullyCreated: "Listo, se guardó. Si está marcado como visible, ya aparece en el sitio.",
+          updatedSuccessfully: "Guardado. El sitio ya muestra el cambio.",
+          successfullyDeleted: "Se borró «{{label}}». Ya no aparece en el sitio.",
+          untitled: "Nueva ficha",
+        },
+      },
+    },
+  },
   // Textos traducibles desde ya: para el sitio en inglés basta con añadir
   // { label: "English", code: "en" } y traducir en el panel.
   localization: {

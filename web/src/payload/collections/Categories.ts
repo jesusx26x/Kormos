@@ -10,6 +10,7 @@ export const Categories: CollectionConfig = {
   defaultSort: "_order",
   admin: {
     group: "Kormós",
+    hideAPIURL: true,
     useAsTitle: "name",
     defaultColumns: ["name", "singular", "slug"],
     description: "Grupos del catálogo. Arrastra las filas para cambiar el orden de los filtros.",

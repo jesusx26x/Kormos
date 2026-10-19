@@ -93,6 +93,7 @@ Todo se edita sin tocar código:
 | Ajustes → Datos de las marcas | Frase, presentación, Instagram y correo de cada marca |
 | Biblioteca → Fotos · Archivos 3D y fichas | Todas las fotos (al subir una se detecta si es un recorte) y los archivos de descarga |
 
+- **Inicio, listas y fichas** son componentes propios en `src/payload/admin/` (diseño en `DISENO-PANEL.md`). Tras añadir o mover uno, ejecuta `npm run generate:importmap`.
 - **Orden:** arrastra las filas en la lista. **Ocultar sin borrar:** desmarca "Visible en el sitio".
 - Al guardar, el sitio muestra el cambio en la siguiente visita (la caché se invalida sola).
 - "Vista previa" abre la ficha pública de un producto o proyecto.

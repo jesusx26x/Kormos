@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { anyone, signedIn } from "../access";
-import { slugField } from "../fields";
+import { previewField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
 
 /** Maderas, telas y colores que se reutilizan en varias piezas. */
@@ -12,12 +12,14 @@ export const Finishes: CollectionConfig = {
   admin: {
     group: "Kormós",
     useAsTitle: "name",
-    defaultColumns: ["name", "kind", "swatch"],
+    defaultColumns: ["preview", "kind"],
+    hideAPIURL: true,
     description: "Maderas, telas y colores. Cada pieza elige cuáles ofrece; la muestra aparece en el selector de la ficha.",
   },
   access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
   hooks: revalidateCollection(["catalogo"]),
   fields: [
+    previewField("Acabado"),
     { name: "name", label: "Nombre", type: "text", required: true, localized: true, admin: { description: 'Ej.: "Nogal", "Bouclé gris"' } },
     {
       name: "kind",

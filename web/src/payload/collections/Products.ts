@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { paragraphsField, priceFields, publishedField, slugField } from "../fields";
+import { paragraphsField, previewField, priceFields, publishedField, quickFilters, readyField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
@@ -22,9 +22,18 @@ export const Products: CollectionConfig = {
   admin: {
     group: "Kormós",
     useAsTitle: "name",
-    defaultColumns: ["name", "code", "category", "status", "published"],
+    defaultColumns: ["preview", "code", "category", "status", "published"],
     listSearchableFields: ["name", "code"],
     description: "Piezas del catálogo. Arrastra las filas para cambiar el orden en el que aparecen.",
+    hideAPIURL: true,
+    components: {
+      beforeListTable: quickFilters([
+        { label: "Disponibles", where: { status: "disponible" } },
+        { label: "Bajo pedido", where: { status: "bajo_pedido" } },
+        { label: "Próximamente", where: { status: "proximamente" } },
+        { label: "Agotadas", where: { status: "agotado" } },
+      ]),
+    },
     preview: (doc) => (doc?.slug ? `${SITE}/kormos/catalogo/${doc.slug}` : null),
   },
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
@@ -158,7 +167,10 @@ export const Products: CollectionConfig = {
                 { label: "Próximamente", value: "proximamente" },
                 { label: "Agotado", value: "agotado" },
               ],
-              admin: { description: "Nunca se muestran cantidades: el cliente consulta la disponibilidad por WhatsApp." },
+              admin: {
+                description: "Nunca se muestran cantidades: el cliente consulta la disponibilidad por WhatsApp.",
+                components: { Cell: "/payload/admin/cells#StatusCell" },
+              },
             },
           ],
         },
@@ -173,6 +185,8 @@ export const Products: CollectionConfig = {
         },
       ],
     },
+    readyField,
+    previewField("Pieza"),
     slugField("name"),
     publishedField,
   ],

@@ -1,1 +1,105 @@
-/* Ajustes visuales del panel (/admin). Los estilos del sitio no llegan aquí. */
+/* Ajustes visuales del panel (/admin). Los estilos del sitio no llegan aquí.
+   Payload declara los suyos en @layer payload-default: estas reglas, sin capa, ganan. */
+
+/* Paleta cálida del sitio en lugar de los grises de Payload (sirve para modo claro y oscuro) */
+:root {
+  --color-base-0: rgb(255, 254, 251);
+  --color-base-50: rgb(246, 243, 238);
+  --color-base-100: rgb(238, 233, 226);
+  --color-base-150: rgb(229, 223, 214);
+  --color-base-200: rgb(216, 210, 201);
+  --color-base-250: rgb(204, 197, 187);
+  --color-base-300: rgb(191, 184, 174);
+  --color-base-350: rgb(178, 170, 160);
+  --color-base-400: rgb(165, 157, 147);
+  --color-base-450: rgb(153, 144, 133);
+  --color-base-500: rgb(140, 131, 120);
+  --color-base-550: rgb(126, 118, 108);
+  --color-base-600: rgb(112, 104, 95);
+  --color-base-650: rgb(98, 91, 83);
+  --color-base-700: rgb(84, 78, 71);
+  --color-base-750: rgb(70, 65, 59);
+  --color-base-800: rgb(56, 51, 46);
+  --color-base-850: rgb(42, 38, 34);
+  --color-base-900: rgb(31, 28, 25);
+  --color-base-950: rgb(21, 19, 17);
+  --color-base-1000: rgb(10, 9, 8);
+
+  --color-success-0: rgb(255, 255, 255);
+  --color-success-50: rgb(240, 244, 238);
+  --color-success-100: rgb(225, 233, 222);
+  --color-success-150: rgb(211, 223, 206);
+  --color-success-200: rgb(196, 212, 190);
+  --color-success-250: rgb(179, 196, 173);
+  --color-success-300: rgb(161, 180, 155);
+  --color-success-350: rgb(144, 164, 138);
+  --color-success-400: rgb(127, 148, 121);
+  --color-success-450: rgb(109, 132, 103);
+  --color-success-500: rgb(92, 116, 86);
+  --color-success-550: rgb(84, 106, 79);
+  --color-success-600: rgb(76, 97, 71);
+  --color-success-650: rgb(68, 87, 64);
+  --color-success-700: rgb(61, 77, 57);
+  --color-success-750: rgb(53, 68, 49);
+  --color-success-800: rgb(45, 58, 42);
+  --color-success-850: rgb(38, 50, 36);
+  --color-success-900: rgb(32, 41, 30);
+  --color-success-950: rgb(25, 32, 23);
+  --color-success-1000: rgb(18, 24, 17);
+  --font-body: var(--font-jost), "Helvetica Neue", Arial, sans-serif;
+  --font-display-admin: var(--font-cormorant), Georgia, serif;
+  --style-radius-s: 6px;
+  --style-radius-m: 8px;
+  --style-radius-l: 14px;
+}
+
+/* ---------------------------------------------------------------- nada técnico a la vista */
+
+/* Solo hay un idioma: ni selector ni "— Español" detrás de cada campo */
+.localizer-button,
+.localizer,
+.field-label .localized {
+  display: none !important;
+}
+
+/* Sin la pestaña "API" solo quedaba "Editar", que no lleva a ningún sitio */
+.doc-tabs {
+  display: none !important;
+}
+
+/* ---------------------------------------------------------------- tipografía */
+.doc-header__title,
+.list-header h1,
+.collection-list .list-header__title,
+.global-edit h1,
+.dashboard h1 {
+  font-family: var(--font-display-admin);
+  font-weight: 500;
+}
+
+/* ---------------------------------------------------------------- entrada */
+.template-minimal.login {
+  background:
+    radial-gradient(1200px 600px at 50% -10%, var(--theme-elevation-0), transparent 70%),
+    var(--theme-elevation-50);
+}
+
+.template-minimal.login .template-minimal__wrap {
+  padding: 48px 40px 40px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 18px;
+  background: var(--theme-elevation-0);
+  box-shadow: 0 30px 60px -40px rgb(30 27 24 / 0.45);
+}
+
+/* ---------------------------------------------------------------- listas */
+.table td,
+.table th {
+  vertical-align: middle;
+}
+
+/* Botones redondeados como los del sitio */
+.btn--style-primary,
+.btn--style-secondary {
+  border-radius: 999px;
+}

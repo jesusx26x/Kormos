@@ -1,0 +1,92 @@
+# Guía del panel del sitio
+
+Para quien administra el sitio de Aracena Studio, Arpad Studio y Kormós. No hace falta saber de computadoras: si sabes llenar un formulario, sabes usar el panel.
+
+## Entrar
+
+1. Abre la dirección del sitio y añade `/admin` al final (por ejemplo, `tusitio.com/admin`).
+2. Escribe tu correo y tu contraseña y pulsa **Iniciar sesión**.
+3. ¿Olvidaste la contraseña? Pulsa **¿Olvidaste tu contraseña?** y te llega un correo para cambiarla. Esto funciona cuando el sitio ya tiene correo configurado; mientras tanto, pídela a quien te dio el acceso.
+
+## El inicio
+
+Es lo primero que ves al entrar:
+
+- **Accesos rápidos:** Agregar pieza, Agregar proyecto, Agregar paquete y Subir fotos.
+- **Una tarjeta por marca** con sus cifras. Pulsa cualquier cifra para ver esa lista (por ejemplo, "Agotadas").
+- **Qué falta en las piezas:** cada pieza a la que le falta algo (medidas, materiales, archivos de descarga…). Púlsala para completarla.
+- **Últimos cambios:** lo último que se guardó.
+- **Ver el sitio:** abre el sitio público en otra pestaña.
+
+El menú completo está en el botón de las tres rayas, arriba a la izquierda.
+
+## Agregar una pieza de Kormós
+
+1. En el inicio, pulsa **Agregar pieza**.
+2. Llena las pestañas de arriba, de izquierda a derecha:
+   - **Pieza:** nombre, código (por ejemplo, KR-MN-05), categoría, una frase de resumen y la descripción.
+   - **Fotos y acabados:** sube las fotos arrastrándolas al recuadro. La primera es la principal. Si la pieza se ofrece en varias maderas o telas, agrégalas en "Acabados disponibles" y, si tienes, sube las fotos de cada acabado.
+   - **Medidas y materiales:** alto, ancho y fondo en centímetros, y los materiales.
+   - **Precio y estado:** el precio, la moneda (RD$ o US$) y si se muestra o no. Si no lo muestras, el sitio dice "Precio a consultar". El estado puede ser Disponible, Bajo pedido, Próximamente o Agotado. Nunca se muestran cantidades.
+   - **Archivos:** el modelo de SketchUp, el plano de AutoCAD y la ficha en PDF, si los tienes.
+3. Mira la tarjeta **Antes de publicar**, a la derecha: se va marcando sola. Cuando todo lo obligatorio está listo, se pone verde y dice "Lista para publicar".
+4. Pulsa **Guardar**. La pieza aparece en el sitio en la siguiente visita.
+5. Pulsa **Ver en el sitio** (en la tarjeta) para revisarla.
+
+## Ocultar o mostrar algo sin borrarlo
+
+- **Desde la lista:** usa el interruptor de la columna "Visible en el sitio". En verde, se ve en el sitio; en gris, está oculta.
+- **Desde la ficha:** desmarca "Visible en el sitio" en la columna derecha y guarda.
+
+Ocultar no borra nada: puedes volver a mostrarla cuando quieras.
+
+## Cambiar el orden
+
+En las listas, arrastra la fila desde los seis puntitos de la izquierda. El sitio muestra las piezas, los proyectos y los servicios en ese orden.
+
+## Encontrar algo rápido
+
+- **Botones sobre la tabla:** Todas, Visibles, Ocultas y, en las piezas, cada estado (Disponibles, Bajo pedido, Próximamente, Agotadas). En los proyectos hay un botón para cada estudio.
+- **Buscador:** escribe el nombre o el código.
+
+## Proyectos, servicios, equipo y testimonios
+
+Todo está en el menú, en "Arpad y Aracena":
+
+- **Proyectos:** escoge si es de Arpad o de Aracena, ponle título, foto de portada y galería. Si tienes fotos del antes y el después, agrégalas: el visitante desliza para compararlas.
+- **Servicios:** el resumen sale en el inicio de Arpad y el detalle en la página de servicios.
+- **Equipo:** nombre, cargo y foto. Publica nombres y fotos solo con permiso de la persona.
+- **Testimonios:** solo testimonios reales y con permiso del cliente. Si no hay ninguno, la sección no aparece.
+- **Proceso de trabajo (Arpad)** y **Preguntas frecuentes (Aracena):** listas que se ordenan arrastrando.
+
+## Datos de cada marca
+
+En **Ajustes → Datos de las marcas** están la frase, la presentación, el Instagram y el correo de cada marca. El WhatsApp es el mismo para las tres (849-472-2473).
+
+## Fotos
+
+- Usa fotos grandes y nítidas (mínimo 2400 px de ancho para las de portada).
+- Para piezas recortadas (sin fondo), usa PNG o WebP con fondo transparente: el panel lo detecta solo.
+- Cada foto pide una **descripción**: una frase de lo que se ve. La leen Google y las personas que usan lectores de pantalla.
+
+## Si algo sale mal
+
+- **No puedo guardar:** baja por la ficha y busca el campo marcado en rojo; le falta algo obligatorio.
+- **No veo el cambio en el sitio:** recarga la página del sitio. Si la ficha está oculta, no aparece.
+- **Borré algo sin querer:** avisa a Trinitaria Digital lo antes posible. Hay copias de seguridad, pero cuanto antes, mejor.
+
+---
+
+## Prueba con el cliente (para Trinitaria Digital)
+
+Una sesión de unos 30 minutos con la persona que va a administrar el sitio, en su propia computadora. **Tú no la ayudas:** solo observas y anotas dónde duda o se equivoca.
+
+Tareas, en este orden:
+1. Entrar al panel.
+2. Agregar una pieza nueva con foto, medidas y precio a consultar, y verla en el sitio.
+3. Marcar una pieza como Agotada.
+4. Ocultar una pieza y volver a mostrarla.
+5. Cambiar el orden de dos proyectos.
+6. Cambiar la frase de Kormós en "Datos de las marcas".
+
+Anota por cada tarea si la terminó sola, cuánto tardó, dónde dudó y qué dijo en voz alta. Corrige lo que se repita y envía esta guía al cliente.

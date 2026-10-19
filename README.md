@@ -39,6 +39,8 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | [`web/`](web/) | El sitio y el panel (código) |
 | [`ANALISIS-Y-PLAN.md`](ANALISIS-Y-PLAN.md) | Análisis, decisiones y plan por fases, con el estado de cada fase |
 | [`ADN-DE-MARCA.md`](ADN-DE-MARCA.md) | Identidad de cada marca: voz, paletas, catálogo y políticas |
+| [`DISENO-PANEL.md`](DISENO-PANEL.md) | Diseño del panel de administración |
+| [`GUIA-DEL-PANEL.md`](GUIA-DEL-PANEL.md) | Guía de uso del panel para el cliente |
 | [`web/DISENO-Y-MOVIMIENTO.md`](web/DISENO-Y-MOVIMIENTO.md) | Reglas de animación, interfaz y accesibilidad |
 | [`SOLICITUD-DE-MATERIAL.html`](SOLICITUD-DE-MATERIAL.html) | Lista del material pendiente de recibir del cliente |
 
@@ -52,7 +54,7 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | 5. Pulido: móvil, rendimiento, SEO y accesibilidad | ✅ |
 | 6. Panel de administración (Payload) | ✅ |
 | 7. Completar el panel (servicios, proceso, equipo, testimonios y datos de marca) | ✅ |
-| 8. Panel renovado: diseño y experiencia | Pendiente |
+| 8. Panel renovado: diseño y experiencia | ✅ (falta la prueba con el cliente) |
 | 9. Suscripción y avisos por correo | Pendiente |
 | 10. Material real del cliente | En paralelo |
 | 11. Publicación guiada (dominio, hosting, base de datos y archivos en la nube) | Pendiente |
