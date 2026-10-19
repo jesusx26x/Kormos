@@ -1,29 +1,40 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useActionState, useId, useState } from "react";
+import { subscribe, type SubscribeState } from "@/data/subscriptions";
+import type { BrandSlug } from "@/lib/brands";
 import styles from "./SiteFooter.module.css";
 
-/**
- * Suscripción a novedades (Fase 7). Por ahora valida y confirma en pantalla;
- * el envío real se conecta cuando haya dominio y servicio de correo.
- */
-export function SubscribeForm() {
+const INITIAL: SubscribeState = { status: "idle", message: "" };
+
+/** Suscripción a novedades: guarda el correo en el panel (Suscriptores). */
+export function SubscribeForm({ brand }: { brand: BrandSlug }) {
   const id = useId();
-  const [status, setStatus] = useState<"idle" | "error" | "ok">("idle");
+  const [state, action, pending] = useActionState(subscribe, INITIAL);
+  // Error del navegador antes de enviar (correo vacío o mal escrito)
+  const [localError, setLocalError] = useState(false);
+  const status = localError ? "error" : state.status;
+  const message = localError ? "Escribe un correo válido, por ejemplo nombre@correo.com." : state.message;
 
   return (
     <form
       className={styles.subscribe}
       noValidate
+      action={action}
       onSubmit={(e) => {
-        e.preventDefault();
         const input = e.currentTarget.elements.namedItem("email") as HTMLInputElement;
-        setStatus(input.checkValidity() && input.value ? "ok" : "error");
+        if (!input.checkValidity() || !input.value) {
+          e.preventDefault();
+          setLocalError(true);
+        }
       }}
     >
       <label htmlFor={`${id}-email`} className={styles.subscribeLabel}>
         Recibe las novedades del grupo
       </label>
+      <input type="hidden" name="brand" value={brand} />
+      {/* Campo trampa para robots: oculto a personas y a lectores de pantalla */}
+      <input type="text" name="sitio_web" tabIndex={-1} autoComplete="off" aria-hidden="true" className={styles.trap} />
       <div className={styles.subscribeRow}>
         <input
           id={`${id}-email`}
@@ -36,15 +47,14 @@ export function SubscribeForm() {
           aria-invalid={status === "error" || undefined}
           aria-describedby={`${id}-status`}
           className={styles.subscribeInput}
-          onChange={() => status !== "idle" && setStatus("idle")}
+          onChange={() => localError && setLocalError(false)}
         />
-        <button type="submit" className={styles.subscribeButton}>
-          Suscribirme
+        <button type="submit" className={styles.subscribeButton} disabled={pending}>
+          {pending ? "Enviando…" : "Suscribirme"}
         </button>
       </div>
       <p id={`${id}-status`} className={styles.subscribeStatus} role="status" aria-live="polite" data-status={status}>
-        {status === "error" && "Escribe un correo válido, por ejemplo nombre@correo.com."}
-        {status === "ok" && "¡Gracias! La suscripción se activará cuando el sitio esté publicado."}
+        {status === "idle" ? "Solo para avisarte de piezas y proyectos nuevos. Te das de baja cuando quieras." : message}
       </p>
     </form>
   );

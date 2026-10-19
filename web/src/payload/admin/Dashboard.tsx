@@ -39,10 +39,10 @@ const dateFmt = new Intl.DateTimeFormat("es-DO", { day: "numeric", month: "short
 /** Inicio del panel: cifras por marca, accesos rápidos, lo que falta y los últimos cambios. */
 export async function Dashboard({ initPageResult }: AdminViewServerProps) {
   const { payload, user } = initPageResult.req;
-  const count = async (collection: "productos" | "proyectos" | "paquetes" | "servicios", where?: Where) =>
+  const count = async (collection: "productos" | "proyectos" | "paquetes" | "servicios" | "suscriptores", where?: Where) =>
     (await payload.count({ collection, where, overrideAccess: true })).totalDocs;
 
-  const [kVisible, kHidden, kSoldOut, kOnOrder, aProjects, aServices, rProjects, rPackages, products] = await Promise.all([
+  const [kVisible, kHidden, kSoldOut, kOnOrder, aProjects, aServices, rProjects, rPackages, subscribers, products] = await Promise.all([
     count("productos", { published: { equals: true } }),
     count("productos", { published: { equals: false } }),
     count("productos", { status: { equals: "agotado" } }),
@@ -51,6 +51,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     count("servicios", { brand: { equals: "arpad" } }),
     count("proyectos", { brand: { equals: "aracena" } }),
     count("paquetes"),
+    count("suscriptores", { status: { equals: "activo" } }),
     payload.find({ collection: "productos", limit: 500, depth: 1, sort: "_order", overrideAccess: true }),
   ]);
 
@@ -135,9 +136,14 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
           <h1 className={styles.dashTitle}>{name ? `Hola, ${name}` : "Hola"}</h1>
           <p className={styles.dashLead}>¿Qué quieres hacer hoy? Todo lo que guardes aquí aparece en el sitio en la siguiente visita.</p>
         </div>
-        <a className={styles.siteLink} href="/" target="_blank" rel="noopener noreferrer">
-          Ver el sitio ↗
-        </a>
+        <div className={styles.headLinks}>
+          <Link className={styles.siteLink} href={listUrl("suscriptores", { status: "activo" })}>
+            {subscribers === 1 ? "1 suscriptor" : `${subscribers} suscriptores`}
+          </Link>
+          <a className={styles.siteLink} href="/" target="_blank" rel="noopener noreferrer">
+            Ver el sitio ↗
+          </a>
+        </div>
       </header>
 
       <nav className={styles.quick} aria-label="Accesos rápidos">

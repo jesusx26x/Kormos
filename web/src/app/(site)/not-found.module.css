@@ -77,3 +77,15 @@
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+/* Página de baja de las novedades (comparte este estilo) */
+.unsubscribe {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+}
+
+.unsubscribe :global(.btn) {
+  --btn-bg: var(--on-image);
+  --btn-fg: #17130f;
+}

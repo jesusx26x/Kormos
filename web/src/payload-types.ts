@@ -75,6 +75,7 @@ export interface Config {
     servicios: Servicio;
     equipo: Equipo;
     testimonios: Testimonio;
+    suscriptores: Suscriptore;
     fotos: Foto;
     archivos: Archivo;
     usuarios: Usuario;
@@ -93,6 +94,7 @@ export interface Config {
     servicios: ServiciosSelect<false> | ServiciosSelect<true>;
     equipo: EquipoSelect<false> | EquipoSelect<true>;
     testimonios: TestimoniosSelect<false> | TestimoniosSelect<true>;
+    suscriptores: SuscriptoresSelect<false> | SuscriptoresSelect<true>;
     fotos: FotosSelect<false> | FotosSelect<true>;
     archivos: ArchivosSelect<false> | ArchivosSelect<true>;
     usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
@@ -218,6 +220,7 @@ export interface Producto {
   fileSkp?: (number | null) | Archivo;
   fileDwg?: (number | null) | Archivo;
   filePdf?: (number | null) | Archivo;
+  notifiedAt?: string | null;
   /**
    * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
@@ -400,6 +403,7 @@ export interface Proyecto {
    * Enlace a la publicación original (opcional).
    */
   source?: string | null;
+  notifiedAt?: string | null;
   /**
    * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
@@ -543,6 +547,25 @@ export interface Testimonio {
   createdAt: string;
 }
 /**
+ * Correos que dejaron en el pie del sitio para recibir novedades. Quien se da de baja queda marcado y no recibe más avisos.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suscriptores".
+ */
+export interface Suscriptore {
+  id: number;
+  email: string;
+  /**
+   * En qué parte del sitio se suscribió.
+   */
+  brand?: ('arpad' | 'kormos' | 'aracena') | null;
+  status: 'activo' | 'baja';
+  unsubscribedAt?: string | null;
+  token?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "usuarios".
  */
@@ -624,6 +647,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'testimonios';
         value: number | Testimonio;
+      } | null)
+    | ({
+        relationTo: 'suscriptores';
+        value: number | Suscriptore;
       } | null)
     | ({
         relationTo: 'fotos';
@@ -718,6 +745,7 @@ export interface ProductosSelect<T extends boolean = true> {
   fileSkp?: T;
   fileDwg?: T;
   filePdf?: T;
+  notifiedAt?: T;
   slug?: T;
   published?: T;
   updatedAt?: T;
@@ -781,6 +809,7 @@ export interface ProyectosSelect<T extends boolean = true> {
         id?: T;
       };
   source?: T;
+  notifiedAt?: T;
   slug?: T;
   published?: T;
   updatedAt?: T;
@@ -845,6 +874,19 @@ export interface TestimoniosSelect<T extends boolean = true> {
   project?: T;
   brand?: T;
   published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suscriptores_select".
+ */
+export interface SuscriptoresSelect<T extends boolean = true> {
+  email?: T;
+  brand?: T;
+  status?: T;
+  unsubscribedAt?: T;
+  token?: T;
   updatedAt?: T;
   createdAt?: T;
 }

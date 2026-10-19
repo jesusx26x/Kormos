@@ -55,7 +55,7 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | 6. Panel de administración (Payload) | ✅ |
 | 7. Completar el panel (servicios, proceso, equipo, testimonios y datos de marca) | ✅ |
 | 8. Panel renovado: diseño y experiencia | ✅ (falta la prueba con el cliente) |
-| 9. Suscripción y avisos por correo | Pendiente |
+| 9. Suscripción y avisos por correo | ✅ (el envío se activa al publicar) |
 | 10. Material real del cliente | En paralelo |
 | 11. Publicación guiada (dominio, hosting, base de datos y archivos en la nube) | Pendiente |
 

@@ -1,6 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
+import { resendAdapter } from "@payloadcms/email-resend";
 import { es } from "@payloadcms/translations/languages/es";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -12,6 +13,7 @@ import { Packages } from "./payload/collections/Packages";
 import { Products } from "./payload/collections/Products";
 import { Projects } from "./payload/collections/Projects";
 import { Services } from "./payload/collections/Services";
+import { Subscribers } from "./payload/collections/Subscribers";
 import { Team } from "./payload/collections/Team";
 import { Testimonials } from "./payload/collections/Testimonials";
 import { Users } from "./payload/collections/Users";
@@ -45,7 +47,7 @@ export default buildConfig({
       views: { dashboard: { Component: "/payload/admin/Dashboard#Dashboard" } },
     },
   },
-  collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Media, Files, Users],
+  collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Subscribers, Media, Files, Users],
   globals: [AracenaFaq, ArpadProcess, BrandInfo],
   i18n: {
     supportedLanguages: { es },
@@ -70,6 +72,15 @@ export default buildConfig({
     defaultLocale: "es",
     fallback: true,
   },
+  // Sin clave de Resend, Payload solo escribe los correos en la consola (ver notify.ts)
+  email:
+    process.env.RESEND_API_KEY && process.env.EMAIL_FROM
+      ? resendAdapter({
+          apiKey: process.env.RESEND_API_KEY,
+          defaultFromAddress: process.env.EMAIL_FROM,
+          defaultFromName: process.env.EMAIL_FROM_NAME ?? "Aracena Studio · Arpad Studio · Kormós",
+        })
+      : undefined,
   db: sqliteAdapter({
     client: { url: process.env.DATABASE_URI ?? "file:./data/sitio.db" },
   }),

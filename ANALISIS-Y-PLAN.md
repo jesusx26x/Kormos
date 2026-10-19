@@ -401,7 +401,7 @@ Portafolio (mosaicos) → detalle del proyecto → **"Contactar"** → WhatsApp:
 > - **La publicación debe ser muy guiada:** quien publica nunca ha comprado un dominio ni usado un hosting.
 >
 > Hallazgos de la revisión:
-> - El formulario de suscripción confirma "suscrito" pero **no guarda el correo**. Se arregla en la Fase 9. Antes de publicar, o se conecta o se quita.
+> - El formulario de suscripción **no guardaba el correo** (avisaba que "se activará cuando el sitio esté publicado"). Se conectó en la Fase 9.
 > - El proyecto ya está en GitHub (`jesusx26x/Kormos`). Lo que dice este documento de "sin GitHub" es historia.
 
 ### Fase 7: Completar el panel · M ✅ (19-oct-2026)
@@ -423,7 +423,8 @@ Objetivo: que quien administra el sitio, sin conocimientos técnicos, pueda subi
 - Solo se usan los puntos de personalización oficiales de Payload (componentes propios y variables de estilo), sin modificar Payload por dentro.
 - **Entregable:** panel con la identidad del grupo, probado por el cliente.
 
-### Fase 9: Suscripción y avisos · M (P2)
+### Fase 9: Suscripción y avisos · M (P2) ✅ (19-oct-2026)
+> Hecho: el formulario del pie **guarda el correo** en el panel (**Contactos → Suscriptores**), con la marca desde la que se suscribió, en minúsculas y sin duplicados. Si el correo ya estaba, responde igual para no revelar quién está suscrito. Tiene un campo trampa contra robots y un texto de para qué se usa el correo. **Exportación** a CSV que abre Excel. **Baja** en `/baja?t=…` con un botón de confirmación (los lectores de correo abren los enlaces solos y darían de baja sin querer). **Aviso por correo** desde la ficha de cada pieza o proyecto: botón "Avisar ahora", una sola vez por ficha, solo si está visible y guardada, y con un enlace de baja personal en cada correo. Si no sale ningún correo, se puede reintentar. Proveedor: **Resend** (`RESEND_API_KEY`, `EMAIL_FROM`); sin clave, el botón explica que falta configurarlo. Probado: suscribir, repetir, correo inválido, acceso anónimo bloqueado (403/401), exportación, baja con enlace válido y falso, aviso con la ficha oculta, repetido y con el proveedor caído. **No incluido:** contador de descargas y clics a WhatsApp (opcional; cada clic cambiaría la ficha y vaciaría la caché del catálogo, así que necesita un registro aparte). **Límite:** los envíos van uno a uno (unos 100 por minuto); con más de unos 300 suscriptores hay que pasar al envío por lotes.
 - El formulario del footer guarda los correos de verdad. Lista de suscriptores en el panel, con exportación.
 - Aviso por correo al publicar una pieza o un proyecto (se activa cuando haya dominio y correo).
 - *Opcional:* contar descargas y clics a WhatsApp por pieza, y mostrarlos en el inicio del panel.

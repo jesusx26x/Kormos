@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
 import { paragraphsField, previewField, priceFields, publishedField, quickFilters, readyField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
+import { notifiedAtField, notifyHandler } from "../notify";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -36,6 +37,7 @@ export const Products: CollectionConfig = {
     },
     preview: (doc) => (doc?.slug ? `${SITE}/kormos/catalogo/${doc.slug}` : null),
   },
+  endpoints: [{ path: "/:id/avisar", method: "post", handler: notifyHandler("productos") }],
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
   hooks: revalidateCollection(["catalogo"]),
   fields: [
@@ -186,6 +188,7 @@ export const Products: CollectionConfig = {
       ],
     },
     readyField,
+    notifiedAtField,
     previewField("Pieza"),
     slugField("name"),
     publishedField,

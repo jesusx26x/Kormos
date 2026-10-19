@@ -76,7 +76,7 @@ export function SiteFooter({ brand, others }: SiteFooterProps) {
         </div>
 
         <div className={styles.subscribeWrap}>
-          <SubscribeForm />
+          <SubscribeForm brand={brand.slug} />
         </div>
       </div>
 

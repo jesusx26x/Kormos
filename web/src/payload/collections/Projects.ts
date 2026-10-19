@@ -2,6 +2,7 @@ import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
 import { paragraphsField, previewField, publishedField, quickFilters, readyField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
+import { notifiedAtField, notifyHandler } from "../notify";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -27,6 +28,7 @@ export const Projects: CollectionConfig = {
     },
     preview: (doc) => (doc?.slug && doc?.brand ? `${SITE}/${doc.brand}/proyectos/${doc.slug}` : null),
   },
+  endpoints: [{ path: "/:id/avisar", method: "post", handler: notifyHandler("proyectos") }],
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
   hooks: revalidateCollection(["proyectos"]),
   fields: [
@@ -143,6 +145,7 @@ export const Projects: CollectionConfig = {
       ],
     },
     readyField,
+    notifiedAtField,
     previewField("Proyecto"),
     slugField("title"),
     publishedField,

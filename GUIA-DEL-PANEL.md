@@ -63,6 +63,14 @@ Todo está en el menú, en "Arpad y Aracena":
 
 En **Ajustes → Datos de las marcas** están la frase, la presentación, el Instagram y el correo de cada marca. El WhatsApp es el mismo para las tres (849-472-2473).
 
+## Suscriptores y avisos por correo
+
+- En el pie de cada página del sitio, la gente deja su correo para recibir novedades. Esos correos aparecen en **Contactos → Suscriptores**. En el inicio del panel ves cuántos hay.
+- **Descargar la lista (Excel):** botón encima de la tabla.
+- **Avisar de una pieza o un proyecto nuevo:** en la ficha, columna derecha, pulsa **Avisar ahora**. Se manda un correo con la foto y el enlace a cada suscriptor activo. Se envía una sola vez por ficha, y la ficha tiene que estar visible y guardada.
+- Cada correo trae un enlace para darse de baja. Quien se da de baja queda marcado "De baja" y no recibe más avisos.
+- Los avisos funcionan cuando el sitio ya está publicado y tiene correo propio (ver `GUIA-DE-PUBLICACION.md`). Antes de eso, el botón avisa que falta configurarlo.
+
 ## Fotos
 
 - Usa fotos grandes y nítidas (mínimo 2400 px de ancho para las de portada).
