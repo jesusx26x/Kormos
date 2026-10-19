@@ -395,17 +395,54 @@ Portafolio (mosaicos) → detalle del proyecto → **"Contactar"** → WhatsApp:
 - Cambiar los datos JSON por los del CMS.
 - **Entregable:** se pueden subir y editar productos, paquetes y proyectos sin tocar código.
 
-### Fase 7: Suscripción y avisos · M (P2)
-- Formulario de suscripción en el footer y lista de suscriptores en el panel.
-- Aviso por correo al publicar una pieza o un proyecto (se activa cuando haya dominio y correo).
-- *Opcional:* contador de descargas por producto para saber qué piezas interesan más.
+> **Replanificación (19-oct-2026).** Tras revisar lo hecho en las fases 1 a 6 se reordenó lo que queda. Antes eran dos fases (suscripción y publicación); ahora son cinco. Decisiones de Jesús:
+> - **El panel se renueva personalizando Payload** (inicio, listas, formularios, logo y colores con las piezas que Payload permite cambiar), no con un panel propio desde cero. Así las actualizaciones de Payload siguen siendo fáciles.
+> - **Una sola persona o equipo maneja las tres marcas.** No hace falta un usuario por marca.
+> - **La publicación debe ser muy guiada:** quien publica nunca ha comprado un dominio ni usado un hosting.
+>
+> Hallazgos de la revisión:
+> - El formulario de suscripción confirma "suscrito" pero **no guarda el correo**. Se arregla en la Fase 9. Antes de publicar, o se conecta o se quita.
+> - El proyecto ya está en GitHub (`jesusx26x/Kormos`). Lo que dice este documento de "sin GitHub" es historia.
 
-### Fase 8: Publicación (fuera del alcance actual)
-- Dominio, hosting, base de datos de producción, almacenamiento de archivos, correo y despliegue.
+### Fase 7: Completar el panel · M
+- Pasar al panel lo que todavía vive en el código: **servicios** (las tres marcas), **proceso** de Arpad, **equipo**, **testimonios** y **datos de cada marca** (textos de presentación, correo y redes).
+- El sitio lee esos datos del panel, igual que ya hace con productos y proyectos.
+- **Entregable:** ningún texto del sitio requiere tocar código.
+
+### Fase 8: Panel renovado, diseño y experiencia · L
+Objetivo: que quien administra el sitio, sin conocimientos técnicos, pueda subir y cambiar contenido rápido y sin miedo a equivocarse.
+1. **Identidad propia:** pantalla de entrada con las tres marcas, logo e ícono del grupo, colores y tipografía, y modo claro y oscuro.
+2. **Página de inicio útil:** una tarjeta por marca con cifras (piezas visibles, ocultas, agotadas, proyectos), accesos grandes ("Agregar pieza", "Agregar proyecto", "Agregar paquete"), lo que le falta a cada pieza (sin foto, sin precio, sin archivos, fotos sin descripción) y los últimos cambios.
+3. **Listas visuales:** foto en miniatura en cada fila, estado con etiqueta de color, vista en cuadrícula tipo catálogo, filtros de un clic y mostrar u ocultar una pieza desde la lista.
+4. **Formularios guiados:** pasos claros con una lista de "lista para publicar", vista previa en vivo de cómo queda en el sitio, acabados elegidos viendo la muestra y fotos que se suben arrastrándolas.
+5. **Menú claro:** ordenado por marca (Arpad, Kormós, Aracena) más Biblioteca y Ajustes, con íconos. Sin términos técnicos y con mensajes de confirmación amables.
+6. **Prueba con el cliente:** el cliente sube una pieza solo mientras anotamos dónde se traba. Se corrige y se entrega una guía corta de uso.
+- Antes de programar se presentan **bocetos** del inicio, la lista de piezas y el formulario de una pieza para su aprobación.
+- Solo se usan los puntos de personalización oficiales de Payload (componentes propios y variables de estilo), sin modificar Payload por dentro.
+- **Entregable:** panel con la identidad del grupo, probado por el cliente.
+
+### Fase 9: Suscripción y avisos · M (P2)
+- El formulario del footer guarda los correos de verdad. Lista de suscriptores en el panel, con exportación.
+- Aviso por correo al publicar una pieza o un proyecto (se activa cuando haya dominio y correo).
+- *Opcional:* contar descargas y clics a WhatsApp por pieza, y mostrarlos en el inicio del panel.
+
+### Fase 10: Material real del cliente · en paralelo
+- Cambiar fotos, textos, precios, medidas y archivos .skp/.dwg/.pdf de muestra por los originales (lista de la sección 11).
+- Confirmar los derechos de cada foto (sección 6 de `ADN-DE-MARCA.md`).
+- Se hace desde el panel a medida que llegue el material.
+
+### Fase 11: Publicación guiada · L
+Quien publica nunca lo ha hecho, así que esta fase es **una guía paso a paso**, no una lista técnica:
+- Un documento `GUIA-DE-PUBLICACION.md` en el que cada paso dice **qué es** (en palabras simples), **para qué sirve**, **cuánto cuesta**, **qué hacer exactamente** (qué botón, qué escribir) y **cómo comprobar que quedó bien**.
+- La persona solo crea las cuentas, paga y copia los datos que la guía le pide. Toda la configuración técnica la hace el desarrollo.
+- Las cuentas y el dominio quedan **a nombre del dueño del negocio** (se decide al iniciar la fase), con verificación en dos pasos.
+- Pasos previstos: 1) escoger y comprar el dominio; 2) crear la cuenta de hosting y conectarla con GitHub; 3) crear la base de datos en la nube; 4) crear el almacenamiento de fotos y archivos; 5) conectar el dominio; 6) pasar el contenido del panel local a la nube; 7) correo y avisos (Fase 9); 8) revisión final y salida al público; 9) qué hacer después (copias de seguridad, cómo actualizar, a quién llamar si algo falla).
+- **Propuesta a confirmar al iniciar la fase:** hosting, base de datos y archivos en un mismo proveedor (por ejemplo Vercel con su base de datos y su almacenamiento) para que todo se maneje desde un solo lugar.
+- **Punto técnico a resolver:** los modelos .skp pueden pesar hasta 150 MB y algunos hostings limitan lo que se sube en una sola petición. Los archivos deben subirse directo al almacenamiento, no a través del servidor del sitio.
 - Traducción al inglés cuando se decida.
 
-**Orden:** 1 → 2 → 3 → 4 → 5 (demo al cliente) → 6 → 7 → 8.
-Arpad, la marca principal, queda visible desde la Fase 3. Kormós, la más compleja, llega después sobre una base ya probada.
+**Orden:** 1 → 2 → 3 → 4 → 5 (demo al cliente) → 6 → 7 → 8 → 9 → 11, con la 10 en paralelo desde ya.
+Arpad, la marca principal, queda visible desde la Fase 3. Kormós, la más compleja, llega después sobre una base ya probada. La 7 va antes que la 8 para que el inicio del panel renovado incluya todo el contenido.
 
 ---
 

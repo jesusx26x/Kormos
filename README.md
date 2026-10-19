@@ -51,8 +51,11 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | 4. Kormós: catálogo, ficha, selección y Atelier | ✅ |
 | 5. Pulido: móvil, rendimiento, SEO y accesibilidad | ✅ |
 | 6. Panel de administración (Payload) | ✅ |
-| 7. Suscripción y avisos por correo | Pendiente |
-| 8. Publicación (dominio, hosting, base de datos y archivos en la nube) | Pendiente |
+| 7. Completar el panel (servicios, proceso, equipo, testimonios y datos de marca) | En curso |
+| 8. Panel renovado: diseño y experiencia | Pendiente |
+| 9. Suscripción y avisos por correo | Pendiente |
+| 10. Material real del cliente | En paralelo |
+| 11. Publicación guiada (dominio, hosting, base de datos y archivos en la nube) | Pendiente |
 
 Las fotos y los textos actuales son **de muestra**, tomados de Instagram y del catálogo de Canva. Se cambiarán por los originales cuando el cliente los envíe.
 
