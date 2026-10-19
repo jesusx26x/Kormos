@@ -61,7 +61,3 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | 11. Publicación guiada (dominio, hosting, base de datos y archivos en la nube) | Código y guía listos · falta publicar |
 
 Las fotos y los textos actuales son **de muestra**, tomados de Instagram y del catálogo de Canva. Se cambiarán por los originales cuando el cliente los envíe.
-
----
-
-Desarrollado por [Trinitaria Digital](https://trinitariadigital.do).

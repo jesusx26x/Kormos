@@ -84,9 +84,6 @@ export function SiteFooter({ brand, others }: SiteFooterProps) {
         <p>
           © {COPYRIGHT_YEAR} {brand.name}. Todos los derechos reservados.
         </p>
-        <a href="https://www.trinitariadigital.do/" target="_blank" rel="noopener noreferrer" className={styles.credit}>
-          Desarrollado por <span>Trinitaria Digital</span>
-        </a>
       </div>
     </footer>
   );

@@ -29,13 +29,14 @@ Precios consultados el 19 de octubre de 2026. Confírmelos en la página de cada
 | Servicio | Costo | Nota |
 |---|---|---|
 | Dominio `.com` | Unos US$12 al año | Un `.do` cuesta unos US$110 al año; un `.com.do`, menos (confirme en nic.do) |
-| Vercel **Pro** | US$20 al mes | El plan gratis (Hobby) **no permite** sitios de negocios. Pro trae 5 GB para fotos y archivos |
+| Vercel **Hobby** (decidido por ahora) | Gratis | Trae 1 GB para fotos y archivos. Sus reglas dicen que es para uso no comercial: ver la nota de abajo |
+| Vercel **Pro** (si hace falta después) | US$20 al mes | Permite sitios de negocios. Trae 5 GB para fotos y archivos |
 | Neon (base de datos) | Gratis | Hasta 0.5 GB, de sobra para este sitio |
 | Resend (correo) | Gratis | Hasta 3,000 correos al mes y **100 por día**. Con más de unos 90 suscriptores, el plan de US$20 al mes |
 
-**Total para empezar:** unos US$20 al mes más el dominio.
+**Total para empezar:** solo el dominio.
 
-> **Opción para ahorrar:** si Trinitaria Digital ya paga Vercel Pro (por ejemplo, para otros sitios), el proyecto se puede alojar en ese mismo equipo sin pagar otra cuota. Decida esto con John antes del paso 3: cambia a nombre de quién queda la cuenta.
+> **Decisión del 19-oct-2026:** se empieza en el plan gratis de Vercel. Las [reglas de uso justo de Vercel](https://vercel.com/docs/limits/fair-use-guidelines) dicen que ese plan es para proyectos personales y no comerciales, y un sitio que promociona un negocio cuenta como comercial. **Riesgo aceptado:** Vercel podría pausar el proyecto. Si pasa, se activa Pro en **Settings → Billing** y el sitio sigue igual, sin cambiar nada del código.
 
 ### Decisión: a nombre de quién
 
@@ -79,10 +80,10 @@ Le recomiendo que **el dominio y las cuentas queden a nombre del dueño del nego
 **Qué es:** Vercel es el hosting: muestra el sitio y el panel.
 
 1. Entre a [vercel.com/signup](https://vercel.com/signup) y pulse **Continue with GitHub**. Use la cuenta de GitHub que tiene acceso al repositorio.
-2. Cuando pregunte el tipo de uso, escoja el uso comercial (plan **Pro**) y ponga la tarjeta.
+2. Escoja el plan **Hobby** (gratis). Ver la decisión del paso 0.
 3. En **Settings → Security**, active la verificación en dos pasos.
 
-**Cómo comprobarlo:** arriba a la izquierda aparece el nombre de su equipo con la etiqueta **Pro**.
+**Cómo comprobarlo:** entra al panel de Vercel con su usuario.
 
 ---
 
@@ -250,7 +251,7 @@ Abra el sitio en el celular **y** en la computadora y revise:
 - Neon guarda además un historial corto de la base de datos.
 
 ### Qué vigilar
-- **Vercel → Usage:** que el almacenamiento de fotos y archivos no pase de los 5 GB incluidos. Los modelos .skp pesan mucho.
+- **Vercel → Usage:** que el almacenamiento de fotos y archivos no pase del límite del plan (1 GB en Hobby, 5 GB en Pro). Los modelos .skp pesan mucho.
 - **Resend → Usage:** los correos del mes.
 - **Renovación del dominio:** active la renovación automática.
 

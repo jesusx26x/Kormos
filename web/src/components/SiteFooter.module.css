@@ -173,18 +173,6 @@
   color: var(--muted);
 }
 
-.credit span {
-  color: var(--text);
-  border-bottom: 1px solid var(--line);
-  transition: border-color var(--dur-ui) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .credit:hover span {
-    border-color: var(--text);
-  }
-}
-
 @media (min-width: 720px) {
   .top {
     grid-template-columns: repeat(3, 1fr);

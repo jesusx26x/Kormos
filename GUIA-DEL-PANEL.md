@@ -82,11 +82,11 @@ En **Ajustes → Datos de las marcas** están la frase, la presentación, el Ins
 
 - **No puedo guardar:** baja por la ficha y busca el campo marcado en rojo; le falta algo obligatorio.
 - **No veo el cambio en el sitio:** recarga la página del sitio. Si la ficha está oculta, no aparece.
-- **Borré algo sin querer:** avisa a Trinitaria Digital lo antes posible. Hay copias de seguridad, pero cuanto antes, mejor.
+- **Borré algo sin querer:** avisa a quien desarrolló el sitio lo antes posible. Hay copias de seguridad, pero cuanto antes, mejor.
 
 ---
 
-## Prueba con el cliente (para Trinitaria Digital)
+## Prueba con el cliente (para quien desarrolla el sitio)
 
 Una sesión de unos 30 minutos con la persona que va a administrar el sitio, en su propia computadora. **Tú no la ayudas:** solo observas y anotas dónde duda o se equivoca.
 

@@ -64,12 +64,7 @@ export function Hub() {
         </ul>
 
         <div className={styles.footer}>
-          <span>
-            © {COPYRIGHT_YEAR} ·{" "}
-            <a href="https://www.trinitariadigital.do/" target="_blank" rel="noopener noreferrer">
-              Desarrollado por Trinitaria Digital
-            </a>
-          </span>
+          <span>© {COPYRIGHT_YEAR} · Todos los derechos reservados</span>
           <PauseButton className={styles.pause} />
         </div>
       </main>

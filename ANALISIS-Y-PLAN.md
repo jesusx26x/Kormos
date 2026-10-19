@@ -89,7 +89,7 @@ Prioridad: **P1** = indispensable para la primera versión · **P2** = important
 | G3 | Cada marca redirige a su vista con sus servicios, condiciones, portafolio y contacto | P1 |
 | G4 | La misma interfaz para las 3 marcas. Cambian los productos, las imágenes y la identidad | P1 |
 | G5 | Un apartado **"Servicios"** en el menú de cada marca que muestre los servicios de las otras dos (renders, ebanistería, planos), discreto para que la página no se vea cargada | P1 |
-| G6 | Footer con redes, derechos reservados y "Desarrollado por Trinitaria Digital" | P1 |
+| G6 | Footer con redes y derechos reservados. ~~"Desarrollado por Trinitaria Digital"~~ retirado el 19-oct-2026: Trinitaria no participa en el desarrollo ni en la publicación | P1 |
 | G7 | Fotos con animación (no hay videos). Encabezados tipo "Colección 2026" | P1 |
 | G8 | Suscripción por correo en el footer, para recibir novedades cuando se publique algo nuevo | P2 |
 
@@ -403,6 +403,10 @@ Portafolio (mosaicos) → detalle del proyecto → **"Contactar"** → WhatsApp:
 > Hallazgos de la revisión:
 > - El formulario de suscripción **no guardaba el correo** (avisaba que "se activará cuando el sitio esté publicado"). Se conectó en la Fase 9.
 > - El proyecto ya está en GitHub (`jesusx26x/Kormos`). Lo que dice este documento de "sin GitHub" es historia.
+
+> **Decisiones del 19-oct-2026 (tarde), de Jesús:**
+> - **Trinitaria Digital no participa** en el desarrollo ni en la publicación. Se quitó "Desarrollado por Trinitaria Digital" de la portada y del pie de página.
+> - **Vercel en el plan gratis (Hobby) por ahora**; solo se paga el dominio. **Riesgo aceptado:** las reglas de Vercel dicen que Hobby es para uso personal y no comercial, y un sitio que promociona un negocio cuenta como comercial. Vercel podría pausar el proyecto; en ese caso se activa Pro (US$20 al mes) y el sitio sigue igual. Límites que importan en Hobby: 1 GB para fotos y archivos (los .skp pesan) y una compilación a la vez.
 
 ### Fase 7: Completar el panel · M ✅ (19-oct-2026)
 > Hecho: en el panel, **Servicios** (por marca; hoy los usa Arpad en su inicio y en `/arpad/servicios`), **Equipo** (foto opcional; sin foto salen las iniciales), **Testimonios** (con enlace opcional al proyecto; la sección solo aparece si hay alguno), **Proceso de trabajo (Arpad)** y **Datos de las marcas** (frase, presentación, Instagram y correo de cada una, en Ajustes). El sitio los lee con caché que se invalida al guardar (probado: editar un servicio, el proceso y los datos de marca, y crear un testimonio se ve en la siguiente visita). `npm run seed` ahora carga cada parte solo si está vacía, así que en una base que ya tiene el catálogo añade lo nuevo sin tocar lo demás. **Sigue en código:** los títulos y frases fijas de cada página, la lista de maderas de Kormós, las tarjetas de materialidad de Arpad y las fotos del proceso de Aracena. Se pueden pasar al panel si el cliente quiere cambiarlos a menudo. **Pendiente del cliente:** validar los textos de servicios y proceso, confirmar nombres y fotos del equipo y enviar testimonios reales (no se inventaron).
