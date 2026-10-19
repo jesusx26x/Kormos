@@ -6,7 +6,7 @@ import { revalidateGlobal } from "../hooks";
 export const AracenaFaq: GlobalConfig = {
   slug: "preguntas-aracena",
   label: "Preguntas frecuentes (Aracena)",
-  admin: { group: "Arpad y Aracena" },
+  admin: { group: "Arpad y Aracena", hideAPIURL: true },
   access: { read: anyone, update: signedIn },
   hooks: revalidateGlobal(["paquetes"]),
   fields: [

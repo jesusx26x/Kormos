@@ -1,8 +1,9 @@
-/* Plantilla oficial de Payload: no hace falta editarla. */
+/* Plantilla de Payload, con las fuentes del sitio para el panel. */
 import config from "@payload-config";
 import "@payloadcms/next/css";
 import type { ServerFunctionClient } from "payload";
 import { handleServerFunctions, RootLayout } from "@payloadcms/next/layouts";
+import { FONT_VARIABLES } from "../fonts";
 import type React from "react";
 import { importMap } from "./admin/importMap.js";
 import "./custom.css";
@@ -15,7 +16,7 @@ const serverFunction: ServerFunctionClient = async function (args) {
 };
 
 const Layout = ({ children }: Args) => (
-  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction}>
+  <RootLayout config={config} importMap={importMap} serverFunction={serverFunction} htmlProps={{ className: FONT_VARIABLES }}>
     {children}
   </RootLayout>
 );

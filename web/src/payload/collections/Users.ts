@@ -8,6 +8,7 @@ export const Users: CollectionConfig = {
   admin: {
     useAsTitle: "email",
     group: "Ajustes",
+    hideAPIURL: true,
     defaultColumns: ["name", "email"],
   },
   access: { read: signedIn, create: signedIn, update: signedIn, delete: signedIn },

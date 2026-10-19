@@ -1,7 +1,8 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { paragraphsField, publishedField, slugField } from "../fields";
+import { paragraphsField, previewField, publishedField, quickFilters, readyField, slugField } from "../fields";
 import { revalidateCollection } from "../hooks";
+import { notifiedAtField, notifyHandler } from "../notify";
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 
@@ -16,10 +17,18 @@ export const Projects: CollectionConfig = {
   admin: {
     group: "Arpad y Aracena",
     useAsTitle: "title",
-    defaultColumns: ["title", "brand", "categories", "published"],
+    defaultColumns: ["preview", "brand", "categories", "published"],
     description: "Portafolio de Arpad Studio y Aracena Studio. Arrastra las filas para cambiar el orden.",
+    hideAPIURL: true,
+    components: {
+      beforeListTable: quickFilters([
+        { label: "Arpad Studio", where: { brand: "arpad" } },
+        { label: "Aracena Studio", where: { brand: "aracena" } },
+      ]),
+    },
     preview: (doc) => (doc?.slug && doc?.brand ? `${SITE}/${doc.brand}/proyectos/${doc.slug}` : null),
   },
+  endpoints: [{ path: "/:id/avisar", method: "post", handler: notifyHandler("proyectos") }],
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
   hooks: revalidateCollection(["proyectos"]),
   fields: [
@@ -135,6 +144,9 @@ export const Projects: CollectionConfig = {
         },
       ],
     },
+    readyField,
+    notifiedAtField,
+    previewField("Proyecto"),
     slugField("title"),
     publishedField,
   ],

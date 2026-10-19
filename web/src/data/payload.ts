@@ -44,3 +44,11 @@ export function paragraphs(text: string | null | undefined): string[] {
     .map((p) => p.replace(/\s*\n\s*/g, " ").trim())
     .filter(Boolean);
 }
+
+/**
+ * Next exige que generateStaticParams devuelva al menos una ruta. Con la base
+ * todavía vacía (primer despliegue) se usa una ficha inexistente, que da 404.
+ */
+export function atLeastOne(params: { slug: string }[]): { slug: string }[] {
+  return params.length ? params : [{ slug: "sin-contenido" }];
+}

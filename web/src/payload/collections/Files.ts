@@ -11,6 +11,7 @@ export const Files: CollectionConfig = {
   labels: { singular: "Archivo", plural: "Archivos 3D y fichas" },
   admin: {
     group: "Biblioteca",
+    hideAPIURL: true,
     useAsTitle: "filename",
     defaultColumns: ["filename", "format", "filesize", "updatedAt"],
     description: "Modelos SketchUp (.skp), planos AutoCAD (.dwg) y fichas técnicas (.pdf). Se descargan libremente desde la ficha de cada pieza.",

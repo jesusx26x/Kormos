@@ -151,6 +151,14 @@
   color: #f2b8b5;
 }
 
+.trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
 /* ---- Barra inferior ---- */
 .bottom {
   display: flex;
@@ -163,18 +171,6 @@
   border-top: 1px solid var(--line);
   font-size: var(--fs-small);
   color: var(--muted);
-}
-
-.credit span {
-  color: var(--text);
-  border-bottom: 1px solid var(--line);
-  transition: border-color var(--dur-ui) var(--ease-out);
-}
-
-@media (hover: hover) {
-  .credit:hover span {
-    border-color: var(--text);
-  }
 }
 
 @media (min-width: 720px) {

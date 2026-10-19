@@ -8,7 +8,7 @@ import { Mosaic } from "@/components/sections/Mosaic";
 import { PageHero } from "@/components/sections/PageHero";
 import { NumberedList, Section, Statement } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
-import { BRANDS } from "@/lib/brands";
+import { getBrand, getServices } from "@/data/studio";
 import { img } from "@/lib/media";
 
 export const metadata: Metadata = pageMeta({
@@ -18,9 +18,8 @@ export const metadata: Metadata = pageMeta({
   brand: "arpad",
 });
 
-const brand = BRANDS.arpad;
-
-export default function ArpadInicio() {
+export default async function ArpadInicio() {
+  const [brand, services] = await Promise.all([getBrand("arpad"), getServices("arpad")]);
   return (
     <>
       <BrandIntro slug="arpad" />
@@ -89,28 +88,21 @@ export default function ArpadInicio() {
         </div>
       </Section>
 
-      <Section
-        id="servicios"
-        tone="surface"
-        eyebrow="Servicios"
-        title="Creamos, diseñamos y construimos la visión que sueñas"
-      >
-        <NumberedList
-          items={[
-            { title: "Diseño arquitectónico", text: "Proyectos residenciales y comerciales: concepto, distribución, volumetría y planos." },
-            { title: "Diseño de interiores", text: "Materialidad, atmósfera y mobiliario pensados para quien habita el espacio." },
-            { title: "E-Design", text: "Diseño completamente digital y a distancia, con el mismo nivel de detalle." },
-            { title: "Remodelación", text: "Del antes al después: reinterpretamos fachadas e interiores para llevarlos a su mejor versión." },
-            { title: "Modelado 3D", text: "Visualiza tu proyecto antes de construirlo, con renders hiperrealistas de Aracena Studio." },
-            { title: "Construcción y ejecución", text: "Llevamos el diseño a obra y cuidamos cada detalle hasta la entrega." },
-          ]}
-        />
-        <div className={styles.sectionMore}>
-          <Link href="/arpad/servicios" className="link-arrow">
-            Conocer los servicios
-          </Link>
-        </div>
-      </Section>
+      {services.length > 0 ? (
+        <Section
+          id="servicios"
+          tone="surface"
+          eyebrow="Servicios"
+          title="Creamos, diseñamos y construimos la visión que sueñas"
+        >
+          <NumberedList items={services.map((sv) => ({ title: sv.title, text: sv.summary }))} />
+          <div className={styles.sectionMore}>
+            <Link href="/arpad/servicios" className="link-arrow">
+              Conocer los servicios
+            </Link>
+          </div>
+        </Section>
+      ) : null}
 
       <GroupBand slug="arpad" />
 

@@ -1,6 +1,6 @@
 import { Cormorant_Garamond, Jost, Marcellus, Montserrat } from "next/font/google";
 
-// Compartidas por el layout del sitio y la página 404 global
+// Compartidas por el layout del sitio, la página 404 global y el panel
 // (cada layout raíz carga sus propias fuentes).
 
 // Sans fina y espaciada (Kormós, texto base de todo el sitio)

@@ -72,6 +72,10 @@ export interface Config {
     acabados: Acabado;
     proyectos: Proyecto;
     paquetes: Paquete;
+    servicios: Servicio;
+    equipo: Equipo;
+    testimonios: Testimonio;
+    suscriptores: Suscriptore;
     fotos: Foto;
     archivos: Archivo;
     usuarios: Usuario;
@@ -87,6 +91,10 @@ export interface Config {
     acabados: AcabadosSelect<false> | AcabadosSelect<true>;
     proyectos: ProyectosSelect<false> | ProyectosSelect<true>;
     paquetes: PaquetesSelect<false> | PaquetesSelect<true>;
+    servicios: ServiciosSelect<false> | ServiciosSelect<true>;
+    equipo: EquipoSelect<false> | EquipoSelect<true>;
+    testimonios: TestimoniosSelect<false> | TestimoniosSelect<true>;
+    suscriptores: SuscriptoresSelect<false> | SuscriptoresSelect<true>;
     fotos: FotosSelect<false> | FotosSelect<true>;
     archivos: ArchivosSelect<false> | ArchivosSelect<true>;
     usuarios: UsuariosSelect<false> | UsuariosSelect<true>;
@@ -101,9 +109,13 @@ export interface Config {
   fallbackLocale: ('false' | 'none' | 'null') | false | null | 'es' | 'es'[];
   globals: {
     'preguntas-aracena': PreguntasAracena;
+    'proceso-arpad': ProcesoArpad;
+    marcas: Marca;
   };
   globalsSelect: {
     'preguntas-aracena': PreguntasAracenaSelect<false> | PreguntasAracenaSelect<true>;
+    'proceso-arpad': ProcesoArpadSelect<false> | ProcesoArpadSelect<true>;
+    marcas: MarcasSelect<false> | MarcasSelect<true>;
   };
   locale: 'es';
   widgets: {
@@ -208,6 +220,7 @@ export interface Producto {
   fileSkp?: (number | null) | Archivo;
   fileDwg?: (number | null) | Archivo;
   filePdf?: (number | null) | Archivo;
+  notifiedAt?: string | null;
   /**
    * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
@@ -390,6 +403,7 @@ export interface Proyecto {
    * Enlace a la publicación original (opcional).
    */
   source?: string | null;
+  notifiedAt?: string | null;
   /**
    * Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.
    */
@@ -429,6 +443,129 @@ export interface Paquete {
    * Desmárcalo para ocultarla sin borrarla.
    */
   published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Servicios que aparecen en el inicio y en la página de servicios. Arrastra las filas para cambiar el orden.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "servicios".
+ */
+export interface Servicio {
+  id: number;
+  _order?: string | null;
+  /**
+   * Ej.: "Diseño de interiores"
+   */
+  title: string;
+  /**
+   * Una frase corta. Aparece en la lista de servicios del inicio.
+   */
+  summary: string;
+  /**
+   * Aparece en la pestaña del servicio.
+   */
+  text: string;
+  /**
+   * Escribe cada punto y pulsa Enter.
+   */
+  includes?: string[] | null;
+  /**
+   * Ej.: "salas, cocinas, habitaciones y baños."
+   */
+  idealFor?: string | null;
+  image: number | Foto;
+  brand: 'arpad' | 'kormos' | 'aracena';
+  /**
+   * Desmárcalo para ocultarla sin borrarla.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Personas que aparecen en la página Estudio. Publica nombres y fotos solo con su permiso.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "equipo".
+ */
+export interface Equipo {
+  id: number;
+  _order?: string | null;
+  /**
+   * Ej.: "Arq. Beamel P."
+   */
+  name: string;
+  /**
+   * Ej.: "Arquitectura · Diseño y ejecución"
+   */
+  role: string;
+  /**
+   * Opcional. Sin foto se muestran las iniciales del nombre.
+   */
+  photo?: (number | null) | Foto;
+  brand: 'arpad' | 'kormos' | 'aracena';
+  /**
+   * Desmárcalo para ocultarla sin borrarla.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Lo que dicen los clientes. Aparecen en la página Estudio; si no hay ninguno, la sección no se muestra.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonios".
+ */
+export interface Testimonio {
+  id: number;
+  _order?: string | null;
+  /**
+   * Las palabras del cliente, sin comillas.
+   */
+  quote: string;
+  /**
+   * Ej.: "María G."
+   */
+  author: string;
+  /**
+   * Opcional. Ej.: "Villa en Punta Cana"
+   */
+  detail?: string | null;
+  /**
+   * Opcional. Añade un enlace al proyecto.
+   */
+  project?: (number | null) | Proyecto;
+  brand: 'arpad' | 'kormos' | 'aracena';
+  /**
+   * Desmárcalo para ocultarla sin borrarla.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Correos que dejaron en el pie del sitio. Solo reciben avisos los activos: quien se suscribe confirma desde un correo, y quien se da de baja no recibe más.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suscriptores".
+ */
+export interface Suscriptore {
+  id: number;
+  email: string;
+  /**
+   * En qué parte del sitio se suscribió.
+   */
+  brand?: ('arpad' | 'kormos' | 'aracena') | null;
+  /**
+   * Por confirmar: todavía no pulsó el botón del correo de confirmación.
+   */
+  status: 'pendiente' | 'activo' | 'baja';
+  unsubscribedAt?: string | null;
+  confirmationSentAt?: string | null;
+  token?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -502,6 +639,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'paquetes';
         value: number | Paquete;
+      } | null)
+    | ({
+        relationTo: 'servicios';
+        value: number | Servicio;
+      } | null)
+    | ({
+        relationTo: 'equipo';
+        value: number | Equipo;
+      } | null)
+    | ({
+        relationTo: 'testimonios';
+        value: number | Testimonio;
+      } | null)
+    | ({
+        relationTo: 'suscriptores';
+        value: number | Suscriptore;
       } | null)
     | ({
         relationTo: 'fotos';
@@ -596,6 +749,7 @@ export interface ProductosSelect<T extends boolean = true> {
   fileSkp?: T;
   fileDwg?: T;
   filePdf?: T;
+  notifiedAt?: T;
   slug?: T;
   published?: T;
   updatedAt?: T;
@@ -659,6 +813,7 @@ export interface ProyectosSelect<T extends boolean = true> {
         id?: T;
       };
   source?: T;
+  notifiedAt?: T;
   slug?: T;
   published?: T;
   updatedAt?: T;
@@ -677,6 +832,66 @@ export interface PaquetesSelect<T extends boolean = true> {
   priceCurrency?: T;
   showPrice?: T;
   published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "servicios_select".
+ */
+export interface ServiciosSelect<T extends boolean = true> {
+  _order?: T;
+  title?: T;
+  summary?: T;
+  text?: T;
+  includes?: T;
+  idealFor?: T;
+  image?: T;
+  brand?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "equipo_select".
+ */
+export interface EquipoSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  role?: T;
+  photo?: T;
+  brand?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "testimonios_select".
+ */
+export interface TestimoniosSelect<T extends boolean = true> {
+  _order?: T;
+  quote?: T;
+  author?: T;
+  detail?: T;
+  project?: T;
+  brand?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "suscriptores_select".
+ */
+export interface SuscriptoresSelect<T extends boolean = true> {
+  email?: T;
+  brand?: T;
+  status?: T;
+  unsubscribedAt?: T;
+  confirmationSentAt?: T;
+  token?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -800,6 +1015,93 @@ export interface PreguntasAracena {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proceso-arpad".
+ */
+export interface ProcesoArpad {
+  id: number;
+  /**
+   * Se numeran solos en el orden de la lista. Arrastra para reordenar.
+   */
+  steps?:
+    | {
+        /**
+         * Ej.: "Conversación inicial"
+         */
+        title: string;
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * El WhatsApp es el mismo para las tres marcas (849-472-2473).
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "marcas".
+ */
+export interface Marca {
+  id: number;
+  arpad?: {
+    /**
+     * Aparece en el pie de página y en la página Estudio.
+     */
+    tagline?: string | null;
+    /**
+     * Quiénes son, en un párrafo. Aparece en el inicio de la marca y la leen los buscadores.
+     */
+    intro?: string | null;
+    /**
+     * Sin la @. Ej.: kormos.rd
+     */
+    instagram?: string | null;
+    /**
+     * Opcional. Aparece en el pie de página.
+     */
+    email?: string | null;
+  };
+  kormos?: {
+    /**
+     * Aparece en el pie de página y en la página Estudio.
+     */
+    tagline?: string | null;
+    /**
+     * Quiénes son, en un párrafo. Aparece en el inicio de la marca y la leen los buscadores.
+     */
+    intro?: string | null;
+    /**
+     * Sin la @. Ej.: kormos.rd
+     */
+    instagram?: string | null;
+    /**
+     * Opcional. Aparece en el pie de página.
+     */
+    email?: string | null;
+  };
+  aracena?: {
+    /**
+     * Aparece en el pie de página y en la página Estudio.
+     */
+    tagline?: string | null;
+    /**
+     * Quiénes son, en un párrafo. Aparece en el inicio de la marca y la leen los buscadores.
+     */
+    intro?: string | null;
+    /**
+     * Sin la @. Ej.: kormos.rd
+     */
+    instagram?: string | null;
+    /**
+     * Opcional. Aparece en el pie de página.
+     */
+    email?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "preguntas-aracena_select".
  */
 export interface PreguntasAracenaSelect<T extends boolean = true> {
@@ -809,6 +1111,55 @@ export interface PreguntasAracenaSelect<T extends boolean = true> {
         question?: T;
         answer?: T;
         id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "proceso-arpad_select".
+ */
+export interface ProcesoArpadSelect<T extends boolean = true> {
+  steps?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "marcas_select".
+ */
+export interface MarcasSelect<T extends boolean = true> {
+  arpad?:
+    | T
+    | {
+        tagline?: T;
+        intro?: T;
+        instagram?: T;
+        email?: T;
+      };
+  kormos?:
+    | T
+    | {
+        tagline?: T;
+        intro?: T;
+        instagram?: T;
+        email?: T;
+      };
+  aracena?:
+    | T
+    | {
+        tagline?: T;
+        intro?: T;
+        instagram?: T;
+        email?: T;
       };
   updatedAt?: T;
   createdAt?: T;

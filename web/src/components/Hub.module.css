@@ -159,11 +159,6 @@
   animation: fundido-sube 0.9s var(--ease-out) calc(var(--intro-delay) + 0.4s) both;
 }
 
-.footer a {
-  color: rgba(247, 244, 239, 0.86);
-  transition: color var(--dur-ui) var(--ease-out);
-}
-
 .pause {
   display: inline-flex;
   align-items: center;
@@ -243,9 +238,6 @@
   }
   .panels:has(.link:hover) .panel:not(:has(.link:hover)) .shade::after {
     opacity: 1;
-  }
-  .footer a:hover {
-    color: var(--on-image);
   }
 }
 

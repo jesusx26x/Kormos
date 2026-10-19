@@ -1,6 +1,6 @@
 import type { CollectionConfig } from "payload";
 import { publishedOrSignedIn, signedIn } from "../access";
-import { priceFields, publishedField } from "../fields";
+import { priceFields, publishedField, quickFilters, readyField } from "../fields";
 import { revalidateCollection } from "../hooks";
 
 /** Paquetes de render de Aracena Studio. */
@@ -14,6 +14,8 @@ export const Packages: CollectionConfig = {
     useAsTitle: "name",
     defaultColumns: ["name", "scale", "published"],
     description: "Paquetes de Aracena Studio. Arrastra las filas para cambiar el orden.",
+    hideAPIURL: true,
+    components: { beforeListTable: quickFilters([]) },
   },
   access: { read: publishedOrSignedIn, create: signedIn, update: signedIn, delete: signedIn },
   hooks: revalidateCollection(["paquetes"]),
@@ -37,6 +39,7 @@ export const Packages: CollectionConfig = {
       admin: { description: 'Ej.: "Precio según número de ambientes". Si marcas "Mostrar el precio", aquí aparece "Desde RD$ …" en su lugar.' },
     },
     ...priceFields,
+    readyField,
     publishedField,
   ],
 };

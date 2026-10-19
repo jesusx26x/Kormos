@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BrandShell } from "@/components/BrandShell";
 import { JsonLd } from "@/components/JsonLd";
+import { getBrand } from "@/data/studio";
 import { brandJsonLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -8,10 +9,10 @@ export const metadata: Metadata = {
   description: "Atelier de ebanistería contemporánea en República Dominicana: mobiliario a medida donde la madera, el diseño y la arquitectura se encuentran.",
 };
 
-export default function KormosLayout({ children }: LayoutProps<"/kormos">) {
+export default async function KormosLayout({ children }: LayoutProps<"/kormos">) {
   return (
     <BrandShell slug="kormos">
-      <JsonLd data={brandJsonLd("kormos")} />
+      <JsonLd data={brandJsonLd(await getBrand("kormos"))} />
       {children}
     </BrandShell>
   );

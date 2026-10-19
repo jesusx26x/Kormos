@@ -73,6 +73,13 @@ Antes de publicar, define el dominio para canonical, Open Graph, sitemap y JSON-
 NEXT_PUBLIC_SITE_URL=https://tu-dominio.com
 ```
 
+Publicación paso a paso: [`GUIA-DE-PUBLICACION.md`](../GUIA-DE-PUBLICACION.md). Lo técnico:
+
+- **Base de datos:** con `DATABASE_URL` (o `DATABASE_URI`) `postgres://…` se usa PostgreSQL; si no, SQLite en `data/`.
+- **Fotos y archivos:** con `BLOB_READ_WRITE_TOKEN` se guardan en Vercel Blob y se suben directo desde el navegador; si no, en `uploads/`.
+- **Migraciones (solo PostgreSQL):** en local, SQLite se adapta solo. Si cambias campos de `src/payload/`, genera la migración contra una base PostgreSQL con `DATABASE_URI=postgres://… npm run migrate:create -- nombre` y súbela con el cambio. En Vercel, `vercel-build` ejecuta `migrate` antes de compilar. Ojo: PostgreSQL no deja agregar una opción a un campo de selección y usarla como valor por defecto en la misma migración; en ese caso, haz dos migraciones.
+- **Pasar contenido:** `npm run contenido:exportar` (local) y `npm run contenido:importar` (lee `.env.nube`). `npm run contenido:respaldo` saca copia del sitio publicado.
+
 Imágenes para compartir (1200×630) e iconos por marca, después de cambiar fotos o logos:
 
 ```bash
@@ -89,8 +96,11 @@ Todo se edita sin tocar código:
 | Kormós → Productos | Nombre, código, categoría, resumen, descripción, fotos, acabados (con fotos propias o no), medidas, materiales, precio (RD$ o US$, visible u oculto), estado y archivos .skp/.dwg/.pdf |
 | Kormós → Categorías · Acabados | Filtros del catálogo; maderas, telas y colores reutilizables con su muestra |
 | Arpad y Aracena → Proyectos · Paquetes · Preguntas | Portafolio (con antes/después y créditos), paquetes de render y preguntas frecuentes |
+| Arpad y Aracena → Servicios · Equipo · Testimonios · Proceso | Servicios (resumen para el inicio y detalle con "Incluye" e "Ideal para"), personas del equipo, testimonios de clientes y pasos del proceso de Arpad |
+| Ajustes → Datos de las marcas | Frase, presentación, Instagram y correo de cada marca |
 | Biblioteca → Fotos · Archivos 3D y fichas | Todas las fotos (al subir una se detecta si es un recorte) y los archivos de descarga |
 
+- **Inicio, listas y fichas** son componentes propios en `src/payload/admin/` (diseño en `DISENO-PANEL.md`). Tras añadir o mover uno, ejecuta `npm run generate:importmap`.
 - **Orden:** arrastra las filas en la lista. **Ocultar sin borrar:** desmarca "Visible en el sitio".
 - Al guardar, el sitio muestra el cambio en la siguiente visita (la caché se invalida sola).
 - "Vista previa" abre la ficha pública de un producto o proyecto.

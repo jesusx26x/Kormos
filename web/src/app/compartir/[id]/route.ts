@@ -20,7 +20,11 @@ async function ogImage(id: number): Promise<Uint8Array | null> {
   const payload = await cms();
   const foto = await payload.findByID({ collection: "fotos", id, depth: 0, disableErrors: true });
   if (!foto?.filename) return null;
-  const file = path.join(process.cwd(), "uploads", "fotos", foto.filename);
+  // En local la foto está en el disco; publicada, en Vercel Blob (URL completa)
+  const file =
+    foto.url && /^https?:\/\//.test(foto.url)
+      ? Buffer.from(await (await fetch(foto.url)).arrayBuffer())
+      : path.join(process.cwd(), "uploads", "fotos", foto.filename);
 
   let image: Sharp;
   if (foto.cutout) {

@@ -9,7 +9,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { NumberedList, Section, Statement } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
 import { Reveal } from "@/components/Reveal";
-import { BRANDS } from "@/lib/brands";
+import { getBrand } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
   title: "Kormós · Furniture Design",
@@ -17,8 +17,6 @@ export const metadata: Metadata = pageMeta({
   path: "/kormos",
   brand: "kormos",
 });
-
-const brand = BRANDS.kormos;
 
 const MATERIALES = [
   "Pino tratado",
@@ -35,7 +33,8 @@ const MATERIALES = [
   "MDF hidrófugo",
 ];
 
-export default function KormosInicio() {
+export default async function KormosInicio() {
+  const brand = await getBrand("kormos");
   return (
     <>
       <BrandIntro slug="kormos" />

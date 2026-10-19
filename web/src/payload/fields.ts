@@ -23,8 +23,38 @@ export const publishedField: Field = {
   type: "checkbox",
   defaultValue: true,
   index: true,
-  admin: { position: "sidebar", description: "Desmárcalo para ocultarla sin borrarla." },
+  admin: {
+    position: "sidebar",
+    description: "Desmárcalo para ocultarla sin borrarla.",
+    components: { Cell: "/payload/admin/cells#VisibleCell" },
+  },
 };
+
+/** Columna de las listas con la foto principal y el nombre, que abre la ficha. */
+export const previewField = (label: string): Field => ({
+  name: "preview",
+  label,
+  type: "ui",
+  admin: { components: { Cell: "/payload/admin/PreviewCell#PreviewCell" } },
+});
+
+/** Tarjeta "Lista para publicar" en la columna lateral de la ficha. */
+export const readyField: Field = {
+  name: "ready",
+  label: "Lista para publicar",
+  type: "ui",
+  admin: { position: "sidebar", disableListColumn: true, components: { Field: "/payload/admin/ReadyChecklist#ReadyChecklist" } },
+};
+
+/** Filtros de un clic encima de la tabla. "Todas" va siempre primero. */
+export const quickFilters = (filters: { label: string; where: Record<string, string> }[]) => [
+  {
+    path: "/payload/admin/QuickFilters#QuickFilters",
+    clientProps: {
+      filters: [{ label: "Todas" }, { label: "Visibles", where: { published: "true" } }, { label: "Ocultas", where: { published: "false" } }, ...filters],
+    },
+  },
+];
 
 /** Párrafos: un bloque de texto donde una línea en blanco separa párrafos. */
 export const paragraphsField = (name: string, label: string, description?: string): Field => ({
@@ -62,3 +92,19 @@ export const priceFields: Field[] = [
     admin: { description: 'Si está desmarcado (o no hay precio), el sitio dice "Precio a consultar".' },
   },
 ];
+
+/** Marca a la que pertenece una ficha (servicios, equipo, testimonios). */
+export const brandField = (defaultValue: "arpad" | "kormos" | "aracena" = "arpad"): Field => ({
+  name: "brand",
+  label: "Marca",
+  type: "select",
+  required: true,
+  defaultValue,
+  index: true,
+  options: [
+    { label: "Arpad Studio", value: "arpad" },
+    { label: "Kormós", value: "kormos" },
+    { label: "Aracena Studio", value: "aracena" },
+  ],
+  admin: { position: "sidebar" },
+});

@@ -13,7 +13,7 @@ La portada presenta las tres marcas al mismo nivel. Todas las llamadas a la acci
 ## Tecnología
 
 - **Next.js 16** (App Router, Cache Components) + React 19 + TypeScript + CSS Modules
-- **Payload CMS 3** para el panel de administración en `/admin`. Usa SQLite en local; al publicar se pasará a PostgreSQL.
+- **Payload CMS 3** para el panel de administración en `/admin`. Usa SQLite en local; publicado, PostgreSQL (Neon) y Vercel Blob para fotos y archivos.
 - **sharp** y **potrace** para preparar fotos, logos e imágenes para compartir
 - Requiere **Node 24**
 
@@ -39,6 +39,9 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | [`web/`](web/) | El sitio y el panel (código) |
 | [`ANALISIS-Y-PLAN.md`](ANALISIS-Y-PLAN.md) | Análisis, decisiones y plan por fases, con el estado de cada fase |
 | [`ADN-DE-MARCA.md`](ADN-DE-MARCA.md) | Identidad de cada marca: voz, paletas, catálogo y políticas |
+| [`DISENO-PANEL.md`](DISENO-PANEL.md) | Diseño del panel de administración |
+| [`GUIA-DEL-PANEL.md`](GUIA-DEL-PANEL.md) | Guía de uso del panel para el cliente |
+| [`GUIA-DE-PUBLICACION.md`](GUIA-DE-PUBLICACION.md) | Cómo publicar el sitio, paso a paso |
 | [`web/DISENO-Y-MOVIMIENTO.md`](web/DISENO-Y-MOVIMIENTO.md) | Reglas de animación, interfaz y accesibilidad |
 | [`SOLICITUD-DE-MATERIAL.html`](SOLICITUD-DE-MATERIAL.html) | Lista del material pendiente de recibir del cliente |
 
@@ -51,11 +54,10 @@ En [`web/README.md`](web/README.md) están los detalles: estructura, scripts, pa
 | 4. Kormós: catálogo, ficha, selección y Atelier | ✅ |
 | 5. Pulido: móvil, rendimiento, SEO y accesibilidad | ✅ |
 | 6. Panel de administración (Payload) | ✅ |
-| 7. Suscripción y avisos por correo | Pendiente |
-| 8. Publicación (dominio, hosting, base de datos y archivos en la nube) | Pendiente |
+| 7. Completar el panel (servicios, proceso, equipo, testimonios y datos de marca) | ✅ |
+| 8. Panel renovado: diseño y experiencia | ✅ (falta la prueba con el cliente) |
+| 9. Suscripción y avisos por correo | ✅ (el envío se activa al publicar) |
+| 10. Material real del cliente | En paralelo |
+| 11. Publicación guiada (dominio, hosting, base de datos y archivos en la nube) | Código y guía listos · falta publicar |
 
 Las fotos y los textos actuales son **de muestra**, tomados de Instagram y del catálogo de Canva. Se cambiarán por los originales cuando el cliente los envíe.
-
----
-
-Desarrollado por [Trinitaria Digital](https://trinitariadigital.do).

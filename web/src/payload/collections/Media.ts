@@ -14,6 +14,7 @@ export const Media: CollectionConfig = {
   labels: { singular: "Foto", plural: "Fotos" },
   admin: {
     group: "Biblioteca",
+    hideAPIURL: true,
     useAsTitle: "alt",
     defaultColumns: ["filename", "alt", "cutout", "updatedAt"],
     description: "Fotos en JPG, PNG o WebP. Para piezas recortadas usa PNG o WebP con fondo transparente.",
@@ -29,7 +30,8 @@ export const Media: CollectionConfig = {
   hooks: {
     beforeChange: [
       async ({ data, req }) => {
-        const file = req.file?.data;
+        // Con subida directa a Blob el servidor recibe un archivo temporal, no los bytes
+        const file = req.file?.tempFilePath ?? (req.file?.data?.length ? req.file.data : null);
         if (!file) return data;
         const image = sharp(file);
         const meta = await image.metadata();
@@ -44,7 +46,7 @@ export const Media: CollectionConfig = {
         return data;
       },
     ],
-    ...revalidateCollection(["catalogo", "proyectos", "paquetes", "fotos"]),
+    ...revalidateCollection(["catalogo", "proyectos", "paquetes", "fotos", "servicios", "equipo"]),
   },
   fields: [
     {

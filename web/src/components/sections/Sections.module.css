@@ -746,12 +746,67 @@
   font-weight: var(--display-weight);
 }
 
+.memberPhoto {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--line);
+}
+
 .memberRole {
   color: var(--muted);
 }
 
 @media (min-width: 768px) {
   .team {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ==================== Testimonios ==================== */
+.testimonials {
+  display: grid;
+  gap: clamp(16px, 2vw, 28px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.testimonial {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  padding: clamp(24px, 3vw, 40px) 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.testimonialQuote {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  line-height: 1.4;
+  text-wrap: pretty;
+}
+
+.testimonialQuote::before {
+  content: "“";
+}
+
+.testimonialQuote::after {
+  content: "”";
+}
+
+.testimonialAuthor {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .testimonials {
     grid-template-columns: repeat(2, 1fr);
   }
 }
