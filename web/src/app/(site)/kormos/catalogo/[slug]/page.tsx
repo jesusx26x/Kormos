@@ -1,5 +1,6 @@
 import { BackFloat } from "@/components/BackFloat";
 import { JsonLd } from "@/components/JsonLd";
+import { waBlock } from "@/lib/whatsapp";
 import { breadcrumbJsonLd, pageMeta, SITE_URL } from "@/lib/seo";
 import type { Metadata } from "next";
 import Link from "next/link";
@@ -162,7 +163,13 @@ async function Producto({ params }: { params: Promise<{ slug: string }> }) {
         title="¿La quieres a tu medida?"
         text="Cada pieza se puede adaptar en medidas, maderas y tapizados. Escríbenos y la ajustamos a tu espacio."
         label="Personalizar esta pieza"
-        message={`Quiero personalizar la pieza ${p.name} (${p.code}).`}
+        message={[
+          "Quiero personalizar esta pieza.",
+          `${waBlock(null, [
+            ["Pieza", p.name],
+            ["Código", p.code],
+          ])}\n${SITE_URL}/kormos/catalogo/${p.slug}`,
+        ]}
       />
 
       <BackFloat href="/kormos/catalogo" label="Catálogo" />

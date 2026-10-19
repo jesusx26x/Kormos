@@ -59,8 +59,8 @@ export function ContactBand({
   title: string;
   text: string;
   label: string;
-  /** Mensaje de WhatsApp ya escrito (p. ej. el proyecto que se estaba viendo) */
-  message?: string;
+  /** Mensaje de WhatsApp ya escrito (p. ej. el proyecto que se estaba viendo), por párrafos */
+  message?: string | string[];
 }) {
   return (
     <section id="contacto" className={`section ${styles.contact}`} aria-labelledby="contacto-titulo">
@@ -70,7 +70,7 @@ export function ContactBand({
           {title}
         </h2>
         <p className={`lead ${styles.contactText}`}>{text}</p>
-        <a className="btn" href={whatsappUrl(slug, message)} target="_blank" rel="noopener noreferrer">
+        <a className="btn" href={whatsappUrl(slug, ...(Array.isArray(message) ? message : [message]))} target="_blank" rel="noopener noreferrer">
           <IconWhatsApp size={16} /> {label}
         </a>
       </Reveal>

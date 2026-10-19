@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { cart, cartDrawer, useCart, useCartDrawer } from "@/lib/cart";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { waBlock, WHATSAPP_MAX_LENGTH, whatsappText, whatsappUrl } from "@/lib/whatsapp";
 import { IconClose, IconMinus, IconPlus, IconWhatsApp } from "../Icons";
 import type { CartProductInfo } from "./catalogData";
 import styles from "./Kormos.module.css";
@@ -80,33 +80,31 @@ export function CartDrawer({ products }: { products: CartProductInfo[] }) {
     const data = form ? new FormData(form) : null;
     const nombre = String(data?.get("nombre") ?? "").trim();
     const nota = String(data?.get("nota") ?? "").trim();
-    const items = lines.map((l, n) =>
-      [
-        `${n + 1}. ${l.p.name}`,
-        l.variant ? `${l.p.variantLabel}: ${l.variant.name}` : null,
-        l.p.dims,
-        `x${l.qty}`,
-        l.p.code,
-      ]
-        .filter(Boolean)
-        .join(" — "),
-    );
-    const links = lines.map((l) => `${window.location.origin}/kormos/catalogo/${l.p.slug}`);
-    const compose = (withLinks: number) =>
-      [
-        "Me gustaría cotizar estas piezas:",
-        ...items.map((item, i) => (i < withLinks ? `${item}\n${links[i]}` : item)),
-        nombre ? `\nNombre: ${nombre}` : "",
-        nota ? `Nota: ${nota}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n");
-    // El enlace de cada pieza deja ver su foto en WhatsApp e identificarla sin
-    // buscarla, pero wa.me corta el texto largo: si no cabe, las últimas piezas
-    // van solo con su código
-    let withLinks = links.length;
-    while (withLinks > 0 && compose(withLinks).length > 1300) withLinks--;
-    return whatsappUrl("kormos", compose(withLinks));
+    const total = lines.reduce((n, l) => n + l.qty, 0);
+    // Cada pieza en su bloque, separado por una línea en blanco, y su enlace en
+    // su propia línea (WhatsApp muestra la foto del primero)
+    const blocks = (withLinks: number) =>
+      lines.map((l, i) => {
+        const block = waBlock(`${i + 1}. ${l.p.name}`, [
+          ["Código", l.p.code],
+          [l.p.variantLabel, l.variant?.name],
+          ["Medidas", l.p.dims],
+          ["Cantidad", l.qty],
+        ]);
+        return i < withLinks ? `${block}\n${window.location.origin}/kormos/catalogo/${l.p.slug}` : block;
+      });
+    const paragraphs = (withLinks: number) => [
+      `Me gustaría cotizar ${total === 1 ? "esta pieza" : `estas ${total} piezas`}:`,
+      ...blocks(withLinks),
+      waBlock("Mis datos", [
+        ["Nombre", nombre],
+        ["Nota", nota],
+      ]),
+    ];
+    // wa.me corta el texto largo: si no cabe, las últimas piezas van sin enlace
+    let withLinks = lines.length;
+    while (withLinks > 0 && whatsappText("kormos", ...paragraphs(withLinks)).length > WHATSAPP_MAX_LENGTH) withLinks--;
+    return whatsappUrl("kormos", ...paragraphs(withLinks));
   }
 
   const formRef = useRef<HTMLFormElement>(null);

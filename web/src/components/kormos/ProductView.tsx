@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { useEffect, useId, useRef, useState } from "react";
 import { cart, cartDrawer } from "@/lib/cart";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { SITE_URL } from "@/lib/seo";
+import { waBlock, whatsappUrl } from "@/lib/whatsapp";
 import { IconBag, IconCheck, IconDownload, IconWhatsApp } from "../Icons";
 import type { MediaInfo, VariantInfo } from "./catalogData";
 import styles from "./Kormos.module.css";
@@ -60,9 +61,14 @@ export function ProductView(p: ProductViewProps) {
     timer.current = window.setTimeout(() => setAdded(false), 1800);
   }
 
-  const variantText = variant ? `, ${p.variantLabel.toLowerCase()} ${variant.name}` : "";
-  const askAvailability = whatsappUrl("kormos", `¿Está disponible la pieza ${p.name}${variantText} (${p.code})?`);
-  const askQuote = whatsappUrl("kormos", `Descargué los archivos de ${p.name} (${p.code}) y me gustaría saber cuánto cuesta${variantText}.`);
+  // La pieza en un bloque fijo y su enlace en su propia línea (WhatsApp muestra la foto)
+  const piece = `${waBlock(null, [
+    ["Pieza", p.name],
+    ["Código", p.code],
+    [p.variantLabel, variant?.name],
+  ])}\n${SITE_URL}/kormos/catalogo/${p.slug}`;
+  const askAvailability = whatsappUrl("kormos", "¿Está disponible esta pieza?", piece);
+  const askQuote = whatsappUrl("kormos", "Descargué los archivos de esta pieza y me gustaría saber cuánto cuesta.", piece);
   const anyFile = FORMATS.some((f) => p.files[f.key]);
 
   return (
@@ -200,7 +206,7 @@ export function ProductView(p: ProductViewProps) {
                   ) : (
                     <a
                       className={styles.fileAction}
-                      href={whatsappUrl("kormos", `Quisiera el archivo ${f.label} (${f.desc}) de ${p.name} (${p.code}).`)}
+                      href={whatsappUrl("kormos", `Quisiera el archivo *${f.label}* (${f.desc}) de esta pieza.`, piece)}
                       target="_blank"
                       rel="noopener noreferrer"
                     >

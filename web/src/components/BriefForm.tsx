@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { waBlock, whatsappUrl } from "@/lib/whatsapp";
 import { IconWhatsApp } from "./Icons";
 import styles from "./BriefForm.module.css";
 
@@ -27,17 +27,21 @@ export function BriefForm({ packages }: { packages: string[] }) {
       return;
     }
     setError(false);
-    const lines = [
-      "Quiero solicitar un render:",
-      `• Paquete: ${get("paquete")}`,
-      `• Tipo de proyecto: ${get("tipo")}`,
-      get("escala") && `• Escala: ${get("escala")}`,
-      `• Plazo: ${get("plazo")}`,
-      get("detalle") && `• Detalle: ${get("detalle")}`,
-      get("nombre") && `Nombre: ${get("nombre")}`,
-      get("empresa") && `Empresa / estudio: ${get("empresa")}`,
-    ].filter(Boolean);
-    window.open(whatsappUrl("aracena", lines.join("\n")), "_blank", "noopener,noreferrer");
+    const url = whatsappUrl(
+      "aracena",
+      waBlock("Solicitud de render", [
+        ["Paquete", get("paquete")],
+        ["Tipo de proyecto", get("tipo")],
+        ["Escala", get("escala")],
+        ["Plazo", get("plazo")],
+        ["Detalle", get("detalle")],
+      ]),
+      waBlock("Mis datos", [
+        ["Nombre", get("nombre")],
+        ["Empresa o estudio", get("empresa")],
+      ]),
+    );
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   return (

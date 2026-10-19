@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { waBlock, whatsappUrl } from "@/lib/whatsapp";
 import { IconWhatsApp } from "../Icons";
 import styles from "../BriefForm.module.css";
 
@@ -25,17 +25,19 @@ export function AtelierForm() {
     }
     setError(false);
     const medidas = [get("alto") && `alto ${get("alto")} cm`, get("ancho") && `ancho ${get("ancho")} cm`, get("fondo") && `fondo ${get("fondo")} cm`].filter(Boolean).join(", ");
-    const lines = [
-      "Quiero diseñar una pieza a medida (Atelier):",
-      `• Pieza: ${get("pieza")}`,
-      medidas && `• Medidas aproximadas: ${medidas}`,
-      `• Madera: ${get("madera")}`,
-      get("acabado") && `• Acabado o color: ${get("acabado")}`,
-      get("espacio") && `• Espacio: ${get("espacio")}`,
-      get("presupuesto") && `• Presupuesto aproximado: ${get("presupuesto")}`,
-      get("nombre") && `Nombre: ${get("nombre")}`,
-    ].filter(Boolean);
-    window.open(whatsappUrl("kormos", lines.join("\n")), "_blank", "noopener,noreferrer");
+    const url = whatsappUrl(
+      "kormos",
+      waBlock("Pieza a medida (Atelier)", [
+        ["Pieza", get("pieza")],
+        ["Medidas aproximadas", medidas],
+        ["Madera", get("madera")],
+        ["Acabado o color", get("acabado")],
+        ["Espacio", get("espacio")],
+        ["Presupuesto aproximado", get("presupuesto")],
+      ]),
+      waBlock("Mis datos", [["Nombre", get("nombre")]]),
+    );
+    window.open(url, "_blank", "noopener,noreferrer");
   }
 
   return (
