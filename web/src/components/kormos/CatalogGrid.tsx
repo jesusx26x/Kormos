@@ -2,7 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { startTransition, useEffect, useState, ViewTransition } from "react";
+import { startTransition, useEffect, useId, useRef, useState, ViewTransition } from "react";
+import { cart } from "@/lib/cart";
+import { IconBag, IconCheck } from "../Icons";
 import type { ProductCardInfo } from "./catalogData";
 import styles from "./Kormos.module.css";
 
@@ -93,9 +95,12 @@ export function CatalogGrid({ products, categories, filters = true }: { products
                     blurDataURL={p.image.blurDataURL ?? undefined}
                     className={p.image.cutout ? styles.contain : styles.cover}
                   />
-                  <span className={styles.badge} data-status={p.status}>
-                    {p.statusLabel}
-                  </span>
+                  {/* Casi todo se fabrica bajo pedido: la etiqueta solo marca las excepciones */}
+                  {p.status !== "bajo_pedido" ? (
+                    <span className={styles.badge} data-status={p.status}>
+                      {p.statusLabel}
+                    </span>
+                  ) : null}
                 </span>
                 <span className={styles.cardCat}>{p.category}</span>
                 <span className={styles.cardName}>{p.name}</span>
@@ -109,10 +114,61 @@ export function CatalogGrid({ products, categories, filters = true }: { products
                   </span>
                 </span>
               </Link>
+              <QuickAdd product={p} />
             </li>
           </ViewTransition>
         ))}
       </ul>
+    </div>
+  );
+}
+
+/**
+ * Agregar sin abrir la ficha. Todas las piezas tienen acabados: "Agregar"
+ * despliega sus muestras y se agrega la elegida, igual que desde la ficha.
+ */
+function QuickAdd({ product: p }: { product: ProductCardInfo }) {
+  const [choosing, setChoosing] = useState(false);
+  const [added, setAdded] = useState<string | null>(null);
+  const timer = useRef<number | undefined>(undefined);
+  const listId = useId();
+  useEffect(() => () => window.clearTimeout(timer.current), []);
+
+  function add(variantId: string | undefined, name: string | null) {
+    cart.add(p.slug, variantId);
+    setChoosing(false);
+    setAdded(name ?? p.name);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setAdded(null), 1800);
+  }
+
+  return (
+    <div className={styles.quickAdd}>
+      <button
+        type="button"
+        className={`btn btn--ghost ${styles.cardAction}`}
+        aria-label={p.swatches.length ? `Agregar ${p.name} a mi selección: elegir ${p.variantLabel.toLowerCase()}` : `Agregar ${p.name} a mi selección`}
+        aria-expanded={p.swatches.length ? choosing : undefined}
+        aria-controls={p.swatches.length ? listId : undefined}
+        onClick={() => (p.swatches.length ? setChoosing((c) => !c) : add(undefined, null))}
+      >
+        {added ? <IconCheck size={14} /> : <IconBag size={14} />}
+        <span>{added ? "Agregada" : "Agregar"}</span>
+      </button>
+      <span className="visually-hidden" aria-live="polite">
+        {added ? `${p.name}${added !== p.name ? `, ${added}` : ""}: agregada a mi selección` : ""}
+      </span>
+      {p.swatches.length && choosing ? (
+        <div id={listId} className={styles.quickList} role="group" aria-label={`Elige ${p.variantLabel.toLowerCase()}`}>
+          <p className={styles.quickTitle}>{p.variantLabel}</p>
+          {p.swatches.map((s) => (
+            <button key={s.id} type="button" className={styles.quickOption} onClick={() => add(s.id, s.name)}>
+              <span className={styles.dot} style={s.src ? { backgroundImage: `url(${s.src})` } : { background: s.hex }} aria-hidden="true" />
+              {s.name}
+            </button>
+          ))}
+        </div>
+      ) : null}
     </div>
   );
 }

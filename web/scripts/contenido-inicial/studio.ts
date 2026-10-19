@@ -73,6 +73,6 @@ export const ARPAD_PROCESS = [
 
 // Equipo tal como figura en la biografía pública de Instagram: confirmar nombres, cargos y fotos con el estudio.
 export const ARPAD_TEAM = [
-  { name: "Arq. Beamel P.", role: "Arquitectura · Diseño y ejecución" },
-  { name: "Arq. Brayant A.", role: "Arquitectura · Diseño y visualización" },
+  { name: "Arq. Beamel Padilla", role: "Arquitectura · Diseño y ejecución" },
+  { name: "Arq. Brayant Aracena", role: "Arquitectura · Diseño y visualización" },
 ];

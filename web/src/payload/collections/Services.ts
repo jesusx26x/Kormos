@@ -9,6 +9,8 @@ export const Services: CollectionConfig = {
   labels: { singular: "Servicio", plural: "Servicios" },
   orderable: true,
   defaultSort: "_order",
+  // Historial de cambios: cada guardado queda en "Versiones" y se puede restaurar
+  versions: { maxPerDoc: 20 },
   admin: {
     group: "Arpad y Aracena",
     useAsTitle: "title",
