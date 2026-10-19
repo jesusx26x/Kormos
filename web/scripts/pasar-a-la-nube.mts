@@ -48,7 +48,9 @@ type Export = { collections: Record<string, Doc[]>; globals: Record<string, Doc>
 
 const config = (configModule as unknown as { default?: typeof configModule }).default ?? configModule;
 const payload = await getPayload({ config });
-const ctx = { disableRevalidate: true };
+// Un objeto nuevo en cada llamada: el plugin de Blob guarda ahí el archivo que
+// está subiendo, y uno compartido hacía que solo se subiera la primera foto
+const ctx = () => ({ disableRevalidate: true });
 
 const isCloud = /^postgres/.test(process.env.DATABASE_URI || process.env.DATABASE_URL || "");
 
@@ -137,7 +139,7 @@ if (mode === "exportar") {
         data: doc as never,
         filePath: dir ? path.join(OUT, "archivos", slug, String(d.filename)) : undefined,
         overrideAccess: true,
-        context: ctx,
+        context: ctx(),
       });
       map.set(d.id as number, created.id);
     }
@@ -145,7 +147,7 @@ if (mode === "exportar") {
   }
   for (const slug of GLOBALS) {
     const g = data.globals[slug];
-    if (g) await payload.updateGlobal({ slug, data: remap(payload.globals.config.find((c) => c.slug === slug)!.flattenedFields, g) as never, overrideAccess: true, context: ctx });
+    if (g) await payload.updateGlobal({ slug, data: remap(payload.globals.config.find((c) => c.slug === slug)!.flattenedFields, g) as never, overrideAccess: true, context: ctx() });
   }
   payload.logger.info("Listo. Crea el primer usuario en /admin del sitio publicado y revisa el sitio.");
 } else {
