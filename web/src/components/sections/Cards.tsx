@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { BrandSlug } from "@/lib/brands";
 import { MEDIA, type MediaKey } from "@/lib/media.generated";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { waBlock, whatsappUrl } from "@/lib/whatsapp";
 import { Reveal } from "../Reveal";
 import styles from "./Sections.module.css";
 
@@ -50,7 +50,7 @@ export function PackageGrid({ slug, items }: { slug: BrandSlug; items: RenderPac
           <p className={styles.packageScale}>{p.scale}</p>
           <a
             className="link-arrow"
-            href={whatsappUrl(slug, `Me interesa el paquete "${p.name}". Les comparto el tipo de proyecto, la escala y el plazo:`)}
+            href={whatsappUrl(slug, waBlock(`Paquete: ${p.name}`, []), "Les comparto los datos de mi proyecto:\nTipo de proyecto:\nEscala:\nPlazo:")}
             target="_blank"
             rel="noopener noreferrer"
           >

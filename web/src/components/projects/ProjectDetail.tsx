@@ -5,7 +5,7 @@ import { BackFloat } from "../BackFloat";
 import { IconArrow } from "../Icons";
 import { JsonLd } from "../JsonLd";
 import { Reveal } from "../Reveal";
-import { breadcrumbJsonLd } from "@/lib/seo";
+import { breadcrumbJsonLd, SITE_URL } from "@/lib/seo";
 import { ContactBand, GroupBand } from "../sections/GroupBand";
 import { PageHeader } from "../sections/PageHeader";
 import { BeforeAfter } from "./BeforeAfter";
@@ -131,7 +131,7 @@ export function ProjectDetail({ project, next }: { project: Project; next?: Proj
         title="¿Un proyecto como este?"
         text="Cuéntanos qué tienes en mente. Te respondemos por WhatsApp con los siguientes pasos."
         label={`Escribir a ${brand.name}`}
-        message={`Vi el proyecto "${project.title}" en su web y me interesa algo similar.`}
+        message={["Vi este proyecto en su web y me interesa algo similar.", `*${project.title}*\n${SITE_URL}${base}/${project.slug}`]}
       />
 
       <BackFloat href={base} label="Proyectos" />

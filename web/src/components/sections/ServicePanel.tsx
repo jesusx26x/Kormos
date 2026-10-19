@@ -39,7 +39,7 @@ export function ServicePanel({ brand, service }: { brand: BrandSlug; service: Se
             <span className="eyebrow">Ideal para</span> {service.idealFor}
           </p>
         ) : null}
-        <a className="btn" href={whatsappUrl(brand, `Quiero cotizar el servicio de ${service.title}.`)} target="_blank" rel="noopener noreferrer">
+        <a className="btn" href={whatsappUrl(brand, `Quiero cotizar el servicio de *${service.title}*.`)} target="_blank" rel="noopener noreferrer">
           <IconWhatsApp size={16} /> Cotizar {service.title.toLowerCase()}
         </a>
       </div>

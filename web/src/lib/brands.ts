@@ -23,8 +23,6 @@ export type Brand = {
   wordmarkText?: { name: string; sub: string };
   instagram: string;
   email?: string;
-  /** Prefijo de cada mensaje de WhatsApp para saber de qué marca viene */
-  whatsappIntro: string;
   ctaLabel: string;
   nav: NavItem[];
   /** Fotos de partida del slideshow de la portada y del hero */
@@ -56,7 +54,6 @@ export const BRANDS: Record<BrandSlug, Brand> = {
     monogram: "arpadMonogram",
     wordmarkText: { name: "ARPAD STUDIO", sub: "Arquitectura | Diseño | Construcción" },
     instagram: "arpadstudio_",
-    whatsappIntro: "Hola, escribo desde la web de ARPAD STUDIO.",
     ctaLabel: "Contactar",
     nav: [
       { label: "Proyectos", href: "/arpad/proyectos" },
@@ -80,7 +77,6 @@ export const BRANDS: Record<BrandSlug, Brand> = {
     wordmark: "kormosWordmark",
     instagram: "kormos.rd",
     email: "kormosfurniture@gmail.com",
-    whatsappIntro: "Hola, escribo desde la web de KORMÓS.",
     ctaLabel: "Diseña tu pieza",
     nav: [
       { label: "Catálogo", href: "/kormos/catalogo" },
@@ -103,7 +99,6 @@ export const BRANDS: Record<BrandSlug, Brand> = {
     monogram: "aracenaMonogram",
     wordmark: "aracenaWordmark",
     instagram: "aracenastudio_",
-    whatsappIntro: "Hola, escribo desde la web de ARACENA STUDIO.",
     ctaLabel: "Solicitar render",
     nav: [
       { label: "Proyectos", href: "/aracena/proyectos" },
