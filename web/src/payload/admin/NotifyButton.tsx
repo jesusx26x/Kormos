@@ -1,11 +1,12 @@
 "use client";
 
-import { toast, useDocumentInfo, useField, useFormFields, useFormModified } from "@payloadcms/ui";
+import { ConfirmationModal, toast, useDocumentInfo, useField, useFormFields, useFormModified, useModal } from "@payloadcms/ui";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import styles from "./admin.module.css";
+import { formatDateTime } from "./dates";
 
-const dateFmt = new Intl.DateTimeFormat("es-DO", { day: "numeric", month: "long", year: "numeric", timeZone: "America/Santo_Domingo" });
+const MODAL = "avisar-suscriptores";
 
 /** Botón "Avisar a los suscriptores" de la ficha (pieza o proyecto). */
 export function NotifyButton() {
@@ -14,6 +15,7 @@ export function NotifyButton() {
   const published = useFormFields(([fields]) => fields.published?.value !== false);
   const modified = useFormModified();
   const router = useRouter();
+  const { openModal } = useModal();
   const [count, setCount] = useState<number | null>(null);
   const [sending, setSending] = useState(false);
 
@@ -31,7 +33,7 @@ export function NotifyButton() {
   if (!id) return null;
 
   async function send() {
-    if (!window.confirm(`Se enviará un correo a ${count ?? "todos los"} suscriptores con esta ficha. No se puede deshacer. ¿Continuar?`)) return;
+    if (sending) return;
     setSending(true);
     try {
       const res = await fetch(`/api/${collectionSlug}/${id}/avisar`, { method: "POST", credentials: "include" });
@@ -52,16 +54,25 @@ export function NotifyButton() {
     <section className={styles.notify} aria-label="Avisar a los suscriptores">
       <p className={styles.readyTitle}>Avisar a los suscriptores</p>
       {notifiedAt ? (
-        <p className={styles.readyHint}>Ya se avisó el {dateFmt.format(new Date(notifiedAt))}.</p>
+        <p className={styles.readyHint}>Ya se avisó el {formatDateTime(notifiedAt)}.</p>
       ) : (
         <>
           <p className={styles.readyHint}>
             Manda un correo con la foto y el enlace a {count === null ? "los suscriptores" : count === 1 ? "1 suscriptor" : `${count} suscriptores`}. Se envía una sola vez.
           </p>
-          <button type="button" className={styles.notifyButton} disabled={sending || Boolean(blocked) || count === 0} onClick={() => void send()}>
+          <button type="button" className={styles.notifyButton} disabled={sending || Boolean(blocked) || count === 0} onClick={() => openModal(MODAL)}>
             {sending ? "Enviando…" : "Avisar ahora"}
           </button>
           {blocked ? <p className={styles.readyHint}>{blocked}</p> : null}
+          <ConfirmationModal
+            modalSlug={MODAL}
+            heading="¿Avisar a los suscriptores?"
+            body={`Se enviará un correo con esta ficha a ${count === null ? "todos los suscriptores activos" : count === 1 ? "1 suscriptor activo" : `${count} suscriptores activos`}. Se envía una sola vez y no se puede deshacer.`}
+            cancelLabel="Todavía no"
+            confirmLabel="Sí, enviar ahora"
+            confirmingLabel="Enviando…"
+            onConfirm={send}
+          />
         </>
       )}
     </section>

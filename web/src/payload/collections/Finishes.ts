@@ -45,8 +45,12 @@ export const Finishes: CollectionConfig = {
       name: "hex",
       label: "Color",
       type: "text",
-      admin: { description: "Código de color, p. ej. #8a6a4f. Solo si no hay foto de muestra." },
-      validate: (value: unknown) => !value || /^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(String(value)) || "Usa un código como #8a6a4f.",
+      admin: {
+        description: "Elígelo en la paleta o escribe su código, p. ej. #8a6a4f. Solo si no hay foto de muestra.",
+        components: { Field: "/payload/admin/ColorField#ColorField" },
+      },
+      validate: (value: unknown) =>
+        !value || /^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(String(value)) || "El color tiene que ser un código como #8a6a4f: # y seis números o letras de la a a la f. También puedes elegirlo en la paleta.",
     },
     slugField("name"),
   ],

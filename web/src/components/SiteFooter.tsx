@@ -18,7 +18,7 @@ export function SiteFooter({ brand, others }: SiteFooterProps) {
         <div className={styles.intro}>
           <Logo name={brand.monogram} title={brand.name} className={styles.mark} />
           <p className={`display ${styles.tagline}`}>{brand.tagline}</p>
-          <a className="btn" href={whatsappUrl(brand.slug)} target="_blank" rel="noopener noreferrer">
+          <a className={`btn ${styles.introCta}`} href={whatsappUrl(brand.slug)} target="_blank" rel="noopener noreferrer">
             <IconWhatsApp size={16} /> Escríbenos
           </a>
         </div>

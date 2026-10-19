@@ -1,4 +1,5 @@
-import type { Field } from "payload";
+import { APIError, type Field } from "payload";
+import { text, type TextFieldValidation } from "payload/shared";
 import { slugFrom } from "./hooks";
 
 /** Enlace de la página (/kormos/catalogo/<enlace>); se rellena solo a partir del nombre. */
@@ -11,9 +12,28 @@ export const slugField = (from: string): Field => ({
   index: true,
   admin: {
     position: "sidebar",
-    description: "Se genera a partir del nombre. Cambiarlo rompe los enlaces que ya se hayan compartido.",
+    description: "Se crea solo a partir del nombre al guardar la ficha por primera vez. Cambiarlo rompe los enlaces que ya se hayan compartido.",
+    // Al crear no se muestra (SlugField): lo genera el gancho al guardar
+    components: { Field: "/payload/admin/SlugField#SlugField" },
   },
-  hooks: { beforeValidate: [slugFrom(from)] },
+  // Vacío mientras se llena una ficha nueva: el formulario no debe exigirlo. Al
+  // guardar de verdad, el gancho ya lo rellenó y se valida como cualquier texto.
+  // (Con admin.condition los tipos lo marcarían opcional y el sitio no compila.)
+  validate: ((value, args) => (args.operation === "create" && !value ? true : text(value, args))) satisfies TextFieldValidation,
+  hooks: {
+    beforeValidate: [slugFrom(from)],
+    // Un nombre sin letras ni números deja el enlace vacío
+    beforeChange: [
+      ({ value, operation }) => {
+        if ((operation === "create" && !value) || value === "" || value === null) {
+          throw new APIError("El nombre necesita al menos una letra o un número: de ahí sale el enlace de la ficha.", 400, null, true);
+        }
+        return value;
+      },
+    ],
+    // Payload añadiría " - Copy"; así la copia se reconoce y no choca con la original
+    beforeDuplicate: [({ value }) => (typeof value === "string" && value ? `${value}-copia` : value)],
+  },
 });
 
 /** Interruptor para ocultar una ficha del sitio sin borrarla. */
@@ -46,15 +66,22 @@ export const readyField: Field = {
   admin: { position: "sidebar", disableListColumn: true, components: { Field: "/payload/admin/ReadyChecklist#ReadyChecklist" } },
 };
 
-/** Filtros de un clic encima de la tabla. "Todas" va siempre primero. */
-export const quickFilters = (filters: { label: string; where: Record<string, string> }[]) => [
+/**
+ * Filtros de un clic encima de la tabla. "Todas" va siempre primero. La nota
+ * (p. ej. cómo reordenar) solo tiene sentido en la lista, no en la ficha.
+ */
+export const quickFilters = (filters: { label: string; where: Record<string, string> }[], hint?: string) => [
   {
     path: "/payload/admin/QuickFilters#QuickFilters",
     clientProps: {
       filters: [{ label: "Todas" }, { label: "Visibles", where: { published: "true" } }, { label: "Ocultas", where: { published: "false" } }, ...filters],
+      hint,
     },
   },
 ];
+
+/** Nota para reordenar arrastrando, en las listas que lo permiten. */
+export const DRAG_HINT = "Para cambiar el orden en el que aparecen en el sitio, arrastra cada fila desde los puntitos de la izquierda.";
 
 /** Párrafos: un bloque de texto donde una línea en blanco separa párrafos. */
 export const paragraphsField = (name: string, label: string, description?: string): Field => ({

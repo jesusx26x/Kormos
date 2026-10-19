@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { AdminViewServerProps, Where } from "payload";
 import type { Foto, Producto } from "@/payload-types";
 import { BRAND_COLORS, BRAND_NAMES, Monogram, type AdminBrand } from "./Brand";
+import { formatDateTime } from "./dates";
 import { thumb } from "./thumb";
 import styles from "./admin.module.css";
 
@@ -15,7 +16,7 @@ function listUrl(collection: string, where?: Record<string, string>) {
 }
 
 type Stat = { label: string; value: number; href: string; tone?: "warn" };
-type Missing = { id: number; name: string; image: string | null; items: string[] };
+type Gap = { label: string; pieces: { id: number; name: string }[] };
 type Recent = { key: string; title: string; kind: string; href: string; image: string | null; updatedAt: string };
 
 const firstPhoto = (images: unknown): string | null => {
@@ -23,18 +24,20 @@ const firstPhoto = (images: unknown): string | null => {
   return first && typeof first === "object" && typeof (first as Foto).url === "string" ? (first as Foto).url! : null;
 };
 
-/** Qué le falta a una pieza para estar completa en el sitio. */
-function missingFor(p: Producto): string[] {
-  const out: string[] = [];
-  if (!p.description?.trim()) out.push("descripción");
-  if (p.height == null && p.width == null && p.depth == null) out.push("medidas");
-  if (!p.materials?.length) out.push("materiales");
-  if (p.showPrice && p.priceAmount == null) out.push("precio (está marcado para mostrarse)");
-  if (!p.fileSkp && !p.fileDwg && !p.filePdf) out.push("archivos de descarga");
-  return out;
-}
+/** Lo que le puede faltar a una pieza para estar completa en el sitio. */
+const GAPS: { label: string; missing: (p: Producto) => boolean }[] = [
+  { label: "Medidas", missing: (p) => p.height == null && p.width == null && p.depth == null },
+  { label: "Descripción", missing: (p) => !p.description?.trim() },
+  { label: "Materiales", missing: (p) => !p.materials?.length },
+  { label: "Precio (marcado para mostrarse, sin cifra)", missing: (p) => Boolean(p.showPrice) && p.priceAmount == null },
+  { label: "Archivos de descarga", missing: (p) => !p.fileSkp && !p.fileDwg && !p.filePdf },
+];
+const SHOWN_NAMES = 3;
 
-const dateFmt = new Intl.DateTimeFormat("es-DO", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit", timeZone: "America/Santo_Domingo" });
+/** Lista de piezas con esos ids: un filtro que el panel entiende sin campos especiales. */
+const piecesUrl = (ids: number[]) => `${ADMIN}/productos?${ids.map((id, i) => `where[id][in][${i}]=${id}`).join("&")}`;
+
+const pieces = (n: number) => (n === 1 ? "1 pieza" : `${n} piezas`);
 
 /** Inicio del panel: cifras por marca, accesos rápidos, lo que falta y los últimos cambios. */
 export async function Dashboard({ initPageResult }: AdminViewServerProps) {
@@ -52,7 +55,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     count("proyectos", { brand: { equals: "aracena" } }),
     count("paquetes"),
     count("suscriptores", { status: { equals: "activo" } }),
-    payload.find({ collection: "productos", limit: 500, depth: 1, sort: "_order", overrideAccess: true }),
+    payload.find({ collection: "productos", limit: 500, depth: 0, sort: "_order", overrideAccess: true }),
   ]);
 
   const brands: { brand: AdminBrand; tagline: string; stats: Stat[]; links: { label: string; href: string }[] }[] = [
@@ -95,9 +98,11 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     },
   ];
 
-  const missing: Missing[] = products.docs
-    .map((p) => ({ id: p.id, name: p.name, image: firstPhoto(p.images), items: missingFor(p) }))
-    .filter((m) => m.items.length > 0);
+  // Agrupado por lo que falta: una lista de 26 piezas con "Falta: medidas" no dice qué hacer primero
+  const gaps: Gap[] = GAPS.map((g) => ({ label: g.label, pieces: products.docs.filter(g.missing).map((p) => ({ id: p.id, name: p.name })) })).filter(
+    (g) => g.pieces.length > 0,
+  );
+  const incomplete = products.docs.filter((p) => GAPS.some((g) => g.missing(p))).length;
 
   const recentSources = [
     { collection: "productos", kind: "Pieza", title: "name" },
@@ -126,7 +131,8 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     .sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))
     .slice(0, 8);
 
-  const name = (user && "name" in user && typeof user.name === "string" && user.name.trim()) || "";
+  // Solo el nombre de pila: "Hola, María", no "Hola, María Fernández Pérez"
+  const name = (user && "name" in user && typeof user.name === "string" && user.name.trim().split(/\s+/)[0]) || "";
 
   return (
     <div className={styles.dashboard}>
@@ -214,26 +220,41 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
             <h2 id="falta" className={styles.panelTitle}>
               Qué falta en las piezas
             </h2>
-            <span className={styles.badge}>{missing.length}</span>
+            <span className={styles.badge} title="Piezas a las que les falta algo">
+              {incomplete}
+            </span>
           </header>
-          {missing.length === 0 ? (
+          {gaps.length === 0 ? (
             <p className={styles.empty}>Todas las piezas tienen sus datos completos.</p>
           ) : (
-            <ul className={styles.rows}>
-              {missing.slice(0, 8).map((m) => (
-                <li key={m.id}>
-                  <Link href={`${ADMIN}/productos/${m.id}`} className={styles.row}>
-                    <Thumb src={m.image} />
-                    <span className={styles.rowBody}>
-                      <strong>{m.name}</strong>
-                      <small>Falta: {m.items.join(", ")}</small>
-                    </span>
-                  </Link>
-                </li>
-              ))}
+            <ul className={styles.gaps}>
+              {gaps.map((g) => {
+                const rest = g.pieces.length - SHOWN_NAMES;
+                return (
+                  <li key={g.label} className={styles.gap}>
+                    <p className={styles.gapHead}>
+                      <strong>{g.label}</strong>
+                      <span>Falta en {pieces(g.pieces.length)}</span>
+                    </p>
+                    <p className={styles.gapNames}>
+                      {g.pieces.slice(0, SHOWN_NAMES).map((p, i) => (
+                        <span key={p.id}>
+                          {i > 0 ? ", " : null}
+                          <Link href={`${ADMIN}/productos/${p.id}`}>{p.name}</Link>
+                        </span>
+                      ))}
+                      {rest > 0 ? ` y ${pieces(rest)} más` : null}
+                    </p>
+                    {rest > 0 ? (
+                      <Link href={piecesUrl(g.pieces.map((p) => p.id))} className={styles.gapAll}>
+                        Ver las {g.pieces.length} piezas →
+                      </Link>
+                    ) : null}
+                  </li>
+                );
+              })}
             </ul>
           )}
-          {missing.length > 8 ? <p className={styles.more}>Y {missing.length - 8} piezas más.</p> : null}
         </section>
 
         <section className={styles.panel} aria-labelledby="recientes">
@@ -250,7 +271,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
                   <span className={styles.rowBody}>
                     <strong>{r.title}</strong>
                     <small>
-                      {r.kind} · {dateFmt.format(new Date(r.updatedAt))}
+                      {r.kind} · {formatDateTime(r.updatedAt)}
                     </small>
                   </span>
                 </Link>

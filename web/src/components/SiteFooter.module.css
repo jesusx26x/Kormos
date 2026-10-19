@@ -19,6 +19,13 @@
   max-width: 420px;
 }
 
+/* Si la página ya cierra con su banda de contacto, el botón grande del pie
+   sobra (quedaría pegado a otro igual); el enlace de contacto se conserva.
+   Se ignora un #contacto oculto por <Activity> (página anterior en memoria). */
+:global(body:has(#contacto:not([style*="display"]))) .introCta {
+  display: none;
+}
+
 .mark {
   height: 52px;
   color: var(--brand);

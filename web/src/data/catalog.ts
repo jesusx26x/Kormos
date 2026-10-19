@@ -47,6 +47,8 @@ export type Product = {
   variantLabel: string;
   variants: Variant[];
   files: { skp?: string; dwg?: string; pdf?: string };
+  /** Última edición en el panel (ISO), para el mapa del sitio */
+  updatedAt: string;
 };
 
 const fileUrl = (value: number | Archivo | null | undefined) => doc(value)?.url ?? undefined;
@@ -104,6 +106,7 @@ export async function getCatalog(): Promise<{ categories: Category[]; products: 
         variantLabel: p.variantLabel ?? "Acabado",
         variants: (p.variants ?? []).map(variant).filter((v): v is Variant => v !== null),
         files: { skp: fileUrl(p.fileSkp), dwg: fileUrl(p.fileDwg), pdf: fileUrl(p.filePdf) },
+        updatedAt: p.updatedAt,
       };
     })
     .filter((p): p is Product => p !== null);

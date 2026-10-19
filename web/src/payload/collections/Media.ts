@@ -2,7 +2,7 @@ import path from "node:path";
 import sharp from "sharp";
 import type { CollectionConfig } from "payload";
 import { anyone, signedIn } from "../access";
-import { revalidateCollection } from "../hooks";
+import { blockDeleteIfPhotoUsed, revalidateCollection } from "../hooks";
 
 /**
  * Fotos de productos, acabados y proyectos. Al subir una foto se calcula su
@@ -47,6 +47,7 @@ export const Media: CollectionConfig = {
       },
     ],
     ...revalidateCollection(["catalogo", "proyectos", "paquetes", "fotos", "servicios", "equipo"]),
+    beforeDelete: [blockDeleteIfPhotoUsed],
   },
   fields: [
     {

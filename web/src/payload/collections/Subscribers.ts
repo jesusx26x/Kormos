@@ -4,6 +4,9 @@ import { signedIn } from "../access";
 
 const BRAND_NAMES = { arpad: "Arpad Studio", kormos: "Kormós", aracena: "Aracena Studio" } as const;
 const STATUS_NAMES = { pendiente: "Por confirmar", activo: "Activo", baja: "De baja" } as const;
+// Día en República Dominicana: con la fecha UTC, quien se suscribe de noche salía al día siguiente
+const drDay = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Santo_Domingo" });
+const day = (iso?: string | null) => (iso ? drDay.format(new Date(iso)) : "");
 
 /** Lista en CSV (se abre en Excel) con los suscriptores activos y los dados de baja. */
 const exportCsv: PayloadHandler = async (req) => {
@@ -12,7 +15,7 @@ const exportCsv: PayloadHandler = async (req) => {
   const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   const rows = [
     ["Correo", "Desde", "Estado", "Fecha de suscripción", "Fecha de baja"],
-    ...docs.map((d) => [d.email, d.brand ? BRAND_NAMES[d.brand] : "", STATUS_NAMES[d.status], d.createdAt.slice(0, 10), d.unsubscribedAt?.slice(0, 10) ?? ""]),
+    ...docs.map((d) => [d.email, d.brand ? BRAND_NAMES[d.brand] : "", STATUS_NAMES[d.status], day(d.createdAt), day(d.unsubscribedAt)]),
   ];
   // BOM para que Excel lea bien las tildes
   const csv = "﻿" + rows.map((r) => r.map(cell).join(";")).join("\r\n");
@@ -55,7 +58,9 @@ export const Subscribers: CollectionConfig = {
       ],
     },
   },
-  access: { read: signedIn, create: signedIn, update: signedIn, delete: signedIn },
+  // Sin "Agregar" en el panel: un alta a mano se saltaría la confirmación por
+  // correo. El formulario del sitio crea con overrideAccess y no le afecta.
+  access: { read: signedIn, create: () => false, update: signedIn, delete: signedIn },
   endpoints: [{ path: "/exportar", method: "get", handler: exportCsv }],
   hooks: {
     beforeValidate: [
@@ -92,8 +97,8 @@ export const Subscribers: CollectionConfig = {
       type: "select",
       required: true,
       // El formulario del sitio guarda "pendiente" de forma explícita. Aquí sigue
-      // "activo" (alta manual desde el panel) porque cambiar el valor por defecto
-      // obliga a SQLite a rehacer la tabla y el ajuste automático en local falla
+      // "activo" porque cambiar el valor por defecto obliga a SQLite a rehacer la
+      // tabla y el ajuste automático en local falla
       defaultValue: "activo",
       index: true,
       options: [

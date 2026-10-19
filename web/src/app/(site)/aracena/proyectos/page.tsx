@@ -25,7 +25,7 @@ export default async function AracenaProyectos() {
       />
       <section className="section" aria-label="Portafolio de renders">
         <div className="container">
-          <ProjectGrid projects={projects} categories={categories} />
+          <ProjectGrid brand="aracena" projects={projects} categories={categories} />
         </div>
       </section>
       <GroupBand slug="aracena" />

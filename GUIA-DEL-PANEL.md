@@ -67,7 +67,7 @@ En **Ajustes → Datos de las marcas** están la frase, la presentación, el Ins
 
 Las fotos que pasan en la portada del sitio, y arriba en el inicio de cada marca, se cambian en **Ajustes → Datos de las marcas**, en la pestaña de cada marca, campo **Fotos de portada**:
 
-1. Pulsa **Elegir de los existentes** para usar fotos que ya están en la biblioteca, o **Crear** para subir una nueva.
+1. Pulsa **Elegir de los existentes** para usar fotos que ya están en la biblioteca, o **Agregar** para subir una nueva.
 2. Usa de 2 a 6 fotos horizontales y grandes (mínimo 2400 px de ancho). Arrástralas para cambiar el orden.
 3. Pulsa **Guardar**. La portada cambia en la siguiente visita.
 
@@ -94,6 +94,8 @@ La animación (zoom lento y paso de una foto a otra) se aplica sola a cualquier 
 - **No veo el cambio en el sitio:** recarga la página del sitio. Si la ficha está oculta, no aparece.
 - **Cambié algo por error en una pieza o un proyecto:** abre la ficha y pulsa **Versiones** (arriba). Ahí están los últimos 20 guardados; abre el que quieras y pulsa **Restaurar esta versión**.
 - **No me deja borrar una categoría o un acabado:** alguna pieza lo usa todavía. El mensaje dice cuáles; cámbialas primero.
+- **No me deja borrar una foto:** todavía se ve en el sitio (en una pieza, un proyecto, un servicio o la portada). El mensaje dice dónde; quítala de ahí primero.
+- **No me deja borrar un usuario:** nadie puede borrar su propio usuario, ni el último que queda, para que siempre haya alguien que pueda entrar.
 - **Borré algo sin querer:** avisa a quien desarrolló el sitio lo antes posible. Hay copias de seguridad, pero cuanto antes, mejor.
 
 ---

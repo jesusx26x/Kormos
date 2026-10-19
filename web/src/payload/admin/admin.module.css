@@ -398,10 +398,65 @@
   object-fit: cover;
 }
 
-.empty,
-.more {
+.empty {
   margin: 8px 0 0;
   color: var(--theme-elevation-500);
+}
+
+/* Lo que falta, agrupado */
+.gaps {
+  display: grid;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gap {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  border-top: 1px solid var(--theme-elevation-100);
+}
+
+.gap:first-child {
+  border-top: 0;
+}
+
+.gapHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 12px;
+  margin: 0;
+}
+
+.gapHead strong {
+  font-weight: 500;
+}
+
+.gapHead span {
+  color: var(--theme-warning-800);
+  font-size: 0.875rem;
+}
+
+.gapNames {
+  margin: 0;
+  color: var(--theme-elevation-500);
+  font-size: 0.875rem;
+}
+
+.gapNames a {
+  color: var(--theme-elevation-800);
+}
+
+.gapAll {
+  justify-self: start;
+  padding: 6px 0;
+  color: var(--theme-text);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 /* ==================== Listas ==================== */
@@ -558,6 +613,17 @@
   border-color: var(--theme-elevation-900);
   background: var(--theme-elevation-900);
   color: var(--theme-elevation-0);
+}
+
+.listHint {
+  margin: -6px 0 18px;
+  color: var(--theme-elevation-500);
+  font-size: 0.875rem;
+}
+
+.listHint a {
+  color: var(--theme-text);
+  font-weight: 500;
 }
 
 /* ==================== Lista para publicar ==================== */
@@ -738,4 +804,99 @@
   font: inherit;
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* ==================== Campos de la ficha ==================== */
+.slugField {
+  margin-bottom: 24px;
+}
+
+/* El campo de Payload ya deja su margen: el botón va pegado debajo */
+.slugField :global(.field-type) {
+  margin-bottom: 4px;
+}
+
+.slugUnlock,
+.suggestFix {
+  padding: 6px 0;
+  border: 0;
+  background: none;
+  color: var(--theme-elevation-700);
+  font: inherit;
+  font-size: 0.8125rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.suggestField :global(.field-type) {
+  margin-bottom: 6px;
+}
+
+.suggestField {
+  margin-bottom: 24px;
+}
+
+.suggestWarn {
+  margin: 0 0 6px;
+  color: var(--theme-warning-800);
+  font-size: 0.8125rem;
+}
+
+.suggestList {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  color: var(--theme-elevation-500);
+  font-size: 0.8125rem;
+}
+
+.suggestChip {
+  min-height: 32px;
+  padding: 4px 12px;
+  border: 1px solid var(--theme-elevation-200);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--theme-text);
+  font: inherit;
+  cursor: pointer;
+}
+
+.suggestChip:hover {
+  border-color: var(--theme-elevation-500);
+}
+
+/* Paleta a la izquierda del código; error y descripción ocupan todo el ancho */
+.colorField :global(.field-type__wrap) {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  column-gap: 8px;
+}
+
+.colorField :global(.field-type__wrap) > * {
+  grid-column: 1 / -1;
+}
+
+.colorField :global(.field-type__wrap) > .colorPicker {
+  grid-column: 1;
+}
+
+.colorField :global(.field-type__wrap) > input[type="text"] {
+  grid-column: 2;
+}
+
+.colorPicker {
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: var(--style-radius-s);
+  background: var(--theme-input-bg, var(--theme-elevation-0));
+  cursor: pointer;
+}
+
+.colorPicker[data-empty] {
+  opacity: 0.3;
 }

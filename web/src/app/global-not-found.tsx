@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function GlobalNotFound() {
   return (
-    <html lang="es" className={FONT_VARIABLES}>
+    <html lang="es-DO" className={FONT_VARIABLES}>
       <body>
         <NotFound />
       </body>
