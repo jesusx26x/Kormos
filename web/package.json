@@ -7,15 +7,24 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "payload": "node --env-file=.env --import tsx/esm scripts/payload-cli.mjs",
-    "generate:types": "node --env-file=.env --import tsx/esm scripts/payload-cli.mjs generate:types",
-    "generate:importmap": "node --env-file=.env --import tsx/esm scripts/payload-cli.mjs generate:importmap",
-    "seed": "node --env-file=.env --import tsx/esm scripts/seed.mts"
+    "payload": "node --env-file-if-exists=.env --import tsx/esm scripts/payload-cli.mjs",
+    "generate:types": "node --env-file-if-exists=.env --import tsx/esm scripts/payload-cli.mjs generate:types",
+    "generate:importmap": "node --env-file-if-exists=.env --import tsx/esm scripts/payload-cli.mjs generate:importmap",
+    "seed": "node --env-file-if-exists=.env --import tsx/esm scripts/seed.mts",
+    "migrate": "node --env-file-if-exists=.env --import tsx/esm scripts/payload-cli.mjs migrate",
+    "migrate:create": "node --env-file-if-exists=.env --import tsx/esm scripts/payload-cli.mjs migrate:create",
+    "vercel-build": "npm run migrate && next build",
+    "contenido:exportar": "node --env-file-if-exists=.env --import tsx/esm scripts/pasar-a-la-nube.mts exportar",
+    "contenido:importar": "node --env-file=.env.nube --import tsx/esm scripts/pasar-a-la-nube.mts importar",
+    "migrate:nube": "node --env-file=.env.nube --import tsx/esm scripts/payload-cli.mjs migrate",
+    "contenido:respaldo": "node --env-file=.env.nube --import tsx/esm scripts/pasar-a-la-nube.mts exportar"
   },
   "dependencies": {
+    "@payloadcms/db-postgres": "^3.91.0",
     "@payloadcms/db-sqlite": "^3.91.0",
     "@payloadcms/email-resend": "^3.91.0",
     "@payloadcms/next": "^3.91.0",
+    "@payloadcms/storage-vercel-blob": "^3.91.0",
     "@payloadcms/translations": "3.91.0",
     "@payloadcms/ui": "^3.91.0",
     "graphql": "^16.14.2",
@@ -34,5 +43,8 @@
     "eslint-config-next": "16.4.2",
     "potrace": "^2.1.8",
     "typescript": "^5"
+  },
+  "engines": {
+    "node": "24.x"
   }
 }

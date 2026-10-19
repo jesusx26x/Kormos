@@ -2,6 +2,7 @@ import { pageMeta } from "@/lib/seo";
 import type { Metadata } from "next";
 import { ProjectPage } from "@/components/projects/ProjectPage";
 import { getProject, getProjects } from "@/data/projects";
+import { atLeastOne } from "@/data/payload";
 
 // Los proyectos se prerenderizan: se permite que la navegación espere a la
 // página completa (HTML en línea, sin contenido oculto tras un armazón).
@@ -9,7 +10,7 @@ import { getProject, getProjects } from "@/data/projects";
 export const instant = false;
 
 export async function generateStaticParams() {
-  return (await getProjects("aracena")).map((p) => ({ slug: p.slug }));
+  return atLeastOne((await getProjects("aracena")).map((p) => ({ slug: p.slug })));
 }
 
 export async function generateMetadata({ params }: PageProps<"/aracena/proyectos/[slug]">): Promise<Metadata> {

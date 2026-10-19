@@ -73,6 +73,13 @@ Antes de publicar, define el dominio para canonical, Open Graph, sitemap y JSON-
 NEXT_PUBLIC_SITE_URL=https://tu-dominio.com
 ```
 
+Publicación paso a paso: [`GUIA-DE-PUBLICACION.md`](../GUIA-DE-PUBLICACION.md). Lo técnico:
+
+- **Base de datos:** con `DATABASE_URL` (o `DATABASE_URI`) `postgres://…` se usa PostgreSQL; si no, SQLite en `data/`.
+- **Fotos y archivos:** con `BLOB_READ_WRITE_TOKEN` se guardan en Vercel Blob y se suben directo desde el navegador; si no, en `uploads/`.
+- **Migraciones (solo PostgreSQL):** en local, SQLite se adapta solo. Si cambias campos de `src/payload/`, genera la migración contra una base PostgreSQL con `DATABASE_URI=postgres://… npm run migrate:create -- nombre` y súbela con el cambio. En Vercel, `vercel-build` ejecuta `migrate` antes de compilar.
+- **Pasar contenido:** `npm run contenido:exportar` (local) y `npm run contenido:importar` (lee `.env.nube`). `npm run contenido:respaldo` saca copia del sitio publicado.
+
 Imágenes para compartir (1200×630) e iconos por marca, después de cambiar fotos o logos:
 
 ```bash

@@ -44,3 +44,4 @@ next-env.d.ts
 # contenido del panel (local)
 /data
 /uploads
+/exportacion

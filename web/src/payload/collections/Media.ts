@@ -30,7 +30,8 @@ export const Media: CollectionConfig = {
   hooks: {
     beforeChange: [
       async ({ data, req }) => {
-        const file = req.file?.data;
+        // Con subida directa a Blob el servidor recibe un archivo temporal, no los bytes
+        const file = req.file?.tempFilePath ?? (req.file?.data?.length ? req.file.data : null);
         if (!file) return data;
         const image = sharp(file);
         const meta = await image.metadata();

@@ -11,13 +11,14 @@ import { ContactBand } from "@/components/sections/GroupBand";
 import { dimensionsLabel, getCatalog, getProduct, priceLabel, STATUS_LABEL } from "@/data/catalog";
 import sectionStyles from "@/components/sections/Sections.module.css";
 import { CatalogGrid } from "@/components/kormos/CatalogGrid";
+import { atLeastOne } from "@/data/payload";
 
 // Las fichas se prerenderizan: HTML completo en línea (ver ProjectPage).
 // Las piezas que se publiquen después desde el panel se generan en la primera visita.
 export const instant = false;
 
 export async function generateStaticParams() {
-  return (await getCatalog()).products.map((p) => ({ slug: p.slug }));
+  return atLeastOne((await getCatalog()).products.map((p) => ({ slug: p.slug })));
 }
 
 export async function generateMetadata({ params }: PageProps<"/kormos/catalogo/[slug]">): Promise<Metadata> {

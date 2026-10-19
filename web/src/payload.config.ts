@@ -1,7 +1,9 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { postgresAdapter } from "@payloadcms/db-postgres";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { resendAdapter } from "@payloadcms/email-resend";
+import { vercelBlobStorage } from "@payloadcms/storage-vercel-blob";
 import { es } from "@payloadcms/translations/languages/es";
 import { buildConfig } from "payload";
 import sharp from "sharp";
@@ -28,10 +30,15 @@ if (!process.env.PAYLOAD_SECRET) {
 }
 
 /**
- * Panel de contenido (/admin). En local usa SQLite (web/data/); al publicar
- * se cambia el adaptador por PostgreSQL y el almacenamiento de archivos por
- * uno en la nube (ver ANALISIS-Y-PLAN.md, fase 8).
+ * Panel de contenido (/admin). En local usa SQLite (web/data/) y guarda las
+ * fotos y archivos en web/uploads/. Publicado (ver GUIA-DE-PUBLICACION.md):
+ * una DATABASE_URL (o DATABASE_URI) postgres:// activa PostgreSQL y BLOB_READ_WRITE_TOKEN
+ * guarda fotos y archivos en Vercel Blob.
  */
+// Vercel guarda la base de Neon como DATABASE_URL: se acepta tal cual
+const databaseUri = process.env.DATABASE_URI || process.env.DATABASE_URL || "file:./data/sitio.db";
+const usePostgres = /^postgres(ql)?:\/\//.test(databaseUri);
+const blobToken = process.env.BLOB_READ_WRITE_TOKEN;
 export default buildConfig({
   secret: process.env.PAYLOAD_SECRET,
   admin: {
@@ -81,9 +88,25 @@ export default buildConfig({
           defaultFromName: process.env.EMAIL_FROM_NAME ?? "Aracena Studio · Arpad Studio · Kormós",
         })
       : undefined,
-  db: sqliteAdapter({
-    client: { url: process.env.DATABASE_URI ?? "file:./data/sitio.db" },
-  }),
+  db: usePostgres
+    ? postgresAdapter({
+        pool: { connectionString: databaseUri },
+        // En producción el esquema cambia solo con migraciones (npm run migrate)
+        migrationDir: path.resolve(dirname, "migrations"),
+      })
+    : sqliteAdapter({ client: { url: databaseUri } }),
+  plugins: blobToken
+    ? [
+        vercelBlobStorage({
+          token: blobToken,
+          // Las fotos y los .skp/.dwg/.pdf son públicos: se sirven directo desde Blob,
+          // sin pasar por el servidor (un .skp puede pesar 150 MB)
+          collections: { fotos: { disablePayloadAccessControl: true }, archivos: { disablePayloadAccessControl: true } },
+          // Vercel limita a 4.5 MB lo que entra al servidor: el navegador sube directo a Blob
+          clientUploads: true,
+        }),
+      ]
+    : [],
   upload: {
     // Los modelos de SketchUp pueden pesar bastante
     limits: { fileSize: 150 * 1024 * 1024 },

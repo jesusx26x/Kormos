@@ -34,7 +34,10 @@ function noticeText(n: Notice, unsubscribeUrl: string) {
 
 const photoUrl = (value: unknown): string | null => {
   const f = Array.isArray(value) ? value[0] : value;
-  return f && typeof f === "object" && typeof (f as Foto).url === "string" ? `${SITE}${(f as Foto).url}` : null;
+  const url = f && typeof f === "object" ? (f as Foto).url : null;
+  if (!url) return null;
+  // Publicada, la foto ya es una URL completa de Vercel Blob
+  return /^https?:\/\//.test(url) ? url : `${SITE}${url}`;
 };
 
 function toNotice(collection: "productos" | "proyectos", doc: Producto | Proyecto): Notice {
