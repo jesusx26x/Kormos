@@ -1,37 +1,123 @@
-// CONTENIDO INICIAL: solo lo usa scripts/seed.mts para la primera carga del panel.
-// El sitio ya no lee este archivo: el contenido se edita en /admin.
-import type { RenderPackage } from "@/components/sections/Cards";
+// CONTENIDO INICIAL: lo usan scripts/seed.mts para la primera carga del panel y
+// la migración del catálogo de Aracena. El sitio lee el contenido del panel.
+import type { Paquete } from "@/payload-types";
 
-// Paquetes de Aracena Studio. Sin precios aún: el estudio no maneja
-// presupuestos genéricos. Cuando haya precios se añade { price, currency }.
-export const RENDER_PACKAGES: RenderPackage[] = [
+type PackageData = Pick<Paquete, "name" | "includes" | "scale" | "priceAmount" | "priceTo" | "priceCurrency" | "showPrice" | "recommended">;
+
+// Los paquetes de muestra de la primera carga: la migración del catálogo los
+// reemplaza solo si siguen así
+export const SAMPLE_PACKAGE_NAMES = ["Render interior", "Render exterior", "Recorrido virtual", "Material para ventas"] as const;
+
+// Catálogo de paquetes de renders de Aracena Studio (2024)
+export const RENDER_PACKAGES: PackageData[] = [
   {
-    name: "Render interior",
-    includes: ["Imágenes hiperrealistas por ambiente", "Iluminación y materiales a detalle", "Encuadres pensados para comunicar el diseño"],
-    scale: "Precio según número de ambientes",
+    name: "Essential",
+    scale: "Proyectos de 0 a 50 m²",
+    includes: [
+      "1 a 2 renders",
+      "Uno o dos espacios interiores (por ejemplo, sala y dormitorio principal)",
+      "Uno o dos exteriores",
+      "Imágenes fijas en JPEG o PNG",
+      "Una revisión para ajustes menores",
+    ],
+    priceAmount: 300,
+    priceTo: 600,
+    priceCurrency: "US$",
+    showPrice: true,
+    recommended: false,
   },
   {
-    name: "Render exterior",
-    includes: ["Fachadas y volumetría", "Vistas de día y de noche", "Paisajismo y entorno"],
-    scale: "Precio según escala del proyecto",
+    name: "Standard",
+    scale: "Proyectos de 50 a 150 m²",
+    includes: [
+      "2 a 4 renders por área",
+      "Todos los espacios interiores: sala, comedor, cocina, dormitorios y baños",
+      "Fachadas y vista aérea",
+      "Imágenes fijas y panorámica 360°",
+      "Hasta dos revisiones para ajustes de diseño",
+    ],
+    priceAmount: 600,
+    priceTo: 1500,
+    priceCurrency: "US$",
+    showPrice: true,
+    recommended: false,
   },
   {
-    name: "Recorrido virtual",
-    includes: ["Animación del proyecto", "Ideal para preventas", "Formato para redes y presentaciones"],
-    scale: "Precio según duración",
+    name: "Premium",
+    scale: "Proyectos de 300 a 400 m²",
+    includes: [
+      "6 a 8 renders",
+      "Todos los espacios interiores: sala, comedor, cocina, dormitorios y más",
+      "Iluminación y materiales realistas",
+      "Imágenes fijas, panorámica 360° y recorridos virtuales avanzados",
+      "Animaciones cortas, según el proyecto",
+      "Varias revisiones y ajustes hasta lograr el resultado",
+    ],
+    priceAmount: 1500,
+    priceTo: 2500,
+    priceCurrency: "US$",
+    showPrice: true,
+    recommended: true,
   },
   {
-    name: "Material para ventas",
-    includes: ["Piezas para redes y brochures", "Imágenes para concursos", "Antes y después"],
-    scale: "Precio según volumen",
+    name: "Personalizado",
+    scale: "Metraje a la medida del proyecto",
+    includes: [
+      "Renders según lo que necesita tu proyecto",
+      "Cantidad de renders y revisiones a medida",
+      "Se pueden añadir recorridos virtuales y vistas 360°",
+      "Precio según los servicios y requisitos adicionales",
+    ],
+    priceAmount: 2500,
+    priceTo: 4000,
+    priceCurrency: "US$",
+    showPrice: true,
+    recommended: false,
   },
 ];
+
+// Precios de renders sueltos por área, en dólares
+export const AREA_PRICES = {
+  exterior: [
+    { area: "Fachadas", priceFrom: 150, priceTo: 1500 },
+    { area: "Área de juegos", priceFrom: 150, priceTo: 500 },
+    { area: "Jardín o patio", priceFrom: 200, priceTo: 450 },
+    { area: "Terraza", priceFrom: 200, priceTo: 500 },
+    { area: "Zona de piscina", priceFrom: 200, priceTo: 400 },
+    { area: "Balcón", priceFrom: 100, priceTo: 350 },
+  ],
+  interior: [
+    { area: "Sala de estar", priceFrom: 150, priceTo: 450 },
+    { area: "Comedor", priceFrom: 150, priceTo: 450 },
+    { area: "Cocina", priceFrom: 150, priceTo: 450 },
+    { area: "Habitaciones", priceFrom: 150, priceTo: 450 },
+    { area: "Baños", priceFrom: 100, priceTo: 350 },
+    { area: "Estudio u oficina", priceFrom: 150, priceTo: 250 },
+    { area: "Local comercial", priceFrom: 200, priceTo: 250 },
+    { area: "Lavandería", priceFrom: 150, priceTo: 250 },
+    { area: "Vestidores", priceFrom: 150, priceTo: 350 },
+  ],
+};
+
+export const AREA_NOTE =
+  "Precios de referencia en dólares. Varían según la complejidad del proyecto y lo que necesitas; envíanos tu solicitud y te respondemos con una cotización a tu medida. Ciertas restricciones aplican.";
+
+const PRICE_FAQ_ANSWER =
+  "Cada paquete y cada área muestran un precio de referencia. El precio final depende del tipo de proyecto, su escala y lo que necesitas comunicar: envíanos tu solicitud y te respondemos con una cotización.";
+
+// Respuesta de la carga inicial, de cuando no se publicaban precios
+export const PRICE_FAQ = {
+  q: "¿Cuánto cuesta un render?",
+  before:
+    "No manejamos presupuestos genéricos. Cada propuesta se ajusta al tipo de proyecto, su escala y lo que necesitas comunicar. Envíanos tu solicitud y te respondemos con una cotización.",
+  a: PRICE_FAQ_ANSWER,
+};
 
 // Respuestas tomadas de las políticas que Aracena publica en Instagram.
 export const RENDER_FAQ = [
   {
     q: "¿Cuánto cuesta un render?",
-    a: "No manejamos presupuestos genéricos. Cada propuesta se ajusta al tipo de proyecto, su escala y lo que necesitas comunicar. Envíanos tu solicitud y te respondemos con una cotización.",
+    a: PRICE_FAQ_ANSWER,
   },
   {
     q: "¿Cotizan por mensaje directo en Instagram?",

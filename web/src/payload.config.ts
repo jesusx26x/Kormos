@@ -19,6 +19,7 @@ import { Subscribers } from "./payload/collections/Subscribers";
 import { Team } from "./payload/collections/Team";
 import { Testimonials } from "./payload/collections/Testimonials";
 import { Users } from "./payload/collections/Users";
+import { AracenaAreaPrices } from "./payload/globals/AracenaAreaPrices";
 import { AracenaFaq } from "./payload/globals/AracenaFaq";
 import { ArpadProcess } from "./payload/globals/ArpadProcess";
 import { BrandInfo } from "./payload/globals/BrandInfo";
@@ -56,7 +57,7 @@ export default buildConfig({
     },
   },
   collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Subscribers, Media, Files, Users],
-  globals: [AracenaFaq, ArpadProcess, BrandInfo],
+  globals: [AracenaAreaPrices, AracenaFaq, ArpadProcess, BrandInfo],
   i18n: {
     supportedLanguages: { es },
     fallbackLanguage: "es",

@@ -59,6 +59,11 @@ Todo está en el menú, en "Arpad y Aracena":
 - **Testimonios:** solo testimonios reales y con permiso del cliente. Si no hay ninguno, la sección no aparece.
 - **Proceso de trabajo (Arpad)** y **Preguntas frecuentes (Aracena):** listas que se ordenan arrastrando.
 
+## Paquetes y precios de Aracena
+
+- **Paquetes de render:** nombre, tamaño del proyecto (por ejemplo, "Proyectos de 0 a 50 m²"), qué incluye y el precio **desde** y **hasta**. Marca **Mostrar el precio en el sitio** para que se vea; si lo desmarcas, en su lugar sale el tamaño del proyecto. **Recomendado**, en la columna derecha, pone esa etiqueta en el paquete.
+- **Precios por área (Aracena):** las listas de exteriores e interiores (fachada, sala, cocina…) con su precio desde y hasta, y la nota que sale debajo. Si vacías las dos listas, la sección desaparece del sitio.
+
 ## Datos de cada marca
 
 En **Ajustes → Datos de las marcas** están la frase, la presentación, el Instagram y el correo de cada marca.

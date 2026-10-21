@@ -131,6 +131,12 @@ export function priceLabel(p: Pick<Product, "showPrice" | "price">) {
   return `${p.price.currency} ${amount}`;
 }
 
+/** "US$ 300 – 600"; sin tope o con el mismo tope, "Desde US$ 300". */
+export function priceRange(currency: string, from: number, to?: number | null) {
+  const fmt = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return to != null && to > from ? `${currency} ${fmt(from)} – ${fmt(to)}` : `Desde ${currency} ${fmt(from)}`;
+}
+
 export function dimensionsLabel(p: Pick<Product, "dimensions">) {
   return p.dimensions ? `${p.dimensions.alto} × ${p.dimensions.ancho} × ${p.dimensions.fondo} cm` : null;
 }

@@ -29,7 +29,7 @@ export function CollectionGrid({ items }: { items: PieceCategory[] }) {
   );
 }
 
-export type RenderPackage = { name: string; includes: string[]; scale: string };
+export type RenderPackage = { name: string; includes: string[]; scale: string; price: string | null; recommended: boolean };
 
 /** Paquetes de render de Aracena: precio según escala, solicitud por WhatsApp. */
 export function PackageGrid({ slug, items }: { slug: BrandSlug; items: RenderPackage[] }) {
@@ -41,16 +41,19 @@ export function PackageGrid({ slug, items }: { slug: BrandSlug; items: RenderPac
           <span className={styles.number} aria-hidden="true">
             {String(i + 1).padStart(2, "0")}
           </span>
+          {p.recommended ? <p className={styles.packageBadge}>Recomendado</p> : null}
           <h3 className={styles.packageName}>{p.name}</h3>
+          {p.price ? <p className={styles.packageSize}>{p.scale}</p> : null}
           <ul className={styles.packageList}>
             {p.includes.map((line) => (
               <li key={line}>{line}</li>
             ))}
           </ul>
-          <p className={styles.packageScale}>{p.scale}</p>
+          {/* Sin precio visible, el tamaño del proyecto ocupa su lugar */}
+          <p className={styles.packageScale}>{p.price ?? p.scale}</p>
           <a
             className="link-arrow"
-            href={whatsappUrl(slug, waBlock(`Paquete: ${p.name}`, []), "Les comparto los datos de mi proyecto:\nTipo de proyecto:\nEscala:\nPlazo:")}
+            href={whatsappUrl(slug, waBlock(`Paquete: ${p.name}`, p.price ? [["Precio de referencia", p.price]] : []), "Les comparto los datos de mi proyecto:\nTipo de proyecto:\nEscala:\nPlazo:")}
             target="_blank"
             rel="noopener noreferrer"
           >
