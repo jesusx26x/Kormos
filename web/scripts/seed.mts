@@ -16,7 +16,7 @@ import { getPayload } from "payload";
 import configModule from "../src/payload.config";
 import { CATEGORIES, PRODUCTS, type Variant } from "./contenido-inicial/products";
 import { PROJECTS } from "./contenido-inicial/projects";
-import { RENDER_FAQ, RENDER_PACKAGES } from "./contenido-inicial/packages";
+import { AREA_NOTE, AREA_PRICES, RENDER_FAQ, RENDER_PACKAGES } from "./contenido-inicial/packages";
 import { ARPAD_PROCESS, ARPAD_SERVICES, ARPAD_TEAM } from "./contenido-inicial/studio";
 import { BRANDS, type BrandSlug } from "../src/lib/brands";
 import { MEDIA, type MediaKey } from "../src/lib/media.generated";
@@ -180,8 +180,9 @@ if (!catalogLoaded || reset) {
 
   // ---------------------------------------------------------------- paquetes y preguntas
   for (const p of RENDER_PACKAGES) {
-    await payload.create({ collection: "paquetes", data: { name: p.name, includes: p.includes, scale: p.scale, published: true }, context: ctx() });
+    await payload.create({ collection: "paquetes", data: { ...p, published: true }, context: ctx() });
   }
+  await payload.updateGlobal({ slug: "precios-aracena", data: { currency: "US$", ...AREA_PRICES, note: AREA_NOTE }, context: ctx() });
   await payload.updateGlobal({
     slug: "preguntas-aracena",
     data: { items: RENDER_FAQ.map((f) => ({ question: f.q, answer: f.a })) },

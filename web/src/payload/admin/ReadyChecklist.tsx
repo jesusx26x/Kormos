@@ -44,11 +44,11 @@ const RULES: Record<string, Rule[]> = {
   paquetes: [
     { label: "Nombre", done: (f) => filled(f, "name") },
     { label: "Qué incluye", done: (f) => filled(f, "includes") },
-    { label: "Cómo se cotiza", done: (f) => filled(f, "scale") },
+    { label: "Tamaño del proyecto", done: (f) => filled(f, "scale") },
     {
       label: "Precio",
       done: (f) => !val(f, "showPrice") || filled(f, "priceAmount"),
-      hint: (f) => (val(f, "showPrice") ? null : "Se muestra la nota de cómo se cotiza."),
+      hint: (f) => (val(f, "showPrice") ? null : "Se muestra el tamaño del proyecto en su lugar."),
     },
   ],
   servicios: [

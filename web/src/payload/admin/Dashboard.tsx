@@ -94,7 +94,10 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
         { label: "Proyectos", value: rProjects, href: listUrl("proyectos", { brand: "aracena" }) },
         { label: "Paquetes", value: rPackages, href: listUrl("paquetes") },
       ],
-      links: [{ label: "Preguntas frecuentes", href: "/admin/globals/preguntas-aracena" }],
+      links: [
+        { label: "Precios por área", href: "/admin/globals/precios-aracena" },
+        { label: "Preguntas frecuentes", href: "/admin/globals/preguntas-aracena" },
+      ],
     },
   ];
 

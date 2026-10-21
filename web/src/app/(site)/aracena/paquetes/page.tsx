@@ -8,13 +8,13 @@ import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 import { Section } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
-import { getFaq, getPackages } from "@/data/packages";
+import { getAreaPrices, getFaq, getPackages } from "@/data/packages";
 import type { MediaKey } from "@/lib/media.generated";
 import { img } from "@/lib/media";
 
 export const metadata: Metadata = pageMeta({
   title: "Paquetes de render · Aracena Studio",
-  description: "Render interior, render exterior, recorridos virtuales y material para ventas. Precio según el tipo y la escala del proyecto.",
+  description: "Paquetes de renders interiores y exteriores, panorámicas 360° y recorridos virtuales, con precios de referencia por paquete y por área.",
   path: "/aracena/paquetes",
   brand: "aracena",
 });
@@ -22,7 +22,8 @@ export const metadata: Metadata = pageMeta({
 const PROCESS_SLIDES: MediaKey[] = ["aracena-proceso-idea", "aracena-proceso-precios", "aracena-proceso-solicitud", "aracena-proceso-anticipo"];
 
 export default async function AracenaPaquetes() {
-  const [packages, faq] = await Promise.all([getPackages(), getFaq()]);
+  const [packages, areas, faq] = await Promise.all([getPackages(), getAreaPrices(), getFaq()]);
+  const hasAreas = areas.exterior.length > 0 || areas.interior.length > 0;
   return (
     <>
       <PageHeader
@@ -34,14 +35,43 @@ export default async function AracenaPaquetes() {
 
       <Section eyebrow="Catálogo de servicios" title="Elige cómo quieres mostrar tu proyecto">
         <PackageGrid slug="aracena" items={packages} />
+        {areas.note && !hasAreas ? <p className={styles.priceNote}>{areas.note}</p> : null}
       </Section>
+
+      {hasAreas ? (
+        <Section id="por-area" eyebrow="Por área" title="Renders por área" intro="Para cuando necesitas solo algunos espacios del proyecto.">
+          <div className={styles.areaPrices}>
+            {(
+              [
+                ["Exteriores", areas.exterior],
+                ["Interiores", areas.interior],
+              ] as const
+            ).map(([title, rows]) =>
+              rows.length ? (
+                <Reveal key={title}>
+                  <h3 className={styles.areaTitle}>{title}</h3>
+                  <ul className={styles.areaList}>
+                    {rows.map((row) => (
+                      <li key={row.area}>
+                        <span>{row.area}</span>
+                        <span className={styles.areaPrice}>{row.price}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ) : null,
+            )}
+          </div>
+          {areas.note ? <p className={styles.priceNote}>{areas.note}</p> : null}
+        </Section>
+      ) : null}
 
       <section id="solicitud" className={`section ${styles.surface}`} aria-labelledby="solicitud-titulo">
         <div className="container">
           <Reveal as="header" className={styles.sectionHead}>
             <p className="eyebrow">Solicitud</p>
             <h2 id="solicitud-titulo" className={`display ${styles.sectionTitle}`}>
-              Arma tu solicitud
+              Crea tu solicitud
             </h2>
             <p className={`lead ${styles.sectionIntro}`}>Con estos datos podemos cotizar sin vueltas. Se envía por WhatsApp, el canal oficial de solicitudes.</p>
           </Reveal>

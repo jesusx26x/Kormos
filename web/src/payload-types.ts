@@ -108,11 +108,13 @@ export interface Config {
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | 'es' | 'es'[];
   globals: {
+    'precios-aracena': PreciosAracena;
     'preguntas-aracena': PreguntasAracena;
     'proceso-arpad': ProcesoArpad;
     marcas: Marca;
   };
   globalsSelect: {
+    'precios-aracena': PreciosAracenaSelect<false> | PreciosAracenaSelect<true>;
     'preguntas-aracena': PreguntasAracenaSelect<false> | PreguntasAracenaSelect<true>;
     'proceso-arpad': ProcesoArpadSelect<false> | ProcesoArpadSelect<true>;
     marcas: MarcasSelect<false> | MarcasSelect<true>;
@@ -434,15 +436,23 @@ export interface Paquete {
    */
   includes: string[];
   /**
-   * Ej.: "Precio según número de ambientes". Si marcas "Mostrar el precio", aquí aparece "Desde RD$ …" en su lugar.
+   * Ej.: "Proyectos de 0 a 50 m²". Sin precio visible, esta nota va en el lugar del precio.
    */
   scale: string;
   priceAmount?: number | null;
-  priceCurrency?: ('RD$' | 'US$') | null;
   /**
-   * Si está desmarcado (o no hay precio), el sitio dice "Precio a consultar".
+   * Opcional.
+   */
+  priceTo?: number | null;
+  priceCurrency?: ('US$' | 'RD$') | null;
+  /**
+   * Si está desmarcado (o no hay precio), se muestra el tamaño del proyecto en su lugar.
    */
   showPrice?: boolean | null;
+  /**
+   * Muestra la etiqueta "Recomendado" en este paquete.
+   */
+  recommended?: boolean | null;
   /**
    * Desmárcalo para ocultarla sin borrarla.
    */
@@ -836,8 +846,10 @@ export interface PaquetesSelect<T extends boolean = true> {
   includes?: T;
   scale?: T;
   priceAmount?: T;
+  priceTo?: T;
   priceCurrency?: T;
   showPrice?: T;
+  recommended?: T;
   published?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1009,6 +1021,50 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   createdAt?: T;
 }
 /**
+ * Precios de renders sueltos por área. Si las dos listas están vacías, la sección no aparece en el sitio.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "precios-aracena".
+ */
+export interface PreciosAracena {
+  id: number;
+  currency: 'US$' | 'RD$';
+  /**
+   * Para cambiar el orden, Para cambiar el orden en el que aparecen en el sitio, mantén pulsados los puntitos de la izquierda y arrastra la fila..
+   */
+  exterior?:
+    | {
+        area: string;
+        priceFrom: number;
+        /**
+         * Opcional.
+         */
+        priceTo?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Para cambiar el orden, Para cambiar el orden en el que aparecen en el sitio, mantén pulsados los puntitos de la izquierda y arrastra la fila..
+   */
+  interior?:
+    | {
+        area: string;
+        priceFrom: number;
+        /**
+         * Opcional.
+         */
+        priceTo?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Aparece debajo de los paquetes y de los precios por área.
+   */
+  note?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "preguntas-aracena".
  */
@@ -1122,6 +1178,33 @@ export interface Marca {
   };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "precios-aracena_select".
+ */
+export interface PreciosAracenaSelect<T extends boolean = true> {
+  currency?: T;
+  exterior?:
+    | T
+    | {
+        area?: T;
+        priceFrom?: T;
+        priceTo?: T;
+        id?: T;
+      };
+  interior?:
+    | T
+    | {
+        area?: T;
+        priceFrom?: T;
+        priceTo?: T;
+        id?: T;
+      };
+  note?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
