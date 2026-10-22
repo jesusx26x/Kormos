@@ -2,6 +2,7 @@
 
 import type { BrandSlug } from "@/lib/brands";
 import { brandSender, confirmEmail, emailConfigured } from "@/payload/emails";
+import { getPromotion, grantCoupon, type Coupon } from "./promotion";
 import { cms } from "./payload";
 
 export type SubscribeState = { status: "idle" | "ok" | "error"; message: string };
@@ -41,7 +42,8 @@ export async function subscribe(_prev: SubscribeState, form: FormData): Promise<
     const lastSent = sub.confirmationSentAt ? Date.parse(sub.confirmationSentAt) : 0;
     if (emailConfigured() && sub.token && Date.now() - lastSent > RESEND_AFTER_MS) {
       try {
-        await payload.sendEmail({ to: email, ...(await brandSender(payload, brand)), ...confirmEmail(sub.token) });
+        const promo = await getPromotion();
+        await payload.sendEmail({ to: email, ...(await brandSender(payload, brand)), ...confirmEmail(sub.token, promo?.remaining ? promo : null) });
         await payload.update({ collection: "suscriptores", id: sub.id, data: { confirmationSentAt: new Date().toISOString() }, overrideAccess: true });
       } catch (err) {
         // El correo quedó guardado; la confirmación se reintenta si vuelve a suscribirse
@@ -55,7 +57,7 @@ export async function subscribe(_prev: SubscribeState, form: FormData): Promise<
   }
 }
 
-export type TokenState = { status: "idle" | "ok" | "error" };
+export type TokenState = { status: "idle" | "ok" | "error"; coupon?: Coupon | null };
 
 async function setStatusByToken(form: FormData, status: "activo" | "baja"): Promise<TokenState> {
   const token = String(form.get("token") ?? "");
@@ -67,8 +69,12 @@ async function setStatusByToken(form: FormData, status: "activo" | "baja"): Prom
     if (!sub) return { status: "error" };
     // Confirmar un correo que ya se dio de baja no lo reactiva: tiene que suscribirse otra vez
     if (status === "activo" && sub.status === "baja") return { status: "error" };
+    const confirming = status === "activo" && sub.status === "pendiente";
     if (sub.status !== status) await payload.update({ collection: "suscriptores", id: sub.id, data: { status }, overrideAccess: true });
-    return { status: "ok" };
+    // Cupón de la promoción: a quien confirma por primera vez, o a quien ya lo
+    // tenía pero no le llegó el correo
+    const coupon = confirming || (status === "activo" && sub.couponNumber && !sub.couponSentAt) ? await grantCoupon(payload, sub) : null;
+    return { status: "ok", coupon };
   } catch (err) {
     console.error("Cambio de suscripción fallido", err);
     return { status: "error" };

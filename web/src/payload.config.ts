@@ -23,6 +23,7 @@ import { AracenaAreaPrices } from "./payload/globals/AracenaAreaPrices";
 import { AracenaFaq } from "./payload/globals/AracenaFaq";
 import { ArpadProcess } from "./payload/globals/ArpadProcess";
 import { BrandInfo } from "./payload/globals/BrandInfo";
+import { Promotion } from "./payload/globals/Promotion";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -57,7 +58,7 @@ export default buildConfig({
     },
   },
   collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Subscribers, Media, Files, Users],
-  globals: [AracenaAreaPrices, AracenaFaq, ArpadProcess, BrandInfo],
+  globals: [AracenaAreaPrices, AracenaFaq, ArpadProcess, BrandInfo, Promotion],
   i18n: {
     supportedLanguages: { es },
     fallbackLanguage: "es",

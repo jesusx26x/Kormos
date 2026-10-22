@@ -72,6 +72,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
         { label: "Piezas", href: listUrl("productos") },
         { label: "Categorías", href: listUrl("categorias") },
         { label: "Acabados", href: listUrl("acabados") },
+        { label: "Promoción", href: "/admin/globals/promocion" },
       ],
     },
     {

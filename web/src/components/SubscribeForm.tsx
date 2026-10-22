@@ -7,8 +7,11 @@ import styles from "./SiteFooter.module.css";
 
 const INITIAL: SubscribeState = { status: "idle", message: "" };
 
+const LABEL = "Recibe las novedades del grupo";
+const HINT = "Solo para avisarte de piezas y proyectos nuevos. Te das de baja cuando quieras.";
+
 /** Suscripción a novedades: guarda el correo en el panel (Suscriptores). */
-export function SubscribeForm({ brand }: { brand: BrandSlug }) {
+export function SubscribeForm({ brand, label = LABEL, hint = HINT }: { brand: BrandSlug; label?: string; hint?: string }) {
   const id = useId();
   const [state, action, pending] = useActionState(subscribe, INITIAL);
   // Error del navegador antes de enviar (correo vacío o mal escrito)
@@ -30,7 +33,7 @@ export function SubscribeForm({ brand }: { brand: BrandSlug }) {
       }}
     >
       <label htmlFor={`${id}-email`} className={styles.subscribeLabel}>
-        Recibe las novedades del grupo
+        {label}
       </label>
       <input type="hidden" name="brand" value={brand} />
       {/* Campo trampa para robots: oculto a personas y a lectores de pantalla */}
@@ -54,7 +57,7 @@ export function SubscribeForm({ brand }: { brand: BrandSlug }) {
         </button>
       </div>
       <p id={`${id}-status`} className={styles.subscribeStatus} role="status" aria-live="polite" data-status={status}>
-        {status === "idle" ? "Solo para avisarte de piezas y proyectos nuevos. Te das de baja cuando quieras." : message}
+        {status === "idle" ? hint : message}
       </p>
     </form>
   );

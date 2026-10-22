@@ -64,6 +64,15 @@ Todo está en el menú, en "Arpad y Aracena":
 - **Paquetes de render:** nombre, tamaño del proyecto (por ejemplo, "Proyectos de 0 a 50 m²"), qué incluye y el precio **desde** y **hasta**. Marca **Mostrar el precio en el sitio** para que se vea; si lo desmarcas, en su lugar sale el tamaño del proyecto. **Recomendado**, en la columna derecha, pone esa etiqueta en el paquete.
 - **Precios por área (Aracena):** las listas de exteriores e interiores (fachada, sala, cocina…) con su precio desde y hasta, y la nota que sale debajo. Si vacías las dos listas, la sección desaparece del sitio.
 
+## Promoción de lanzamiento
+
+En **Ajustes → Promoción de lanzamiento** se activa o se apaga la promoción, y se cambian el descuento, los cupos y las condiciones.
+
+- Mientras está activa y quedan cupos, la portada de Kormós muestra el aviso con los cupos que quedan, y el pie de las páginas de Kormós invita a suscribirse.
+- Las primeras personas que **confirman** su suscripción reciben por correo un cupón con su número (por ejemplo, "Cupón 3 de 10") y un código de verificación.
+- Para usarlo, el cliente envía la captura del cupón por WhatsApp junto con su pedido. Compruébalo en **Contactos → Suscriptores**: busca su correo y mira que el número y el código coincidan con la captura.
+- Al entregarse el último cupón, el aviso desaparece solo del sitio.
+
 ## Datos de cada marca
 
 En **Ajustes → Datos de las marcas** están la frase, la presentación, el Instagram y el correo de cada marca.
