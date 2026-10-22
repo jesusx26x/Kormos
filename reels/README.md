@@ -1,54 +1,20 @@
-# Remotion video
+# Reels
 
-<p align="center">
-  <a href="https://github.com/remotion-dev/logo">
-    <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-dark.apng">
-      <img alt="Animated Remotion Logo" src="https://github.com/remotion-dev/logo/raw/main/animated-logo-banner-light.gif">
-    </picture>
-  </a>
-</p>
+Videos para redes hechos con [Remotion](https://www.remotion.dev): reels verticales de 1080 × 1920 a 30 fotogramas por segundo.
 
-Welcome to your Remotion project!
+## Kormós: reel de lanzamiento (35 s)
 
-## Commands
+- Composición `KormosReel` (`src/kormos/KormosReel.tsx`) y portada `KormosCover`.
+- Las tomas de la web salen de capturas reales del sitio en tamaño de iPhone, guardadas en `public/captures/` (no van al repositorio por su peso). Para regenerarlas, con el sitio corriendo en local:
 
-**Install Dependencies**
-
-```console
-npm i --loglevel=error
+```bash
+SITE=http://localhost:3300 CHROME_PATH=/ruta/a/chromium node scripts/capturar.cjs
 ```
 
-**Start Preview**
+- Vista previa: `npm run dev`.
+- Video final, sin audio (la música se pone al publicar en cada red):
 
-```console
-npm run dev
+```bash
+npx remotion render KormosReel out/kormos-reel.mp4 --codec=h264 --crf=16 --muted
+npx remotion still KormosCover out/kormos-reel-portada.png
 ```
-
-**Render video**
-
-```console
-npx remotion render
-```
-
-**Upgrade Remotion**
-
-```console
-npx remotion upgrade
-```
-
-## Docs
-
-Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).
-
-## Help
-
-We provide help on our [Discord server](https://discord.gg/6VzzNDwUwV).
-
-## Issues
-
-Found an issue with Remotion? [File an issue here](https://github.com/remotion-dev/remotion/issues/new).
-
-## License
-
-Note that for some entities a company license is needed. [Read the terms here](https://github.com/remotion-dev/remotion/blob/main/LICENSE.md).

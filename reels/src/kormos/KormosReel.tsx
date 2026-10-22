@@ -304,7 +304,8 @@ const End: React.FC = () => {
   return (
     <AbsoluteFill>
       <Backdrop />
-      <FloatingPieces items={[PIECES[0], PIECES[1], PIECES[3], PIECES[4]].map((p) => ({ ...p, y: p.y * 1.12, z: p.z - 300 }))} spin={interpolate(frame, [0, 90], [10, -10])} opacity={0.45} />
+      {/* Solo abajo: arriba quedarían detrás del logo */}
+      <FloatingPieces items={[PIECES[2], PIECES[3], PIECES[4]].map((p) => ({ ...p, y: Math.max(p.y, 620) * 1.18, z: p.z - 200 }))} spin={interpolate(frame, [0, 90], [10, -10])} opacity={0.55} />
       <AbsoluteFill style={{ justifyContent: "center", alignItems: "center", fontFamily: FONT, color: C.text, textAlign: "center", padding: "0 90px" }}>
         <Img
           src={staticFile("brand/kormosWordmark-dark.svg")}
