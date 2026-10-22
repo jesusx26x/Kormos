@@ -3,6 +3,7 @@ import { COPYRIGHT_YEAR, WHATSAPP_DISPLAY, type Brand } from "@/lib/brands";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { IconInstagram, IconMail, IconWhatsApp } from "./Icons";
 import { Logo } from "./Logo";
+import { getPromotion } from "@/data/promotion";
 import { SubscribeForm } from "./SubscribeForm";
 import styles from "./SiteFooter.module.css";
 
@@ -11,7 +12,9 @@ type SiteFooterProps = {
   others: Brand[];
 };
 
-export function SiteFooter({ brand, others }: SiteFooterProps) {
+export async function SiteFooter({ brand, others }: SiteFooterProps) {
+  // La promoción de lanzamiento es de Kormós: solo su pie la anuncia
+  const promo = brand.slug === "kormos" ? await getPromotion() : null;
   return (
     <footer className={styles.footer}>
       <div className={`container ${styles.top}`}>
@@ -76,7 +79,12 @@ export function SiteFooter({ brand, others }: SiteFooterProps) {
         </div>
 
         <div className={styles.subscribeWrap}>
-          <SubscribeForm brand={brand.slug} />
+          <SubscribeForm
+            brand={brand.slug}
+            {...(promo?.remaining
+              ? { label: `Suscríbete y recibe un cupón de ${promo.percent} %`, hint: `Para las primeras ${promo.slots} personas: quedan ${promo.remaining}. El cupón llega a tu correo al confirmar.` }
+              : {})}
+          />
         </div>
       </div>
 

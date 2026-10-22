@@ -10,10 +10,16 @@ export function ConfirmForm({ token }: { token: string }) {
   const [state, action, pending] = useActionState(confirmSubscription, INITIAL);
 
   if (state.status === "ok") {
+    const c = state.coupon;
     return (
-      <p className={styles.text} role="status">
-        ¡Listo! Te avisaremos cuando haya piezas y proyectos nuevos. Cada correo trae un enlace para darte de baja cuando quieras.
-      </p>
+      <div role="status">
+        {c ? (
+          <p className={styles.text}>
+            ¡Felicidades! Eres la persona {c.number} de {c.slots}: te enviamos por correo tu cupón de {c.percent} % de descuento. Tómale una captura y envíala por WhatsApp junto con tu pedido.
+          </p>
+        ) : null}
+        <p className={styles.text}>¡Listo! Te avisaremos cuando haya piezas y proyectos nuevos. Cada correo trae un enlace para darte de baja cuando quieras.</p>
+      </div>
     );
   }
   return (

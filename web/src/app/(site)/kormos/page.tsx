@@ -6,6 +6,7 @@ import { CollectionGrid, Split } from "@/components/sections/Cards";
 import { ContactBand, GroupBand } from "@/components/sections/GroupBand";
 import { Mosaic } from "@/components/sections/Mosaic";
 import { PageHero } from "@/components/sections/PageHero";
+import { PromoBand } from "@/components/sections/PromoBand";
 import { NumberedList, Section, Statement } from "@/components/sections/Section";
 import styles from "@/components/sections/Sections.module.css";
 import { Reveal } from "@/components/Reveal";
@@ -45,6 +46,8 @@ export default async function KormosInicio() {
         lead="Mobiliario a medida donde la madera, el diseño y la arquitectura se encuentran. Diseño · Precisión · Carácter."
         primary={{ label: "Ver la colección", href: "#coleccion" }}
       />
+
+      <PromoBand />
 
       <Section>
         <Statement quote="Lo hecho a mano lleva tiempo. Y el tiempo es un lujo.">

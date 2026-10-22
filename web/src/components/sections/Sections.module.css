@@ -490,6 +490,95 @@
   }
 }
 
+/* ==================== Promoción de lanzamiento ==================== */
+.promo {
+  background: var(--surface);
+  border-block: 1px solid var(--line);
+}
+
+.promoGrid {
+  display: grid;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.promoTitle {
+  display: grid;
+  margin: 12px 0 16px;
+  font-weight: inherit;
+}
+
+.promoPercent {
+  font-size: clamp(4.5rem, 16vw, 9rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.promoOff {
+  font-size: var(--fs-micro);
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.promoText {
+  max-width: 40ch;
+  color: var(--muted);
+}
+
+.promoAside {
+  display: grid;
+  gap: 28px;
+}
+
+.promoSlots {
+  display: grid;
+  gap: 12px;
+}
+
+.promoSlots p {
+  font-size: var(--fs-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.promoSlots strong {
+  font-weight: 600;
+}
+
+.promoDots {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.promoDots li {
+  width: 14px;
+  height: 14px;
+  border: 1px solid var(--text);
+  border-radius: 50%;
+}
+
+/* Cupo ya entregado: se rellena */
+.promoDots li[data-taken] {
+  background: var(--text);
+}
+
+.promoTerms {
+  font-size: var(--fs-small);
+  color: var(--muted);
+}
+
+@media (min-width: 900px) {
+  .promoGrid {
+    grid-template-columns: 1.1fr 1fr;
+  }
+}
+
 /* ==================== Precios por área ==================== */
 .areaPrices {
   display: grid;

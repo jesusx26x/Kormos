@@ -38,7 +38,7 @@ const COLLECTIONS = [
   "testimonios",
   "suscriptores",
 ] as const satisfies CollectionSlug[];
-const GLOBALS = ["precios-aracena", "preguntas-aracena", "proceso-arpad", "marcas"] as const satisfies GlobalSlug[];
+const GLOBALS = ["precios-aracena", "preguntas-aracena", "proceso-arpad", "marcas", "promocion"] as const satisfies GlobalSlug[];
 const UPLOAD_DIRS: Partial<Record<(typeof COLLECTIONS)[number], string>> = { fotos: "uploads/fotos", archivos: "uploads/archivos" };
 // Campos que Payload genera solo
 const SYSTEM = new Set(["id", "createdAt", "updatedAt", "_order", "url", "thumbnailURL", "filename", "mimeType", "filesize", "width", "height", "focalX", "focalY", "sizes"]);

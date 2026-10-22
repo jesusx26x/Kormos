@@ -112,12 +112,14 @@ export interface Config {
     'preguntas-aracena': PreguntasAracena;
     'proceso-arpad': ProcesoArpad;
     marcas: Marca;
+    promocion: Promocion;
   };
   globalsSelect: {
     'precios-aracena': PreciosAracenaSelect<false> | PreciosAracenaSelect<true>;
     'preguntas-aracena': PreguntasAracenaSelect<false> | PreguntasAracenaSelect<true>;
     'proceso-arpad': ProcesoArpadSelect<false> | ProcesoArpadSelect<true>;
     marcas: MarcasSelect<false> | MarcasSelect<true>;
+    promocion: PromocionSelect<false> | PromocionSelect<true>;
   };
   locale: 'es';
   widgets: {
@@ -444,7 +446,7 @@ export interface Paquete {
    * Opcional.
    */
   priceTo?: number | null;
-  priceCurrency?: ('US$' | 'RD$') | null;
+  priceCurrency?: ('RD$' | 'US$') | null;
   /**
    * Si está desmarcado (o no hay precio), se muestra el tamaño del proyecto en su lugar.
    */
@@ -578,6 +580,15 @@ export interface Suscriptore {
    */
   status: 'pendiente' | 'activo' | 'baja';
   unsubscribedAt?: string | null;
+  /**
+   * Número del cupón de la promoción de lanzamiento (1 = el primero en confirmar). Vacío: no tiene cupón.
+   */
+  couponNumber?: number | null;
+  /**
+   * Aparece en el cupón: compáralo con la captura que envían por WhatsApp.
+   */
+  couponCode?: string | null;
+  couponSentAt?: string | null;
   confirmationSentAt?: string | null;
   token?: string | null;
   updatedAt: string;
@@ -909,6 +920,9 @@ export interface SuscriptoresSelect<T extends boolean = true> {
   brand?: T;
   status?: T;
   unsubscribedAt?: T;
+  couponNumber?: T;
+  couponCode?: T;
+  couponSentAt?: T;
   confirmationSentAt?: T;
   token?: T;
   updatedAt?: T;
@@ -1180,6 +1194,30 @@ export interface Marca {
   createdAt?: string | null;
 }
 /**
+ * Las primeras personas que se suscriben (y confirman su correo) reciben un cupón por correo. Para usarlo, envían la captura del cupón por WhatsApp con su pedido. En Contactos → Suscriptores se ve quién tiene cupón.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "promocion".
+ */
+export interface Promocion {
+  id: number;
+  /**
+   * Desmarcada, el aviso desaparece del sitio y no se entregan más cupones.
+   */
+  active?: boolean | null;
+  percent: number;
+  /**
+   * Cuántas personas reciben cupón.
+   */
+  slots: number;
+  /**
+   * Aparecen en el cupón y debajo del aviso del sitio.
+   */
+  terms?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "precios-aracena_select".
  */
@@ -1270,6 +1308,19 @@ export interface MarcasSelect<T extends boolean = true> {
         instagram?: T;
         email?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "promocion_select".
+ */
+export interface PromocionSelect<T extends boolean = true> {
+  active?: T;
+  percent?: T;
+  slots?: T;
+  terms?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

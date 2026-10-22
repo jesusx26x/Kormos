@@ -14,8 +14,8 @@ const exportCsv: PayloadHandler = async (req) => {
   const { docs } = await req.payload.find({ collection: "suscriptores", limit: 0, pagination: false, sort: "createdAt", req });
   const cell = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   const rows = [
-    ["Correo", "Desde", "Estado", "Fecha de suscripción", "Fecha de baja"],
-    ...docs.map((d) => [d.email, d.brand ? BRAND_NAMES[d.brand] : "", STATUS_NAMES[d.status], day(d.createdAt), day(d.unsubscribedAt)]),
+    ["Correo", "Desde", "Estado", "Fecha de suscripción", "Fecha de baja", "Cupón", "Código del cupón"],
+    ...docs.map((d) => [d.email, d.brand ? BRAND_NAMES[d.brand] : "", STATUS_NAMES[d.status], day(d.createdAt), day(d.unsubscribedAt), d.couponNumber ?? "", d.couponCode ?? ""]),
   ];
   // BOM para que Excel lea bien las tildes
   const csv = "﻿" + rows.map((r) => r.map(cell).join(";")).join("\r\n");
@@ -37,7 +37,7 @@ export const Subscribers: CollectionConfig = {
   admin: {
     group: "Contactos",
     useAsTitle: "email",
-    defaultColumns: ["email", "brand", "status", "createdAt"],
+    defaultColumns: ["email", "brand", "status", "couponNumber", "createdAt"],
     hideAPIURL: true,
     description:
       "Correos que dejaron en el pie del sitio. Solo reciben avisos los activos: quien se suscribe confirma desde un correo, y quien se da de baja no recibe más.",
@@ -109,6 +109,26 @@ export const Subscribers: CollectionConfig = {
       admin: { position: "sidebar", description: "Por confirmar: todavía no pulsó el botón del correo de confirmación." },
     },
     { name: "unsubscribedAt", label: "Fecha de baja", type: "date", admin: { position: "sidebar", readOnly: true } },
+    {
+      name: "couponNumber",
+      label: "Cupón de promoción",
+      type: "number",
+      unique: true,
+      index: true,
+      admin: {
+        position: "sidebar",
+        readOnly: true,
+        description: "Número del cupón de la promoción de lanzamiento (1 = el primero en confirmar). Vacío: no tiene cupón.",
+      },
+    },
+    {
+      name: "couponCode",
+      label: "Código del cupón",
+      type: "text",
+      admin: { position: "sidebar", readOnly: true, description: "Aparece en el cupón: compáralo con la captura que envían por WhatsApp." },
+    },
+    // Envío del cupón por correo: si falló, se reintenta al volver a confirmar
+    { name: "couponSentAt", type: "date", admin: { hidden: true } },
     // Último correo de confirmación: evita reenviarlo cada vez que alguien repite el formulario
     { name: "confirmationSentAt", type: "date", admin: { hidden: true } },
     // Enlace personal para confirmar y para darse de baja desde el correo
