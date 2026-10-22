@@ -10,7 +10,9 @@ Tiempo total: unas 2 a 3 horas, más la espera de la verificación del dominio (
 > - Dominio **grupoarpad.com** comprado en Vercel y conectado: `www.grupoarpad.com` redirige a `grupoarpad.com`, y `NEXT_PUBLIC_SITE_URL` ya apunta al dominio. La dirección **https://kormos-alpha.vercel.app** sigue funcionando.
 > - Las vistas previas de otras ramas están desactivadas, porque usarían la misma base de datos que el sitio.
 >
-> Falta: el paso 9 (correo) y el 10 (revisión final). La renovación automática del dominio está desactivada: actívela en **Domains → grupoarpad.com**.
+> - Correo (paso 9): cuenta de Resend con el Gmail de Arpad, dominio agregado con la configuración automática de Vercel, `RESEND_API_KEY`, `EMAIL_FROM` (`novedades@grupoarpad.com`) y `EMAIL_FROM_NAME` (`Grupo Arpad`) en Vercel, y un registro DMARC. Cada correo de una marca sale con el nombre de esa marca, y las respuestas llegan al correo que la marca tiene en **Ajustes → Datos de las marcas**.
+>
+> Falta: el 10 (revisión final), Google Search Console y los perfiles de Google Maps de cada marca.
 
 ---
 

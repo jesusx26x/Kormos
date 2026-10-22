@@ -1,7 +1,7 @@
 "use server";
 
 import type { BrandSlug } from "@/lib/brands";
-import { confirmEmail, emailConfigured } from "@/payload/emails";
+import { brandSender, confirmEmail, emailConfigured } from "@/payload/emails";
 import { cms } from "./payload";
 
 export type SubscribeState = { status: "idle" | "ok" | "error"; message: string };
@@ -41,7 +41,7 @@ export async function subscribe(_prev: SubscribeState, form: FormData): Promise<
     const lastSent = sub.confirmationSentAt ? Date.parse(sub.confirmationSentAt) : 0;
     if (emailConfigured() && sub.token && Date.now() - lastSent > RESEND_AFTER_MS) {
       try {
-        await payload.sendEmail({ to: email, ...confirmEmail(sub.token) });
+        await payload.sendEmail({ to: email, ...(await brandSender(payload, brand)), ...confirmEmail(sub.token) });
         await payload.update({ collection: "suscriptores", id: sub.id, data: { confirmationSentAt: new Date().toISOString() }, overrideAccess: true });
       } catch (err) {
         // El correo quedó guardado; la confirmación se reintenta si vuelve a suscribirse

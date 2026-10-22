@@ -1,6 +1,6 @@
 import type { Field, PayloadHandler } from "payload";
 import type { Foto, Producto, Proyecto } from "@/payload-types";
-import { emailConfigured, noticeEmail, SITE, type Notice } from "./emails";
+import { brandSender, emailConfigured, noticeEmail, SITE, type Notice } from "./emails";
 
 const BRAND_NAMES = { arpad: "Arpad Studio", kormos: "Kormós", aracena: "Aracena Studio" } as const;
 // Resend admite unos 2 envíos por segundo en su plan inicial
@@ -69,11 +69,12 @@ export const notifyHandler =
     await req.payload.update({ collection, id, data: { notifiedAt: new Date().toISOString() }, req, context: { disableRevalidate: true } });
 
     const notice = toNotice(collection, doc);
+    const sender = await brandSender(req.payload, collection === "productos" ? "kormos" : (doc as Proyecto).brand);
     let sent = 0;
     let failed = 0;
     for (const s of subscribers) {
       try {
-        await req.payload.sendEmail({ to: s.email, ...noticeEmail(notice, s.token ?? "") });
+        await req.payload.sendEmail({ to: s.email, ...sender, ...noticeEmail(notice, s.token ?? "") });
         sent++;
       } catch (err) {
         failed++;
