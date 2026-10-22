@@ -582,12 +582,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .cardImage,
-  .galleryImage {
-    transition: none;
-  }
-  .lightbox[open] {
-    animation: foto-entra 0.2s linear;
-  }
-}

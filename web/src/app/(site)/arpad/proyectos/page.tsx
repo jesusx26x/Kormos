@@ -6,7 +6,7 @@ import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 
 export const metadata: Metadata = pageMeta({
-  title: "Proyectos · Arpad Studio",
+  title: "Proyectos de arquitectura e interiorismo · Arpad Studio",
   description: "Residencias, remodelaciones de fachada, interiorismo y espacios comerciales diseñados y ejecutados por Arpad Studio.",
   path: "/arpad/proyectos",
   brand: "arpad",

@@ -68,7 +68,37 @@ export function brandJsonLd(b: Brand) {
     address: { "@type": "PostalAddress", addressCountry: "DO" },
     areaServed: { "@type": "Country", name: "República Dominicana" },
     sameAs: [`https://www.instagram.com/${b.instagram}/`],
+    parentOrganization: { "@id": GROUP_ID },
   };
+}
+
+const GROUP_ID = `${SITE_URL}/#grupo`;
+
+/** El grupo que reúne las tres marcas, y el sitio que publica */
+export function groupJsonLd(brands: Brand[]) {
+  return [
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "@id": GROUP_ID,
+      name: "Grupo Arpad",
+      alternateName: SITE_NAME,
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon.png`,
+      address: { "@type": "PostalAddress", addressCountry: "DO" },
+      areaServed: { "@type": "Country", name: "República Dominicana" },
+      subOrganization: brands.map((b) => ({ "@id": `${SITE_URL}/${b.slug}#negocio` })),
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": `${SITE_URL}/#sitio`,
+      name: SITE_NAME,
+      url: SITE_URL,
+      inLanguage: "es-DO",
+      publisher: { "@id": GROUP_ID },
+    },
+  ];
 }
 
 export function breadcrumbJsonLd(items: { name: string; path: string }[]) {

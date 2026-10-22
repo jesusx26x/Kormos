@@ -36,11 +36,11 @@ Todo componente nuevo debe cumplir estas reglas.
 - Elemento compartido entre vistas (`<ViewTransition>`): el **monograma** viaja de la portada a la cabecera de la marca. Solo un par de elementos por navegación.
 
 ## 5. Accesibilidad (crítico)
-- `prefers-reduced-motion`: **se elimina el desplazamiento y se conserva el fundido**. Se detienen el autoplay, el Ken Burns y la precarga.
+- **Las animaciones se ven siempre**, también con "Reducir movimiento" activado en el teléfono (decisión del cliente, 22-oct-2026: muchos iPhone lo traen activado y el sitio se veía estático). Por eso los movimientos se mantienen cortos y suaves, sin parpadeos ni destellos, y el slideshow conserva su botón de pausa.
 - Contraste mínimo **4.5:1** en texto normal. Texto sobre foto siempre con degradado.
 - Anillo de foco visible en todo control. Enlace "Saltar al contenido".
 - Botones solo con icono: `aria-label`. Áreas táctiles de **44px** o más en móvil (24px como mínimo absoluto).
-- **Contenido que rota solo** (slideshow): botón de **pausa/reproducir** visible, y se detiene al recibir foco o con movimiento reducido.
+- **Contenido que rota solo** (slideshow): botón de **pausa/reproducir** visible, y se detiene al recibir foco o con la pestaña oculta.
 - Orden de tabulación igual al orden visual. Jerarquía de encabezados sin saltos.
 - Texto base de **16px** en móvil y sin scroll horizontal.
 

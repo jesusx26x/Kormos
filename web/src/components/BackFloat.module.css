@@ -39,10 +39,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .back {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}

@@ -8,7 +8,7 @@ import styles from "@/components/sections/Sections.module.css";
 import { getArpadProcess } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
-  title: "Proceso · Arpad Studio",
+  title: "Cómo trabajamos · Arpad Studio",
   description: "Cómo trabajamos: de la primera conversación a la entrega, con un solo equipo de diseño, visualización y ejecución.",
   path: "/arpad/proceso",
   brand: "arpad",

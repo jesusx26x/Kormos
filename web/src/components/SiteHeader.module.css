@@ -364,19 +364,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .sheet,
-  .sheet[data-open] {
-    clip-path: none;
-    opacity: 0;
-    transition: opacity var(--dur-ui) linear, visibility 0s linear var(--dur-ui);
-  }
-  .sheet[data-open] {
-    opacity: 1;
-    transition: opacity var(--dur-ui) linear;
-  }
-  .sheetLink,
-  .popover {
-    transform: none;
-  }
-}

@@ -7,7 +7,7 @@ import { PageHeader } from "@/components/sections/PageHeader";
 import { getCatalog } from "@/data/catalog";
 
 export const metadata: Metadata = pageMeta({
-  title: "Catálogo · Kormós",
+  title: "Catálogo de muebles de madera · Kormós",
   description: "Colección Origen: ottomanes, mesas auxiliares, mesas de noche, mesas de centro, marcos para espejo y cuadros de madera, fabricados bajo pedido.",
   path: "/kormos/catalogo",
   brand: "kormos",

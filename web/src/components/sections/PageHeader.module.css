@@ -106,20 +106,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .image {
-    animation: none;
-  }
-  .content > * {
-    animation-name: aparece;
-  }
-}
-
-@keyframes aparece {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}

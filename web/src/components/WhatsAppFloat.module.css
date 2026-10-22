@@ -42,10 +42,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .float {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}

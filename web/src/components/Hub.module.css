@@ -241,18 +241,6 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .link > div:first-child,
-  .link:hover > div:first-child {
-    transform: none;
-  }
-  .tagline,
-  .content,
-  .footer {
-    animation-name: fundido;
-  }
-}
-
 @keyframes fundido-sube {
   from {
     opacity: 0;

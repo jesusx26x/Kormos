@@ -12,7 +12,7 @@ import type { MediaKey } from "@/lib/media.generated";
 import { img } from "@/lib/media";
 
 export const metadata: Metadata = pageMeta({
-  title: "Estudio · Arpad Studio",
+  title: "Estudio de arquitectura en República Dominicana · Arpad Studio",
   description: "Estudio de arquitectura fundado en 2020, dedicado al diseño y la ejecución de proyectos en República Dominicana.",
   path: "/arpad/estudio",
   brand: "arpad",

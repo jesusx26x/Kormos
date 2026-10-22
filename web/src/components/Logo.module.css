@@ -54,10 +54,3 @@
   stroke: none;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .draw path {
-    animation: none;
-    fill-opacity: 1;
-    stroke: none;
-  }
-}

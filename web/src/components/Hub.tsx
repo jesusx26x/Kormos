@@ -41,6 +41,9 @@ export function Hub({ brands }: { brands: Brand[] }) {
                     offset={i * 2300}
                     sizes="(max-width: 767px) 100vw, 34vw"
                     eager
+                    // Las tres fotos se ven al cargar; solo una compite por ser la primera
+                    priority={i === 0}
+                    quality={75}
                     label={`Fotos de ${brand.name}`}
                     decorative
                   />
