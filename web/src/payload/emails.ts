@@ -1,10 +1,25 @@
 // Correos del sitio: aviso de novedades y confirmación de suscripción.
 // HTML de tablas con estilos en línea: es lo que leen bien Gmail y Outlook.
 
+import type { Payload } from "payload";
+import { BRANDS, type BrandSlug } from "@/lib/brands";
+
 export const SITE = (process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000").replace(/\/$/, "");
 
 /** El correo funciona solo con la clave del proveedor y un remitente del dominio. */
 export const emailConfigured = () => Boolean(process.env.RESEND_API_KEY && process.env.EMAIL_FROM);
+
+/**
+ * Remitente con el nombre de la marca y "responder a" el correo que la marca
+ * tiene en el panel: Resend solo envía, así que una respuesta a la dirección
+ * del sitio se perdería. Sin marca, las respuestas van al correo de Arpad.
+ */
+export async function brandSender(payload: Payload, brand?: BrandSlug | null): Promise<{ from?: string; replyTo?: string }> {
+  const info = await payload.findGlobal({ slug: "marcas", depth: 0 }).catch(() => null);
+  const replyTo = info?.[brand ?? "arpad"]?.email || undefined;
+  const address = process.env.EMAIL_FROM;
+  return { from: brand && address ? `"${BRANDS[brand].name}" <${address}>` : undefined, replyTo };
+}
 
 const escape = (s: string) => s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
