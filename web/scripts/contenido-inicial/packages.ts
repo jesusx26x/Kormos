@@ -44,7 +44,7 @@ export const RENDER_PACKAGES: PackageData[] = [
   },
   {
     name: "Premium",
-    scale: "Proyectos de 300 a 400 m²",
+    scale: "Proyectos de 150 a 400 m²",
     includes: [
       "6 a 8 renders",
       "Todos los espacios interiores: sala, comedor, cocina, dormitorios y más",
@@ -61,7 +61,7 @@ export const RENDER_PACKAGES: PackageData[] = [
   },
   {
     name: "Personalizado",
-    scale: "Metraje a la medida del proyecto",
+    scale: "Más de 400 m² o a la medida",
     includes: [
       "Renders según lo que necesita tu proyecto",
       "Cantidad de renders y revisiones a medida",
