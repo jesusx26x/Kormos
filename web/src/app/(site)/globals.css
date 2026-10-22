@@ -398,29 +398,3 @@ html.js [data-reveal].is-visible {
   animation-timing-function: var(--ease-out);
 }
 
-/* Movimiento reducido: fuera el desplazamiento, se conserva el fundido */
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  ::view-transition-group(*),
-  ::view-transition-old(*),
-  ::view-transition-new(*) {
-    animation-duration: 0.001ms !important;
-  }
-  html.js [data-reveal] {
-    transform: none;
-    transition: opacity var(--dur-reveal) linear;
-  }
-  html.js [data-reveal="image"] > * {
-    clip-path: none;
-    opacity: 0;
-    transition: opacity var(--dur-reveal) linear;
-  }
-  html.js [data-reveal="image"].is-visible > * {
-    opacity: 1;
-  }
-  .btn:active {
-    transform: none;
-  }
-}

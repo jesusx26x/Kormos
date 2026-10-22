@@ -38,7 +38,7 @@ export function Tabs({ items, label }: { items: TabItem[]; label: string }) {
     refs.current[i]?.scrollIntoView({
       inline: "nearest",
       block: "nearest",
-      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      behavior: "smooth",
     });
   }
 

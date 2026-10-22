@@ -13,7 +13,7 @@ import type { MediaKey } from "@/lib/media.generated";
 import { img } from "@/lib/media";
 
 export const metadata: Metadata = pageMeta({
-  title: "Paquetes de render · Aracena Studio",
+  title: "Paquetes de renders 3D y recorridos virtuales · Aracena Studio",
   description: "Paquetes de renders interiores y exteriores, panorámicas 360° y recorridos virtuales, con precios de referencia por paquete y por área.",
   path: "/aracena/paquetes",
   brand: "aracena",

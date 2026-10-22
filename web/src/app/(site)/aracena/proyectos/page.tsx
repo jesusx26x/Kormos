@@ -6,7 +6,7 @@ import { ContactBand } from "@/components/sections/GroupBand";
 import { PageHeader } from "@/components/sections/PageHeader";
 
 export const metadata: Metadata = pageMeta({
-  title: "Proyectos · Aracena Studio",
+  title: "Proyectos de renders 3D · Aracena Studio",
   description: "Renders hiperrealistas de interiores y exteriores para arquitectos, interioristas y desarrolladores.",
   path: "/aracena/proyectos",
   brand: "aracena",

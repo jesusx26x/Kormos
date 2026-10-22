@@ -135,17 +135,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .panel {
-    animation-name: panel-fundido;
-  }
-}
-
-@keyframes panel-fundido {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}

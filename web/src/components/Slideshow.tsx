@@ -14,8 +14,11 @@ type SlideshowProps = {
   /** Desfase inicial para que varios slideshows no cambien a la vez */
   offset?: number;
   sizes: string;
-  /** La primera imagen es el LCP de la página */
+  /** La primera foto se ve al cargar: se descarga sin esperar */
   eager?: boolean;
+  /** La primera foto es el LCP de la página: se descarga antes que las demás */
+  priority?: boolean;
+  quality?: 75 | 85;
   /** Pausa controlada desde fuera (p. ej. un botón global de la portada) */
   paused?: boolean;
   /** Muestra contador, barra de progreso y botón de pausa */
@@ -28,8 +31,8 @@ type SlideshowProps = {
 
 /**
  * Fundido entre fotos con zoom lento (Ken Burns). Cumple WCAG para contenido
- * que rota solo: botón de pausa, se detiene con foco dentro, con la pestaña
- * oculta y con movimiento reducido.
+ * que rota solo: botón de pausa y se detiene con foco dentro o con la pestaña
+ * oculta.
  */
 export function Slideshow({
   slides,
@@ -37,6 +40,8 @@ export function Slideshow({
   offset = 0,
   sizes,
   eager = false,
+  priority = eager,
+  quality = 85,
   paused: pausedFromParent = false,
   controls = false,
   label,
@@ -48,26 +53,20 @@ export function Slideshow({
   const [reach, setReach] = useState(0);
   const [userPaused, setUserPaused] = useState(false);
   const [focusInside, setFocusInside] = useState(false);
-  const [reduced, setReduced] = useState(false);
   const [hidden, setHidden] = useState(false);
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReduced(mq.matches);
-    update();
-    mq.addEventListener("change", update);
     const onVisibility = () => setHidden(document.hidden);
     document.addEventListener("visibilitychange", onVisibility);
     return () => {
-      mq.removeEventListener("change", update);
       document.removeEventListener("visibilitychange", onVisibility);
     };
   }, []);
 
   const shared = usePause();
   const paused =
-    userPaused || pausedFromParent || !!shared?.paused || focusInside || reduced || hidden || slides.length < 2;
+    userPaused || pausedFromParent || !!shared?.paused || focusInside || hidden || slides.length < 2;
 
   useEffect(() => {
     if (paused) return;
@@ -110,11 +109,11 @@ export function Slideshow({
               alt={decorative ? "" : m.alt}
               fill
               sizes={sizes}
-              quality={85}
+              quality={quality}
               placeholder={m.blurDataURL ? "blur" : "empty"}
               blurDataURL={m.blurDataURL ?? undefined}
               loading={eager && i === 0 ? "eager" : "lazy"}
-              fetchPriority={eager && i === 0 ? "high" : undefined}
+              fetchPriority={priority && i === 0 ? "high" : undefined}
               className={styles.image}
               style={m.position ? { objectPosition: m.position, transformOrigin: m.position } : undefined}
             />

@@ -13,7 +13,7 @@ import { Reveal } from "@/components/Reveal";
 import { getBrand } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
-  title: "Kormós · Furniture Design",
+  title: "Kormós · Muebles de madera a medida en República Dominicana",
   description: "Atelier de ebanistería contemporánea en República Dominicana: mobiliario a medida donde la madera, el diseño y la arquitectura se encuentran.",
   path: "/kormos",
   brand: "kormos",

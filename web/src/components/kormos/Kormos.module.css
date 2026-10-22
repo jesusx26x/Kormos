@@ -1008,19 +1008,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .drawer[open],
-  .drawer[data-closing] {
-    animation: velo 0.2s linear;
-  }
-  .swap,
-  .afterDownload,
-  .cartCount {
-    animation: none;
-  }
-  .addLabel,
-  .addDone {
-    transform: none !important;
-    filter: none !important;
-  }
-}

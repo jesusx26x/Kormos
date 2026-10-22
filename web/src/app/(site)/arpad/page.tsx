@@ -12,7 +12,7 @@ import { getBrand, getServices } from "@/data/studio";
 import { img } from "@/lib/media";
 
 export const metadata: Metadata = pageMeta({
-  title: "Arpad Studio · Arquitectura, Diseño y Construcción",
+  title: "Arpad Studio · Arquitectura, diseño y construcción en República Dominicana",
   description: "Estudio de arquitectura en República Dominicana: diseño arquitectónico, interiores, E-Design, remodelación, modelado 3D y construcción.",
   path: "/arpad",
   brand: "arpad",

@@ -109,8 +109,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .slide[data-active] .image {
-    animation: none;
-  }
-}

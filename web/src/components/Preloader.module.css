@@ -58,8 +58,3 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .preloader {
-    display: none;
-  }
-}

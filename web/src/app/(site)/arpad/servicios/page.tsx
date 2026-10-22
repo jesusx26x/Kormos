@@ -7,7 +7,7 @@ import { Tabs } from "@/components/Tabs";
 import { getServices } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
-  title: "Servicios · Arpad Studio",
+  title: "Servicios de arquitectura, interiorismo y remodelación · Arpad Studio",
   description: "Diseño arquitectónico, interiores, E-Design, remodelación, modelado 3D y construcción en República Dominicana.",
   path: "/arpad/servicios",
   brand: "arpad",

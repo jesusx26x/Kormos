@@ -3,10 +3,10 @@ import { Hub } from "@/components/Hub";
 import { JsonLd } from "@/components/JsonLd";
 import { getBrand } from "@/data/studio";
 import { BRAND_ORDER } from "@/lib/brands";
-import { brandJsonLd, pageMeta, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { brandJsonLd, groupJsonLd, pageMeta } from "@/lib/seo";
 
 export const metadata: Metadata = pageMeta({
-  title: "Aracena Studio · Arpad Studio · Kormós",
+  title: "Arquitectura, renders 3D y muebles a medida en República Dominicana · Arpad, Aracena y Kormós",
   description: "Arquitectura, mobiliario a medida y visualización arquitectónica en República Dominicana. Diseño que se visualiza, se ejecuta y se materializa.",
   path: "/",
 });
@@ -17,7 +17,7 @@ export default async function Portada() {
     <>
       <JsonLd
         data={[
-          { "@context": "https://schema.org", "@type": "WebSite", name: SITE_NAME, url: SITE_URL, inLanguage: "es-DO" },
+          ...groupJsonLd(brands),
           ...brands.map(brandJsonLd),
         ]}
       />

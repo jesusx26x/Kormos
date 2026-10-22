@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps<"/kormos/catalogo/[
   const { slug } = await params;
   const p = await getProduct(slug);
   if (!p) return {};
-  return pageMeta({ title: `${p.name} · Kormós`, description: p.summary, path: `/kormos/catalogo/${p.slug}`, brand: "kormos", image: p.images[0].og ?? undefined });
+  return pageMeta({ title: `${p.name} · ${p.category.name} · Kormós`, description: p.summary, path: `/kormos/catalogo/${p.slug}`, brand: "kormos", image: p.images[0].og ?? undefined });
 }
 
 export default function KormosProducto({ params }: PageProps<"/kormos/catalogo/[slug]">) {
@@ -47,19 +47,19 @@ async function Producto({ params }: { params: Promise<{ slug: string }> }) {
   const related = products.filter((x) => x.category.slug === p.category.slug && x.slug !== p.slug).slice(0, 4);
 
   const availability = { disponible: "InStock", bajo_pedido: "PreOrder", proximamente: "PreOrder", agotado: "OutOfStock" }[p.status];
-  const productLd = {
-    "@context": "https://schema.org",
-    "@type": "Product",
-    name: p.name,
-    sku: p.code,
-    description: p.description.join(" "),
-    image: p.images.map((m) => `${SITE_URL}${m.src}`),
-    brand: { "@type": "Brand", name: "Kormós" },
-    category: p.category.name,
-    material: p.materials.map((m) => `${m.label}: ${m.value}`).join("; "),
-    // Solo se declara oferta cuando hay precio público
-    ...(p.showPrice && p.price
+  // Google marca como error un Product sin oferta: sin precio público no se declara
+  const productLd =
+    p.showPrice && p.price
       ? {
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: p.name,
+          sku: p.code,
+          description: p.description.join(" "),
+          image: p.images.map((m) => `${SITE_URL}${m.src}`),
+          brand: { "@type": "Brand", name: "Kormós" },
+          category: p.category.name,
+          material: p.materials.map((m) => `${m.label}: ${m.value}`).join("; "),
           offers: {
             "@type": "Offer",
             price: p.price.amount,
@@ -68,14 +68,13 @@ async function Producto({ params }: { params: Promise<{ slug: string }> }) {
             url: `${SITE_URL}/kormos/catalogo/${p.slug}`,
           },
         }
-      : {}),
-  };
+      : null;
 
   return (
     <>
       <JsonLd
         data={[
-          productLd,
+          ...(productLd ? [productLd] : []),
           breadcrumbJsonLd([
             { name: "Kormós", path: "/kormos" },
             { name: "Catálogo", path: "/kormos/catalogo" },

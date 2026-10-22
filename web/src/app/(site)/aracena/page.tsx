@@ -12,7 +12,7 @@ import { getPackages } from "@/data/packages";
 import { getBrand } from "@/data/studio";
 
 export const metadata: Metadata = pageMeta({
-  title: "Aracena Studio · Rendering Projects",
+  title: "Aracena Studio · Renders 3D y visualización arquitectónica en República Dominicana",
   description: "Estudio de visualización arquitectónica: renders hiperrealistas de interiores y exteriores, recorridos virtuales y material para ventas.",
   path: "/aracena",
   brand: "aracena",
