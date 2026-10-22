@@ -6,6 +6,7 @@ import * as migration_20261019_180613_historial_servicios_paquetes_marcas from '
 import * as migration_20261019_181500_datos_del_cliente from './20261019_181500_datos_del_cliente';
 import * as migration_20261021_165123_precios_aracena from './20261021_165123_precios_aracena';
 import * as migration_20261021_170000_catalogo_aracena from './20261021_170000_catalogo_aracena';
+import * as migration_20261022_160000_metrajes_aracena from './20261022_160000_metrajes_aracena';
 
 export const migrations = [
   {
@@ -47,5 +48,10 @@ export const migrations = [
     up: migration_20261021_170000_catalogo_aracena.up,
     down: migration_20261021_170000_catalogo_aracena.down,
     name: '20261021_170000_catalogo_aracena',
+  },
+  {
+    up: migration_20261022_160000_metrajes_aracena.up,
+    down: migration_20261022_160000_metrajes_aracena.down,
+    name: '20261022_160000_metrajes_aracena',
   },
 ];
