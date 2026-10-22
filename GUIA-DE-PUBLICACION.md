@@ -4,13 +4,13 @@ Para publicar el sitio de Aracena Studio, Arpad Studio y Kormós en internet, co
 
 Tiempo total: unas 2 a 3 horas, más la espera de la verificación del dominio (de minutos a un día).
 
-> **Estado (19-oct-2026):** los pasos 1 y 3 a 7 ya están hechos.
+> **Estado (22-oct-2026):** los pasos 1 a 8 ya están hechos.
 > - Proyecto **kormos** en la cuenta de Vercel de Jesús, plan Hobby, conectado a GitHub.
-> - Base de datos **Kormos-DB** en Neon, almacenamiento **kormos-archivos** en Vercel Blob y contenido de muestra cargado.
-> - Dirección provisional **https://kormos-alpha.vercel.app**, protegida con el inicio de sesión de Vercel hasta conectar el dominio.
+> - Base de datos **Kormos-DB** en Neon, almacenamiento **kormos-archivos** en Vercel Blob, contenido de muestra cargado y usuarios del panel creados.
+> - Dominio **grupoarpad.com** comprado en Vercel y conectado: `www.grupoarpad.com` redirige a `grupoarpad.com`, y `NEXT_PUBLIC_SITE_URL` ya apunta al dominio. La dirección **https://kormos-alpha.vercel.app** sigue funcionando.
 > - Las vistas previas de otras ramas están desactivadas, porque usarían la misma base de datos que el sitio.
 >
-> Falta: crear el usuario del panel, el paso 2 (dominio), el 8 (conectar el dominio), el 9 (correo) y el 10 (revisión final).
+> Falta: el paso 9 (correo) y el 10 (revisión final). La renovación automática del dominio está desactivada: actívela en **Domains → grupoarpad.com**.
 
 ---
 
