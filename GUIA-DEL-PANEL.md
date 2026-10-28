@@ -28,7 +28,7 @@ El menú completo está en el botón de las tres rayas, arriba a la izquierda.
    - **Fotos y acabados:** sube las fotos arrastrándolas al recuadro. La primera es la principal. Si la pieza se ofrece en varias maderas o telas, agrégalas en "Acabados disponibles" y, si tienes, sube las fotos de cada acabado.
    - **Medidas y materiales:** alto, ancho y fondo en centímetros, y los materiales.
    - **Precio y estado:** el precio, la moneda (RD$ o US$) y si se muestra o no. Si no lo muestras, el sitio dice "Precio a consultar". El estado puede ser Disponible, Bajo pedido, Próximamente o Agotado. Nunca se muestran cantidades.
-   - **Archivos:** el modelo de SketchUp, el plano de AutoCAD y la ficha en PDF, si los tienes. Pulsa **Elegir archivo**, escoge el archivo en tu computadora o celular y espera a que diga "Archivo listo". Un archivo grande puede tardar unos minutos.
+   - **Archivos:** el modelo de SketchUp, el plano de AutoCAD y la ficha en PDF, si los tienes. Pulsa **Elegir archivo**, escoge el archivo en tu computadora o celular y espera a que diga "Archivo listo". Un archivo grande puede tardar unos minutos. El máximo es 75 MB por archivo.
 3. Mira la tarjeta **Antes de publicar**, a la derecha: se va marcando sola. Cuando todo lo obligatorio está listo, se pone verde y dice "Lista para publicar".
 4. Pulsa **Guardar**. La pieza aparece en el sitio en la siguiente visita.
 5. Pulsa **Ver en el sitio** (en la tarjeta) para revisarla.
@@ -98,9 +98,16 @@ La animación (zoom lento y paso de una foto a otra) se aplica sola a cualquier 
 
 ## Fotos
 
-- Usa fotos grandes y nítidas (mínimo 2400 px de ancho para las de portada).
+- Usa fotos grandes y nítidas (mínimo 2400 px de ancho para las de portada). Puedes subirlas tal como salen de la cámara o del render: el panel las reduce solo a 2560 px, sin que se note en el sitio, para que ocupen menos espacio.
 - Para piezas recortadas (sin fondo), usa PNG o WebP con fondo transparente: el panel lo detecta solo.
 - Cada foto pide una **descripción**: una frase de lo que se ve. La leen Google y las personas que usan lectores de pantalla.
+
+## Espacio para fotos y archivos
+
+Las fotos y los archivos de descarga tienen un espacio limitado (1 GB). Hoy sobra, y mientras sobre no verás ningún aviso.
+
+- Al pasar del 70 %, aparece un aviso amarillo en el inicio del panel y en las listas de fotos y archivos. Es el momento de borrar lo que ya no se use: el enlace **Ver las fotos más pesadas** las ordena de mayor a menor.
+- Al llegar al 90 %, el aviso se pone rojo y el panel deja de aceptar fotos y archivos nuevos. Así el sitio nunca se queda sin espacio. Borra lo que no se use o pide a quien desarrolló el sitio que amplíe el espacio.
 
 ## Si algo sale mal
 

@@ -24,6 +24,7 @@ import { AracenaFaq } from "./payload/globals/AracenaFaq";
 import { ArpadProcess } from "./payload/globals/ArpadProcess";
 import { BrandInfo } from "./payload/globals/BrandInfo";
 import { Promotion } from "./payload/globals/Promotion";
+import { canStartUpload, getStorageUsage, MAX_UPLOAD_BYTES } from "./payload/storage";
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -57,6 +58,14 @@ export default buildConfig({
       views: { dashboard: { Component: "/payload/admin/Dashboard#Dashboard" } },
     },
   },
+  endpoints: [
+    {
+      // /api/espacio: el panel consulta el espacio antes de empezar una subida
+      path: "/espacio",
+      method: "get",
+      handler: async (req) => (req.user ? Response.json(await getStorageUsage(req.payload)) : Response.json({}, { status: 401 })),
+    },
+  ],
   collections: [Products, Categories, Finishes, Projects, Packages, Services, Team, Testimonials, Subscribers, Media, Files, Users],
   globals: [AracenaAreaPrices, AracenaFaq, ArpadProcess, BrandInfo, Promotion],
   i18n: {
@@ -122,12 +131,11 @@ export default buildConfig({
       // sin pasar por el servidor (un .skp puede pesar 150 MB)
       collections: { fotos: { disablePayloadAccessControl: true }, archivos: { disablePayloadAccessControl: true } },
       // Vercel limita a 4.5 MB lo que entra al servidor: el navegador sube directo a Blob
-      clientUploads: true,
+      clientUploads: { access: canStartUpload },
     }),
   ],
   upload: {
-    // Los modelos de SketchUp pueden pesar bastante
-    limits: { fileSize: 150 * 1024 * 1024 },
+    limits: { fileSize: MAX_UPLOAD_BYTES },
   },
   graphQL: { disable: true },
   telemetry: false,

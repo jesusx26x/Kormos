@@ -2,6 +2,7 @@ import path from "node:path";
 import { APIError, type CollectionConfig } from "payload";
 import { anyone, signedIn } from "../access";
 import { revalidateCollection } from "../hooks";
+import { guardUpload } from "../storage";
 
 const FORMATS = ["skp", "dwg", "pdf"] as const;
 
@@ -14,7 +15,8 @@ export const Files: CollectionConfig = {
     hideAPIURL: true,
     useAsTitle: "filename",
     defaultColumns: ["filename", "format", "filesize", "updatedAt"],
-    description: "Modelos SketchUp (.skp), planos AutoCAD (.dwg) y fichas técnicas (.pdf). Se descargan libremente desde la ficha de cada pieza.",
+    components: { beforeListTable: ["/payload/admin/StorageMeter#StorageNotice"] },
+    description: "Modelos SketchUp (.skp), planos AutoCAD (.dwg) y fichas técnicas (.pdf). Se descargan libremente desde la ficha de cada pieza. Máximo 75 MB por archivo.",
   },
   access: { read: anyone, create: signedIn, update: signedIn, delete: signedIn },
   upload: {
@@ -24,6 +26,7 @@ export const Files: CollectionConfig = {
     allowRestrictedFileTypes: true,
   },
   hooks: {
+    beforeOperation: [guardUpload],
     beforeValidate: [
       ({ data, req }) => {
         const name = req.file?.name ?? data?.filename;
@@ -40,6 +43,8 @@ export const Files: CollectionConfig = {
     ...revalidateCollection(["catalogo"]),
   },
   fields: [
+    // Campo propio de las subidas: solo se cambia cómo se ve en la lista
+    { name: "filesize", label: "Tamaño del archivo", type: "number", admin: { components: { Cell: "/payload/admin/cells#FileSizeCell" } } },
     {
       name: "format",
       label: "Formato",
