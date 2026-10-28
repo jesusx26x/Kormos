@@ -2,7 +2,9 @@ import Link from "next/link";
 import type { AdminViewServerProps, Where } from "payload";
 import type { Foto, Producto } from "@/payload-types";
 import { BRAND_COLORS, BRAND_NAMES, Monogram, type AdminBrand } from "./Brand";
+import { getStorageUsage } from "../storage";
 import { formatDateTime } from "./dates";
+import { StorageMeter } from "./StorageMeter";
 import { thumb } from "./thumb";
 import styles from "./admin.module.css";
 
@@ -45,7 +47,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
   const count = async (collection: "productos" | "proyectos" | "paquetes" | "servicios" | "suscriptores", where?: Where) =>
     (await payload.count({ collection, where, overrideAccess: true })).totalDocs;
 
-  const [kVisible, kHidden, kSoldOut, kOnOrder, aProjects, aServices, rProjects, rPackages, subscribers, products] = await Promise.all([
+  const [kVisible, kHidden, kSoldOut, kOnOrder, aProjects, aServices, rProjects, rPackages, subscribers, products, storage] = await Promise.all([
     count("productos", { published: { equals: true } }),
     count("productos", { published: { equals: false } }),
     count("productos", { status: { equals: "agotado" } }),
@@ -56,6 +58,7 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
     count("paquetes"),
     count("suscriptores", { status: { equals: "activo" } }),
     payload.find({ collection: "productos", limit: 500, depth: 0, sort: "_order", overrideAccess: true }),
+    getStorageUsage(payload),
   ]);
 
   const brands: { brand: AdminBrand; tagline: string; stats: Stat[]; links: { label: string; href: string }[] }[] = [
@@ -155,6 +158,9 @@ export async function Dashboard({ initPageResult }: AdminViewServerProps) {
           </a>
         </div>
       </header>
+
+      {/* Solo cuando el espacio empieza a escasear, antes de los accesos para subir */}
+      {storage.level !== "ok" ? <StorageMeter usage={{ ...storage, level: storage.level }} /> : null}
 
       <nav className={styles.quick} aria-label="Accesos rápidos">
         <Link href={`${ADMIN}/productos/create`} className={styles.quickItem}>

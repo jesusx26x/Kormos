@@ -3,6 +3,7 @@
 import { toast, useField, useUploadHandlers } from "@payloadcms/ui";
 import type { UploadFieldClientComponent } from "payload";
 import { useEffect, useRef, useState } from "react";
+import { MAX_UPLOAD_BYTES, STORAGE_BLOCK, STORAGE_FULL_MESSAGE, tooBigMessage, type StorageUsage } from "../storageLimits";
 import styles from "./admin.module.css";
 
 type Archivo = { id: number; filename: string; filesize?: number | null; url?: string | null };
@@ -44,8 +45,20 @@ export const FileUploadField: UploadFieldClientComponent = (props) => {
       toast.error(`Este campo es para archivos .${format}. Elegiste "${chosen.name}".`);
       return;
     }
+    // Antes de subir: rechazado después, el archivo ya habría ocupado espacio
+    if (chosen.size > MAX_UPLOAD_BYTES) {
+      toast.error(tooBigMessage(chosen.size));
+      return;
+    }
     setUploading(true);
     try {
+      const space: Partial<StorageUsage> = await fetch("/api/espacio", { credentials: "include" })
+        .then((r) => (r.ok ? r.json() : {}))
+        .catch(() => ({}));
+      if (space.level === "full" || (space.used ?? 0) + chosen.size > (space.limit ?? Infinity) * STORAGE_BLOCK) {
+        toast.error(STORAGE_FULL_MESSAGE);
+        return;
+      }
       // Publicado, el archivo va directo del navegador a Vercel Blob (Vercel no
       // deja pasar más de 4.5 MB por el servidor); en local, al servidor
       const handler = getUploadHandler({ collectionSlug: "archivos" });

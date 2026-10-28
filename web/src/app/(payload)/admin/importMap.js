@@ -9,6 +9,8 @@ import { VisibleCell as VisibleCell_0aadab158ad40d9f738a3753fa24ab8b } from '../
 import { QuickFilters as QuickFilters_15b3064853303eb7102b26ef2e827ba3 } from '../../../payload/admin/QuickFilters'
 import { ColorField as ColorField_1a9f80e69258bcb57792d63d32e1dc04 } from '../../../payload/admin/ColorField'
 import { ExportButton as ExportButton_f5bf7b760acef2387e7d1510f7927e92 } from '../../../payload/admin/ExportButton'
+import { FileSizeCell as FileSizeCell_0aadab158ad40d9f738a3753fa24ab8b } from '../../../payload/admin/cells'
+import { StorageNotice as StorageNotice_8b4920a11b78c6d96eab86993534b0ea } from '../../../payload/admin/StorageMeter'
 import { PromotionStatus as PromotionStatus_c6202a877d732d2b532b0cd02a8ed7f2 } from '../../../payload/admin/PromotionStatus'
 import { Icon as Icon_fe32eb75d2e86cd142684d3b5ba68760 } from '../../../payload/admin/Brand'
 import { Logo as Logo_fe32eb75d2e86cd142684d3b5ba68760 } from '../../../payload/admin/Brand'
@@ -30,6 +32,8 @@ export const importMap = {
   "/payload/admin/QuickFilters#QuickFilters": QuickFilters_15b3064853303eb7102b26ef2e827ba3,
   "/payload/admin/ColorField#ColorField": ColorField_1a9f80e69258bcb57792d63d32e1dc04,
   "/payload/admin/ExportButton#ExportButton": ExportButton_f5bf7b760acef2387e7d1510f7927e92,
+  "/payload/admin/cells#FileSizeCell": FileSizeCell_0aadab158ad40d9f738a3753fa24ab8b,
+  "/payload/admin/StorageMeter#StorageNotice": StorageNotice_8b4920a11b78c6d96eab86993534b0ea,
   "/payload/admin/PromotionStatus#PromotionStatus": PromotionStatus_c6202a877d732d2b532b0cd02a8ed7f2,
   "/payload/admin/Brand#Icon": Icon_fe32eb75d2e86cd142684d3b5ba68760,
   "/payload/admin/Brand#Logo": Logo_fe32eb75d2e86cd142684d3b5ba68760,

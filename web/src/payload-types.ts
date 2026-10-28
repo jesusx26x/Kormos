@@ -261,7 +261,7 @@ export interface Categoria {
   createdAt: string;
 }
 /**
- * Fotos en JPG, PNG o WebP. Para piezas recortadas usa PNG o WebP con fondo transparente.
+ * Fotos en JPG, PNG o WebP. Para piezas recortadas usa PNG o WebP con fondo transparente. Las fotos muy grandes se reducen solas al subirlas.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "fotos".
@@ -321,7 +321,7 @@ export interface Acabado {
   createdAt: string;
 }
 /**
- * Modelos SketchUp (.skp), planos AutoCAD (.dwg) y fichas técnicas (.pdf). Se descargan libremente desde la ficha de cada pieza.
+ * Modelos SketchUp (.skp), planos AutoCAD (.dwg) y fichas técnicas (.pdf). Se descargan libremente desde la ficha de cada pieza. Máximo 75 MB por archivo.
  *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "archivos".

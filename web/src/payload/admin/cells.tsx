@@ -74,3 +74,10 @@ export function VisibleCell({ cellData, rowData, collectionSlug }: DefaultCellCo
     </button>
   );
 }
+
+/** Tamaño legible ("1,6 MB") en vez de bytes: así se ve qué fotos pesan más. */
+export function FileSizeCell({ cellData }: DefaultCellComponentProps) {
+  if (typeof cellData !== "number") return null;
+  const mb = cellData / 1_000_000;
+  return <span>{mb >= 1 ? `${mb.toLocaleString("es-DO", { maximumFractionDigits: 1 })} MB` : `${Math.max(1, Math.round(cellData / 1000))} KB`}</span>;
+}

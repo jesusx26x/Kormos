@@ -900,3 +900,76 @@
 .colorPicker[data-empty] {
   opacity: 0.3;
 }
+
+/* Espacio para fotos y archivos */
+.storage {
+  display: grid;
+  gap: 10px;
+  padding: 18px 24px;
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 14px;
+  background: var(--theme-elevation-0);
+}
+
+.storage[data-level="warn"] {
+  border-color: var(--theme-warning-500);
+  background: var(--theme-warning-50);
+}
+
+.storage[data-level="full"] {
+  border-color: var(--theme-error-500);
+  background: var(--theme-error-50);
+}
+
+.storageHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 4px 16px;
+}
+
+.storageTitle {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.storageFigure {
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--theme-elevation-700);
+}
+
+.storageBar {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: var(--theme-elevation-100);
+}
+
+.storageBar > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--theme-success-500);
+}
+
+.storage[data-level="warn"] .storageBar > span {
+  background: var(--theme-warning-500);
+}
+
+.storage[data-level="full"] .storageBar > span {
+  background: var(--theme-error-500);
+}
+
+.storageText {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--theme-elevation-800);
+}
+
+/* Encima de las listas de fotos y archivos */
+:global(.collection-list) .storage {
+  margin-bottom: 20px;
+}
